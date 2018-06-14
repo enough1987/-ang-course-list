@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <app-logo></app-logo>
+  <div class="user">
+    <mat-icon>account_circle</mat-icon>
+    <span class="user__name">{{user.firstName}} {{user.lastName}}</span>
+    <button
+      mat-icon-button
+      matTooltip="Log Off"
+      matTooltipPosition="below"
+    >
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<app-breadcrumbs></app-breadcrumbs>
+

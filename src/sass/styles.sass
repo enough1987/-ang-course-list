@@ -1,0 +1,23 @@
+@import "./theme.sass";
+
+body
+  margin: 0
+  font-family: Roboto, sans-serif
+
+mat-toolbar
+  justify-content: space-between
+
+.done
+  position: fixed
+  right: 64px
+  bottom: 32px
+
+.color
+  &_primary
+    color: mat-color($app-primary);
+
+  &_accent
+    color: mat-color($app-accent);
+
+  &_warn
+    color: mat-color($app-warn);

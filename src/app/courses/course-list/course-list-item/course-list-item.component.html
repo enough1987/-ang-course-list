@@ -1,0 +1,22 @@
+<mat-card>
+  <div class="course-list-item__data">
+    <div class="course-list-item__header">
+      <mat-card-title class="color_primary">{{course.title}}</mat-card-title>
+      <div class="course-list-item__details">
+        <div>{{parseTime()}}</div>
+        <div>{{parseDate()}}</div>
+      </div>
+    </div>
+    <mat-card-content>{{course.description}}</mat-card-content>
+  </div>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+    <button mat-raised-button color="primary">
+      <mat-icon>remove_circle_outline</mat-icon>
+      Delete
+    </button>
+  </mat-card-actions>
+</mat-card>
