@@ -9,7 +9,7 @@ export class AuthService {
 
   constructor() { }
 
-  getUser() {
+  getUser(): User {
     return new User(123, 'John', 'Doe');
   }
 }

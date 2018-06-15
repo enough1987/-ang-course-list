@@ -11,9 +11,6 @@ export class HeaderComponent {
   user: User;
 
   constructor(private authService: AuthService) {
-    this.authService = authService;
     this.user = authService.getUser();
-
-    console.log(this.user);
   }
 }
