@@ -5,6 +5,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CourseSearchComponent } from './course-search/course-search.component';
 import { CourseListItemComponent } from './course-list/course-list-item/course-list-item.component';
+import { CoursesService } from './courses.service';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { CourseListItemComponent } from './course-list/course-list-item/course-l
     CourseSearchComponent,
     CourseListItemComponent
   ],
+  providers: [CoursesService],
   exports: [CoursesComponent],
 })
 export class CoursesModule { }
