@@ -21,5 +21,8 @@ export class CourseListComponent {
   // https://blog.mariusschulz.com/2015/11/13/typing-destructured-object-parameters-in-typescript
   onDelete({ event, id }: { event: MouseEvent, id: number }): void {
     console.log(`Deleting course #${id}. Original MouseEvent:`, event);
+
+    this.coursesService.deleteCourse(id);
+    this.courses = this.coursesService.getCourses();
   }
 }
