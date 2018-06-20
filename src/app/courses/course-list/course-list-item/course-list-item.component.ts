@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Course } from './course.model';
 
 @Component({
@@ -8,6 +8,8 @@ import { Course } from './course.model';
 })
 export class CourseListItemComponent {
   @Input() course: Course;
+  @Output() edit = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<{ event: MouseEvent, id: number }>();
 
   constructor() {
   }
@@ -21,6 +23,14 @@ export class CourseListItemComponent {
     const unixDate = this.course.creationDate;
     const date = new Date(unixDate * 1000);
     return `${date.getDate()}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+  }
+
+  onEditClick(): void {
+    this.edit.emit(this.course.id);
+  }
+
+  onDeleteClick(event: MouseEvent): void {
+    this.delete.emit({ event, id: this.course.id });
   }
 
 }

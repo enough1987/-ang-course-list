@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./courses.component.sass']
 })
 export class CoursesComponent implements OnInit {
+  searchInput = 'initial';
 
-  constructor() { }
+  constructor() {
+    console.log(this.searchInput);
+  }
 
   ngOnInit() {
   }
 
+  onLoadClick(e: MouseEvent) {
+    console.log('Loading more courses. MouseEvent: ', e);
+    console.log(this.searchInput);
+  }
 }

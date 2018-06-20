@@ -1,7 +1,17 @@
 <mat-form-field>
-  <input matInput placeholder="Find course by name, fragment, or date">
+  <input
+    matInput
+    placeholder="Find course by name, fragment, or date"
+    [placeholder]="searchInput"
+    [(ngModel)]="ngModelInput"
+    (change)="onInputChange($event)"
+  />
 </mat-form-field>
-<button mat-raised-button color="primary">
+<button
+  mat-raised-button
+  color="primary"
+  (click)="onSearchClick()"
+>
   <mat-icon>search</mat-icon>
   Search
 </button>

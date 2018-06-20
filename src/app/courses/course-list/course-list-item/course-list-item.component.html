@@ -10,11 +10,19 @@
     <mat-card-content>{{course.description}}</mat-card-content>
   </div>
   <mat-card-actions>
-    <button mat-raised-button color="primary">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onEditClick()"
+    >
       <mat-icon>edit</mat-icon>
       Edit
     </button>
-    <button mat-raised-button color="primary">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onDeleteClick($event)"
+    >
       <mat-icon>remove_circle_outline</mat-icon>
       Delete
     </button>
