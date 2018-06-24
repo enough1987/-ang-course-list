@@ -8,7 +8,7 @@
 - Standalone AuthModule
 - UserComponent, AuthService providing a dummy user
 - User model class implementing UserInterface
-- CourseSearchComponent using ngModel two-way binding, FormModule imported in CoursesModule
+- CourseSearchComponent using ngModel two-way binding, FormsModule imported in CoursesModule
 - CourseSearchComponent Search click calls onSearchClick() method logging the input value
 - CourseListItemComponent course @Input passing a specific course object
 - CourseListItemComponent edit @Output calling a parent method emitting an ID primitive
@@ -36,16 +36,3 @@ Enjoy @ http://localhost:3000/
 npm run prod
 ```
 Enjoy @ http://localhost:4200/
-
-
-
-
-## Run Development Server
-```
-npm run dev
-```
-
-## Run Production Build
-```
-npm run prod
-```
