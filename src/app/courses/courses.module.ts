@@ -23,4 +23,4 @@ import { CoursesService } from './courses.service';
   providers: [CoursesService],
   exports: [CoursesComponent],
 })
-export class CoursesModule { }
+export class CoursesModule {}
