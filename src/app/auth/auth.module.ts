@@ -10,4 +10,4 @@ import { UserComponent } from './user/user.component';
   exports: [UserComponent],
   providers: [],
 })
-export class AuthModule { }
+export class AuthModule {}

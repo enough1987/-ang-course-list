@@ -5,8 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.sass']
 })
-export class UserComponent {
-
-  constructor() { }
-
-}
+export class UserComponent {}

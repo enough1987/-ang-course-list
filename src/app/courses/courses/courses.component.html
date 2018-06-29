@@ -8,7 +8,11 @@
 
 <app-course-list></app-course-list>
 
-<button mat-raised-button class="courses__button_load" color="primary">
-  <mat-icon>expand_more</mat-icon>
-  Load More Courses
+<button
+  mat-raised-button
+  class="courses__button_load"
+  color="primary"
+  (click)="onLoadClick($event)">
+    <mat-icon>expand_more</mat-icon>
+    Load More Courses
 </button>

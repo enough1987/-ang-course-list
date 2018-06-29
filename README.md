@@ -1,11 +1,6 @@
 # Angular Mentoring
 
-## Task 1. Webpack/Typescript/Angular Intro
-- Project created using ng-cli
-- TSLint configuration checked, no modifications
-- Using SASS instead of default CSS, angular.json modified accordingly
-- Angular Material added, standalone MaterialModule created, imported in AppModule
-- Material Icons font, customized favicon
+## Task 2. Components
 - LogoComponent, HeaderComponent, FooterComponent, BreadcrumbsComponent declared in AppModule
 - Standalone CourseModule
 - CoursesComponent, CourseSearchComponent, CourseListComponent, CourseListItemComponent
@@ -13,12 +8,22 @@
 - Standalone AuthModule
 - UserComponent, AuthService providing a dummy user
 - User model class implementing UserInterface
-- Production build configured to build to /dist instead of default /dist/[project]
-- Static express server configured in /server to serve the Production Build from /dist
-- Both Development Server and Producion Build can be served locally, instructions below
+- CourseSearchComponent using ngModel two-way binding, FormsModule imported in CoursesModule
+- CourseSearchComponent Search click calls onSearchClick() method logging the input value
+- CourseListItemComponent course @Input passing a specific course object
+- CourseListItemComponent edit @Output calling a parent method emitting an ID primitive
+- CourseListItemComponent delete @Output calling a perent method emitting a complex object
+- CourseListComponent onEdit() method logging a course ID primitive argument
+- CourseListComponent onDelete() method featuring destructured object parameter typing
+- CoursesComponent onLoadClick() logging a MouseEvent object
+- Lifecycle hooks logged: OnChanges, OnInit, DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit,AfterViewChecked, OnDestroy
+- CoursesService deleteCourse() implemented to be able to watch the onDestroy lifecycle hook
+- ngOnChanges() logging the SimpleChanges object
+- CourseListComponent using *ngFor to iterate over the courses
 
 ## Branches
  - Task1. Webpack/Typescript/Angular Intro
+ - Task2. Components
 
 ## Run Development Server
 ```
@@ -31,16 +36,3 @@ Enjoy @ http://localhost:3000/
 npm run prod
 ```
 Enjoy @ http://localhost:4200/
-
-
-
-
-## Run Development Server
-```
-npm run dev
-```
-
-## Run Production Build
-```
-npm run prod
-```

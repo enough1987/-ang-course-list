@@ -7,8 +7,6 @@ import { User } from './user/user.model';
 })
 export class AuthService {
 
-  constructor() { }
-
   getUser(): User {
     return new User(123, 'John', 'Doe');
   }

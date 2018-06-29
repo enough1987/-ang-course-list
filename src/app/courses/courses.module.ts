@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { CoursesComponent } from './courses/courses.component';
 import { CourseListComponent } from './course-list/course-list.component';
@@ -10,7 +11,8 @@ import { CoursesService } from './courses.service';
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ],
   declarations: [
     CoursesComponent,
@@ -21,4 +23,4 @@ import { CoursesService } from './courses.service';
   providers: [CoursesService],
   exports: [CoursesComponent],
 })
-export class CoursesModule { }
+export class CoursesModule {}
