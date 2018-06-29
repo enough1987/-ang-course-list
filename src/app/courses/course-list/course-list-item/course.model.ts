@@ -5,8 +5,8 @@ export class Course implements CourseInterface {
     public id: number,
     public creationDate: number,
     public title: string,
-    public durationMin: number,
-    public description: string,
+    public durationMin?: number,
+    public description?: string,
   ) {
     this.durationMin = durationMin || 0;
     this.description = description || '';
