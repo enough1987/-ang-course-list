@@ -3,28 +3,41 @@ import { TestBed, inject } from '@angular/core/testing';
 import { CoursesService, initCourses } from './courses.service';
 
 describe('CoursesService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [CoursesService]
+  describe('Testing a service using TestBed + inject', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [CoursesService]
+      });
     });
+
+    it('should be created', inject([CoursesService], (service: CoursesService) => {
+      expect(service).toBeTruthy();
+    }));
+
+    it('should courses to initCourses on init', inject([CoursesService], (service: CoursesService) => {
+      expect(service.courses).toEqual(initCourses);
+    }));
   });
 
-  it('should be created', inject([CoursesService], (service: CoursesService) => {
-    expect(service).toBeTruthy();
-  }));
+  // https://angular.io/guide/testing#angular-testbed
+  describe('Testing a service using TestBed only', () => {
+    let service: CoursesService;
 
-  it('should courses to initCourses on init', inject([CoursesService], (service: CoursesService) => {
-    expect(service.courses).toEqual(initCourses);
-  }));
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [CoursesService]
+      });
 
-  it('should get courses', inject([CoursesService], (service: CoursesService) => {
-    expect(service.getCourses()).toEqual(initCourses);
-  }));
+      service = TestBed.get(CoursesService);
+    });
 
-  it('should delete course by id', inject([CoursesService], (service: CoursesService) => {
-    service.deleteCourse(1);
+    it('should get courses', () => {
+      expect(service.getCourses()).toEqual(initCourses);
+    });
 
-    expect(service.courses).toEqual([initCourses[1], initCourses[2]]);
-  }));
-
+    it('should delete course by id', () => {
+      service.deleteCourse(1);
+      expect(service.courses).toEqual([initCourses[1], initCourses[2]]);
+    });
+  });
 });

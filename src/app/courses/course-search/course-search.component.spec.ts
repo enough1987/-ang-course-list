@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { CourseSearchComponent } from './course-search.component';
@@ -9,7 +9,7 @@ describe('CourseSearchComponent', () => {
   let component: CourseSearchComponent;
   let fixture: ComponentFixture<CourseSearchComponent>;
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     spyOn(console, 'log');
 
     TestBed.configureTestingModule({
@@ -18,8 +18,11 @@ describe('CourseSearchComponent', () => {
         MaterialModule,   // material is used in the template
         FormsModule,      // ngModel is used in the template
       ],
-    });
+    })
+    .compileComponents();
+  }));
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(CourseSearchComponent);
     component = fixture.componentInstance;
   });
@@ -53,6 +56,8 @@ describe('CourseSearchComponent', () => {
 
     const element = fixture.debugElement.query(By.css('input')).nativeElement;
     element.value = 'neeeedle';
+
+    // https://angular.io/guide/testing#change-an-input-value-with-dispatchevent
     element.dispatchEvent(new Event('input'));
 
     tick();

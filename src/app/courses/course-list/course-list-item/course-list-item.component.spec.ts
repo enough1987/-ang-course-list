@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SimpleChanges, DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SimpleChanges, DebugElement, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { CourseListItemComponent } from './course-list-item.component';
@@ -26,11 +26,11 @@ describe('CourseListItemComponent', () => {
     }
   };
 
-  beforeEach(() => {
-    spyOn(console, 'log');
-  });
-
   describe('component class testing', () => {
+    beforeEach(() => {
+      spyOn(console, 'log');
+    });
+
     it('should instantiate successfully', () => {
       const component = new CourseListItemComponent();
       expect(component).toBeDefined();
@@ -96,21 +96,26 @@ describe('CourseListItemComponent', () => {
     });
   });
 
-  describe('component DOM testing', () => {
+  // https://angular.io/guide/testing#test-dashboardherocomponent-stand-alone
+  describe('component DOM testing: stand-alone', () => {
     let component: CourseListItemComponent;
     let fixture: ComponentFixture<CourseListItemComponent>;
 
-    beforeEach(() => {
+    // https://angular.io/guide/testing#compile-components
+    beforeEach(async(() => {
+      spyOn(console, 'log');
+
       TestBed.configureTestingModule({
         declarations: [ CourseListItemComponent ],
         imports: [ MaterialModule ],  // material is used in the template
-      });
+      })
+      .compileComponents();
+    }));
 
+    beforeEach(() => {
       fixture = TestBed.createComponent(CourseListItemComponent);
       component = fixture.componentInstance;
     });
-
-    afterEach(() => console.log('afterEach'));
 
     it('should instantiate successfully', () => {
       expect(component).toBeDefined();
@@ -148,7 +153,7 @@ describe('CourseListItemComponent', () => {
 
       // https://angular.io/guide/testing#bycss
       const courseDe: DebugElement = fixture.debugElement;
-      const timeDe = courseDe.query(By.css('.course-list-item__details div'));
+      const timeDe: DebugElement = courseDe.query(By.css('.course-list-item__details div'));
       const time: HTMLElement = timeDe.nativeElement;
       expect(time.textContent).toEqual('2h 03m');
     });
@@ -158,7 +163,7 @@ describe('CourseListItemComponent', () => {
       fixture.detectChanges();
 
       const courseDe: DebugElement = fixture.debugElement;
-      const timeDe = courseDe.query(By.css('.course-list-item__details div:nth-of-type(2)'));
+      const timeDe: DebugElement = courseDe.query(By.css('.course-list-item__details div:nth-of-type(2)'));
       const time: HTMLElement = timeDe.nativeElement;
       expect(time.textContent).toEqual('29/06/2018');
     });
@@ -168,7 +173,7 @@ describe('CourseListItemComponent', () => {
       fixture.detectChanges();
 
       const courseDe: DebugElement = fixture.debugElement;
-      const buttonDe = courseDe.query(By.css('[mat-raised-button]:nth-of-type(1)'));
+      const buttonDe: DebugElement = courseDe.query(By.css('[mat-raised-button]:nth-of-type(1)'));
 
       component.edit.subscribe(id => expect(id).toBe(course.id));
       buttonDe.triggerEventHandler('click', null);
@@ -179,7 +184,7 @@ describe('CourseListItemComponent', () => {
       fixture.detectChanges();
 
       const courseDe: DebugElement = fixture.debugElement;
-      const buttonDe = courseDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
+      const buttonDe: DebugElement = courseDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
 
       component.delete.subscribe(({ event }) => expect(event).toEqual(mouseEvent));
       buttonDe.triggerEventHandler('click', mouseEvent);
@@ -190,11 +195,97 @@ describe('CourseListItemComponent', () => {
       fixture.detectChanges();
 
       const courseDe: DebugElement = fixture.debugElement;
-      const buttonDe = courseDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
+      const buttonDe: DebugElement = courseDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
 
       component.delete.subscribe(({ id }) => expect(id).toBe(course.id));
       buttonDe.triggerEventHandler('click', null);
     });
   });
 
+  // https://angular.io/guide/testing#component-inside-a-test-host
+  describe('component DOM testing: inside a test host', () => {
+    // Test host class
+    @Component({
+      template: `
+        <app-course-list-item
+        [course]="course"
+        (delete)="onDelete($event)"
+        (edit)="onEdit($event)"
+        ></app-course-list-item>`
+    })
+    class TestHostComponent {
+      course: Course = course;
+      onEdit(id: number) { console.log(`onEdit ${id}`); }
+      onDelete({ event, id }: { event: MouseEvent, id: number }) { console.log(`onDelete ${id}`); }
+    }
+
+    let testHost: TestHostComponent;
+    let fixture: ComponentFixture<TestHostComponent>;
+
+    beforeEach(async(() => {
+      spyOn(console, 'log');
+
+      TestBed.configureTestingModule({
+        declarations: [
+          CourseListItemComponent,
+          TestHostComponent,
+        ],
+        imports: [ MaterialModule ],  // material is used in the template
+      })
+      .compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TestHostComponent);
+      testHost = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should display the passed course title', () => {
+      const testHostElement: HTMLElement = fixture.nativeElement;
+      const title = testHostElement.querySelector('mat-card-title');
+
+      expect(title.textContent).toEqual('the Ultimate Course');
+    });
+
+    it('should call host onEdit() method on Edit button click', () => {
+      const testHostElement: HTMLElement = fixture.nativeElement;
+      const button: HTMLElement = testHostElement.querySelector('[mat-raised-button]');
+
+      spyOn(testHost, 'onEdit');
+
+      button.click();
+
+      expect(testHost.onEdit).toHaveBeenCalledWith(42);
+    });
+
+    it('should log to console on Edit button click', () => {
+      const testHostElement: HTMLElement = fixture.nativeElement;
+      const button: HTMLElement = testHostElement.querySelector('[mat-raised-button]');
+
+      button.click();
+
+      expect(console.log).toHaveBeenCalledWith('onEdit 42');
+    });
+
+    it('should call host onDelete() method on Delete button click', () => {
+      const testHostDe: DebugElement = fixture.debugElement;
+      const buttonDe: DebugElement = testHostDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
+
+      spyOn(testHost, 'onDelete');
+
+      buttonDe.triggerEventHandler('click', mouseEvent);
+
+      expect(testHost.onDelete).toHaveBeenCalledWith({ event: mouseEvent, id: 42 });
+    });
+
+    it('should log to console on Edit button click', () => {
+      const testHostDe: DebugElement = fixture.debugElement;
+      const buttonDe: DebugElement = testHostDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
+
+      buttonDe.triggerEventHandler('click', mouseEvent);
+
+      expect(console.log).toHaveBeenCalledWith('onDelete 42');
+    });
+  });
 });
