@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, DebugElement } from '@angular/core';
 
 import { CourseListComponent } from './course-list.component';
 import { MaterialModule } from '../../material/material.module';
 import { CoursesService } from './../courses.service';
 
+import mouseEvent from '../../testing/mouse-event.stub';
+
 describe('CourseListComponent', () => {
-  let component: CourseListComponent;
   let fixture: ComponentFixture<CourseListComponent>;
 
   const coursesServiceStub: Partial<CoursesService> = {
@@ -34,29 +35,56 @@ describe('CourseListComponent', () => {
     spyOn(console, 'log');
 
     TestBed.configureTestingModule({
-      declarations: [ CourseListComponent ],
-      imports: [ MaterialModule ],  // material is used in the template
-      providers: [ { provide: CoursesService, useValue: coursesServiceStub } ],
-      schemas: [ NO_ERRORS_SCHEMA ],
+      declarations: [CourseListComponent],
+      imports: [MaterialModule],  // material is used in the template
+      providers: [{ provide: CoursesService, useValue: coursesServiceStub }],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     fixture = TestBed.createComponent(CourseListComponent);
-    component = fixture.componentInstance;
   });
 
   it('should instantiate successfully', () => {
     const coursesService = TestBed.get(CoursesService);
+
     const comp = new CourseListComponent(coursesService);
 
     expect(comp).toBeDefined();
   });
 
   it('should call coursesService.getCourses() method on init', () => {
-    const coursesService = TestBed.get(CoursesService);
+    // https://angular.io/guide/testing#get-injected-services
+    const coursesService = fixture.debugElement.injector.get(CoursesService);
 
     const comp = new CourseListComponent(coursesService);
 
     expect(coursesService.getCourses).toHaveBeenCalled();
+  });
+
+  it('should log to console on edit', () => {
+    // https://angular.io/guide/testing#testbedget
+    const coursesService = TestBed.get(CoursesService);
+
+    const comp = new CourseListComponent(coursesService);
+    comp.onEdit(42);
+
+    expect(console.log).toHaveBeenCalledWith('Editing course #42');
+  });
+
+  it('should log to console on edit', () => {
+    const coursesService = TestBed.get(CoursesService);
+
+    const comp = new CourseListComponent(coursesService);
+
+    comp.onDelete({
+      event: mouseEvent,
+      id: 84,
+    });
+
+    expect(console.log).toHaveBeenCalledWith(
+      jasmine.stringMatching('Deleting course #84. Original MouseEvent:'),
+      mouseEvent
+    );
   });
 
 });

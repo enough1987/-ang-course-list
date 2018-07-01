@@ -1,6 +1,6 @@
 import { CoursesModule } from './courses.module';
 
-xdescribe('CoursesModule', () => {
+describe('CoursesModule', () => {
   let coursesModule: CoursesModule;
 
   beforeEach(() => {

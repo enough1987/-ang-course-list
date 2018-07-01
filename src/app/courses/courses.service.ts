@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Course } from './course-list/course-list-item/course.model';
 
-const initCourses = [
+export const initCourses = [
   new Course(1, 1523318400, 'ES2015', 120,
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
     dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -26,7 +26,7 @@ export class CoursesService {
   courses: Course[];
 
   constructor() {
-    this.courses = initCourses;
+    this.courses = [...initCourses];
   }
 
   getCourses(): Course[] {

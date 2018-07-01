@@ -6,6 +6,8 @@ import { CourseListItemComponent } from './course-list-item.component';
 import { Course } from './course.model';
 import { MaterialModule } from '../../../material/material.module';
 
+import mouseEvent from '../../../testing/mouse-event.stub';
+
 describe('CourseListItemComponent', () => {
   const course: Course = {
     id: 42,
@@ -13,60 +15,6 @@ describe('CourseListItemComponent', () => {
     title: 'the Ultimate Course',
     durationMin: 123,
     description: 'on Life, the Universe, and Everything',
-  };
-
-  const mouseEvent = {    // : MouseEvent
-    altKey: false,
-    button: 0,
-    buttons: 0,
-    clientX: 42,
-    clientY: 84,
-    ctrlKey: false,
-    fromElement: null,
-    layerX: 42,
-    layerY: 84,
-    metaKey: false,
-    movementX:  0,
-    movementY: 0,
-    offsetX: 42,
-    offsetY: 84,
-    pageX: 42,
-    pageY: 84,
-    relatedTarget: null,
-    screenX: 142,
-    screenY: 184,
-    shiftKey: false,
-    toElement: null,
-    which: 1,
-    x: 42,
-    y: 84,
-    getModifierState: () => false,
-    initMouseEvent: () => {},
-    detail: 1,
-    view: window,
-    initUIEvent: () => {},
-    bubbles: true,
-    cancelBubble: false,
-    cancelable: true,
-    currentTarget: null,
-    defaultPrevented: false,
-    eventPhase: 0,
-    isTrusted: true,
-    returnValue: true,
-    scoped: false,
-    srcElement: null,
-    target: null,
-    timeStamp: 4284,
-    type: 'click',
-    deepPath: () => null,
-    initEvent: () => {},
-    preventDefault: () => {},
-    stopImmediatePropagation: () => {},
-    stopPropagation: () => {},
-    AT_TARGET: null,
-    BUBBLING_PHASE: 0,
-    CAPTURING_PHASE: 0,
-    NONE: 0,
   };
 
   const simpleChanges: SimpleChanges = {
@@ -84,109 +32,67 @@ describe('CourseListItemComponent', () => {
 
   describe('component class testing', () => {
     it('should instantiate successfully', () => {
-      const comp = new CourseListItemComponent();
-      expect(comp).toBeDefined();
+      const component = new CourseListItemComponent();
+      expect(component).toBeDefined();
       expect(console.log).toHaveBeenCalledWith('constructor');
     });
 
     it('should log to console when constructor is called', () => {
-      const comp = new CourseListItemComponent();
+      const component = new CourseListItemComponent();
 
       expect(console.log).toHaveBeenCalledWith('constructor');
     });
 
     it('should log to console on ngOnChanges hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngOnChanges(simpleChanges);
+      const component = new CourseListItemComponent();
+      component.ngOnChanges(simpleChanges);
 
       expect(console.log).toHaveBeenCalledWith('ngOnChanges, SimpleChanges object: ', simpleChanges);
     });
 
     it('should log to console on ngOnInit hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngOnInit();
+      const component = new CourseListItemComponent();
+      component.ngOnInit();
 
       expect(console.log).toHaveBeenCalledWith('ngOnInit');
     });
 
-    it('should log to console on ngDoCheck hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngDoCheck();
-
-      expect(console.log).toHaveBeenCalledWith('ngDoCheck');
-    });
-
-    it('should log to console on ngAfterContentInit hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngAfterContentInit();
-
-      expect(console.log).toHaveBeenCalledWith('ngAfterContentInit');
-    });
-
-    it('should log to console on ngAfterContentChecked hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngAfterContentChecked();
-
-      expect(console.log).toHaveBeenCalledWith('ngAfterContentChecked');
-    });
-
-    it('should log to console on ngAfterViewInit hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngAfterViewInit();
-
-      expect(console.log).toHaveBeenCalledWith('ngAfterViewInit');
-    });
-
-    it('should log to console on ngAfterViewChecked hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngAfterViewChecked();
-
-      expect(console.log).toHaveBeenCalledWith('ngAfterViewChecked');
-    });
-
-    it('should log to console on ngOnDestroy hook', () => {
-      const comp = new CourseListItemComponent();
-      comp.ngOnDestroy();
-
-      expect(console.log).toHaveBeenCalledWith('ngOnDestroy');
-    });
-
     it('should parse duration time to the correct format', () => {
-      const comp = new CourseListItemComponent();
-      comp.course = course;
+      const component = new CourseListItemComponent();
+      component.course = course;
 
-      expect(comp.parseTime()).toBe('2h 03m');
+      expect(component.parseTime()).toBe('2h 03m');
     });
 
     it('should parse creation date to the correct format', () => {
-      const comp = new CourseListItemComponent();
-      comp.course = course;
+      const component = new CourseListItemComponent();
+      component.course = course;
 
-      expect(comp.parseDate()).toBe('29/06/2018');
+      expect(component.parseDate()).toBe('29/06/2018');
     });
 
     it('should emit input course ID on Edit click', () => {
-      const comp = new CourseListItemComponent();
-      comp.course = course;
+      const component = new CourseListItemComponent();
+      component.course = course;
 
-      comp.edit.subscribe(id => expect(id).toBe(course.id));
-      comp.onEditClick();
+      component.edit.subscribe(id => expect(id).toBe(course.id));
+      component.onEditClick();
     });
 
     it('should emit mouse event on Delete click', () => {
-      const comp = new CourseListItemComponent();
-      comp.course = course;
+      const component = new CourseListItemComponent();
+      component.course = course;
 
-      comp.delete.subscribe(({ event }) => expect(event).toBe(mouseEvent));
-      comp.onDeleteClick(mouseEvent);
+      component.delete.subscribe(({ event }) => expect(event).toBe(mouseEvent));
+      component.onDeleteClick(mouseEvent);
     });
 
     it('should emit input course ID on Delete click', () => {
-      const comp = new CourseListItemComponent();
-      comp.course = course;
+      const component = new CourseListItemComponent();
+      component.course = course;
 
-      comp.delete.subscribe(({ id }) => expect(id).toBe(course.id));
-      comp.onDeleteClick(mouseEvent);
+      component.delete.subscribe(({ id }) => expect(id).toBe(course.id));
+      component.onDeleteClick(mouseEvent);
     });
   });
 
@@ -203,6 +109,8 @@ describe('CourseListItemComponent', () => {
       fixture = TestBed.createComponent(CourseListItemComponent);
       component = fixture.componentInstance;
     });
+
+    afterEach(() => console.log('afterEach'));
 
     it('should instantiate successfully', () => {
       expect(component).toBeDefined();
