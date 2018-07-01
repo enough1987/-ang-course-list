@@ -18,6 +18,7 @@ npm run test:coverage
 ## Branches
  - Task1. Webpack/Typescript/Angular Intro
  - Task2. Components
+ - Task3. Unit testing
 
 ## Run Development Server
 ```
