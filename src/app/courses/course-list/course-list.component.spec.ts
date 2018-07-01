@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA, DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { CourseListComponent } from './course-list.component';
 import { MaterialModule } from '../../material/material.module';
@@ -27,7 +27,7 @@ describe('CourseListComponent', () => {
         description: 'on All the Good Things',
       },
     ],
-    deleteCourse: () => {},
+    deleteCourse: jasmine.createSpy('deleteCourse'),
   };
 
   describe('Testing a component: providing a stub service', () => {
@@ -39,7 +39,7 @@ describe('CourseListComponent', () => {
         declarations: [CourseListComponent],
         imports: [MaterialModule],  // material is used in the template
         providers: [{ provide: CoursesService, useValue: coursesServiceStub }],
-        schemas: [NO_ERRORS_SCHEMA],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
       .compileComponents();
     }));
@@ -93,7 +93,7 @@ describe('CourseListComponent', () => {
           CourseListComponent,
           { provide: CoursesService, useValue: coursesServiceStub }
         ],
-        schemas: [NO_ERRORS_SCHEMA],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
       .compileComponents();
     }));
@@ -103,11 +103,15 @@ describe('CourseListComponent', () => {
       service = TestBed.get(CoursesService);
     });
 
+    afterEach(() => {
+      (service.deleteCourse as any).calls.reset();
+    });
+
     it('should call coursesService.getCourses() method on init', () => {
       expect(service.getCourses).toHaveBeenCalled();
     });
 
-    it('should log to console on edit', () => {
+    it('should log to console on delete', () => {
       component.onDelete({
         event: mouseEvent,
         id: 84,
@@ -117,6 +121,15 @@ describe('CourseListComponent', () => {
         jasmine.stringMatching('Deleting course #84. Original MouseEvent:'),
         mouseEvent
       );
+    });
+
+    it('should call coursesService.deleteCourse() method on delete button click', () => {
+      component.onDelete({
+        event: mouseEvent,
+        id: 84,
+      });
+
+      expect(service.deleteCourse).toHaveBeenCalledWith(84);
     });
   });
 });
