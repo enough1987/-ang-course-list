@@ -5,12 +5,6 @@ import { Component,
   SimpleChanges,
   OnChanges,
   OnInit,
-  DoCheck,
-  AfterContentInit,
-  AfterContentChecked,
-  AfterViewInit,
-  AfterViewChecked,
-  OnDestroy,
 } from '@angular/core';
 import { Course } from './course.model';
 
@@ -21,13 +15,7 @@ import { Course } from './course.model';
 })
 export class CourseListItemComponent implements
   OnChanges,
-  OnInit,
-  DoCheck,
-  AfterContentInit,
-  AfterContentChecked,
-  AfterViewInit,
-  AfterViewChecked,
-  OnDestroy {
+  OnInit {
 
   @Input() course: Course;
   @Output() edit = new EventEmitter<number>();
@@ -37,36 +25,12 @@ export class CourseListItemComponent implements
     console.log('constructor');
   }
 
-  // https://angular.io/guide/lifecycle-hooks
   ngOnChanges(changes: SimpleChanges) {
     console.log('ngOnChanges, SimpleChanges object: ', changes);
   }
 
   ngOnInit() {
     console.log('ngOnInit');
-  }
-
-  ngDoCheck() {
-    console.log('ngDoCheck');
-  }
-  ngAfterContentInit() {
-    console.log('ngAfterContentInit');
-  }
-
-  ngAfterContentChecked() {
-    console.log('ngAfterContentChecked');
-  }
-
-  ngAfterViewInit() {
-    console.log('ngAfterViewInit');
-  }
-
-  ngAfterViewChecked() {
-    console.log('ngAfterViewChecked');
-  }
-
-  ngOnDestroy() {
-    console.log('ngOnDestroy');
   }
 
   parseTime(): string {
