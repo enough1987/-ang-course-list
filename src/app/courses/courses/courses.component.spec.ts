@@ -28,10 +28,4 @@ describe('CoursesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should log to console on load click', () => {
-    component.onLoadClick(mouseEvent);
-
-    expect(console.log).toHaveBeenCalledWith('Loading more courses. MouseEvent: ', mouseEvent);
-  });
 });

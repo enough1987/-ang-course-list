@@ -1,18 +1,6 @@
-<section class="courses__search">
-  <app-course-search></app-course-search>
-  <button mat-raised-button color="primary" class="courses__button_add">
-    <mat-icon>add_circle_outline</mat-icon>
-    Add Course
-  </button>
+<section class="search">
+  <app-course-search (search)="onSearch($event)"></app-course-search>
+  <app-course-add-button></app-course-add-button>
 </section>
 
-<app-course-list></app-course-list>
-
-<button
-  mat-raised-button
-  class="courses__button_load"
-  color="primary"
-  (click)="onLoadClick($event)">
-    <mat-icon>expand_more</mat-icon>
-    Load More Courses
-</button>
+<app-course-list [query]="query"></app-course-list>

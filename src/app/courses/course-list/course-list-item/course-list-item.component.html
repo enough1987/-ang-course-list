@@ -1,10 +1,19 @@
-<mat-card>
+<mat-card [ngClass]="classes.card">
   <div class="course-list-item__data">
     <div class="course-list-item__header">
-      <mat-card-title class="color_primary">{{course.title}}</mat-card-title>
+      <mat-card-title [ngClass]="classes.title">
+        {{course.title | uppercase}}
+        <mat-icon
+          *ngIf="course.topRated"
+          class="title"
+        >
+          star_border
+        </mat-icon>
+        <sup *ngIf="course.topRated">top-rated</sup>
+      </mat-card-title>
       <div class="course-list-item__details">
-        <div>{{parseTime()}}</div>
-        <div>{{parseDate()}}</div>
+        <div>{{course.durationMin | duration}}</div>
+        <div>{{course.creationDate | date:'dd/MM/yyyy'}}</div>
       </div>
     </div>
     <mat-card-content>{{course.description}}</mat-card-content>

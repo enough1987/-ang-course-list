@@ -1,11 +1,43 @@
+@import '~@angular/material/theming'
+@import 'src/sass/theme.sass'
+
 .mat-card
   display: flex
   padding: 10px 20px
   box-sizing: border-box
   min-height: 93px
+  border-style: solid
+  border-width: 1px
+  border-color: transparent
+  margin: 10px
+
+  &_fresh
+    border-color: mat-color($app-color-fresh)
+
+  &_upcoming
+    border-color: mat-color($app-color-upcoming)
+
+  &_top-rated
+    border-color: mat-color($app-color-top)
 
 .mat-card-title
+  font-size: 20px
   margin-bottom: 10px
+
+  &_fresh,
+  &_upcoming,
+  &_top-rated
+    color: black
+    padding: 1px 4px
+
+  &_fresh
+    background-color: mat-color($app-color-fresh)
+
+  &_upcoming
+    background-color: mat-color($app-color-upcoming)
+
+  &_top-rated
+    background-color: mat-color($app-color-top)
 
 .mat-card-content
   margin: 0 20px 0 0
@@ -19,6 +51,10 @@
   & .mat-raised-button
     margin: 0
     width: 150px
+
+.mat-icon
+  &.title
+    vertical-align: text-bottom
 
 .course-list-item
   &__data
@@ -35,4 +71,7 @@
     justify-content: space-between
     width: 150px
     margin: 0 20px 10px 0
+    font-size: 14px
 
+sup
+  font-size: 12px

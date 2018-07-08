@@ -5,70 +5,23 @@ import { By } from '@angular/platform-browser';
 import { CourseListItemComponent } from './course-list-item.component';
 import { Course } from './course.model';
 import { MaterialModule } from '../../../material/material.module';
+import { DurationPipe } from './duration.pipe';
 
 import mouseEvent from '../../../testing/mouse-event.stub';
 
 describe('CourseListItemComponent', () => {
   const course: Course = {
     id: 42,
-    creationDate: 1530287255,
+    creationDate: 1530287255000,
     title: 'the Ultimate Course',
     durationMin: 123,
     description: 'on Life, the Universe, and Everything',
   };
 
-  const simpleChanges: SimpleChanges = {
-    course: {
-      currentValue: course,
-      firstChange: true,
-      previousValue: null,
-      isFirstChange: () => true,
-    }
-  };
-
   describe('component class testing', () => {
-    beforeEach(() => {
-      spyOn(console, 'log');
-    });
-
     it('should instantiate successfully', () => {
       const component = new CourseListItemComponent();
       expect(component).toBeDefined();
-      expect(console.log).toHaveBeenCalledWith('constructor');
-    });
-
-    it('should log to console when constructor is called', () => {
-      const component = new CourseListItemComponent();
-
-      expect(console.log).toHaveBeenCalledWith('constructor');
-    });
-
-    it('should log to console on ngOnChanges hook', () => {
-      const component = new CourseListItemComponent();
-      component.ngOnChanges(simpleChanges);
-
-      expect(console.log).toHaveBeenCalledWith('ngOnChanges, SimpleChanges object: ', simpleChanges);
-    });
-
-    it('should log to console on ngOnInit hook', () => {
-      const component = new CourseListItemComponent();
-      component.ngOnInit();
-
-      expect(console.log).toHaveBeenCalledWith('ngOnInit');
-    });
-
-    it('should parse duration time to the correct format', () => {
-      const component = new CourseListItemComponent();
-      component.course = course;
-
-      expect(component.parseTime()).toBe('2h 03m');
-    });
-
-    it('should parse creation date to the correct format', () => {
-      const component = new CourseListItemComponent();
-      component.course = course;
-
-      expect(component.parseDate()).toBe('29/06/2018');
     });
 
     it('should emit input course ID on Edit click', () => {
@@ -106,8 +59,11 @@ describe('CourseListItemComponent', () => {
       spyOn(console, 'log');
 
       TestBed.configureTestingModule({
-        declarations: [ CourseListItemComponent ],
-        imports: [ MaterialModule ],  // material is used in the template
+        declarations: [
+          CourseListItemComponent,
+          DurationPipe,
+        ],
+        imports: [MaterialModule],
       })
       .compileComponents();
     }));
@@ -131,7 +87,7 @@ describe('CourseListItemComponent', () => {
 
       const title = courseElement.querySelector('mat-card-title');
 
-      expect(title.textContent).toEqual('the Ultimate Course');
+      expect(title.textContent).toEqual(course.title.toUpperCase());
     });
 
     it('should display the passed course description', () => {
@@ -155,7 +111,7 @@ describe('CourseListItemComponent', () => {
       const courseDe: DebugElement = fixture.debugElement;
       const timeDe: DebugElement = courseDe.query(By.css('.course-list-item__details div'));
       const time: HTMLElement = timeDe.nativeElement;
-      expect(time.textContent).toEqual('2h 03m');
+      expect(time.textContent).toEqual('2h 03min');
     });
 
     it('should display the parsed course creation date correctly', () => {
@@ -165,7 +121,7 @@ describe('CourseListItemComponent', () => {
       const courseDe: DebugElement = fixture.debugElement;
       const timeDe: DebugElement = courseDe.query(By.css('.course-list-item__details div:nth-of-type(2)'));
       const time: HTMLElement = timeDe.nativeElement;
-      expect(time.textContent).toEqual('29/06/2018');
+      expect(time.textContent).toEqual('06.29.2018');
     });
 
     it('should emit input course ID on Edit button click', () => {
@@ -229,8 +185,9 @@ describe('CourseListItemComponent', () => {
         declarations: [
           CourseListItemComponent,
           TestHostComponent,
+          DurationPipe,
         ],
-        imports: [ MaterialModule ],  // material is used in the template
+        imports: [MaterialModule],  // material is used in the template
       })
       .compileComponents();
     }));
@@ -245,7 +202,7 @@ describe('CourseListItemComponent', () => {
       const testHostElement: HTMLElement = fixture.nativeElement;
       const title = testHostElement.querySelector('mat-card-title');
 
-      expect(title.textContent).toEqual('the Ultimate Course');
+      expect(title.textContent).toEqual(course.title.toUpperCase());
     });
 
     it('should call host onEdit() method on Edit button click', () => {

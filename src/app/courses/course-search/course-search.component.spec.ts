@@ -32,7 +32,7 @@ describe('CourseSearchComponent', () => {
   });
 
   it('should log to console on search click', () => {
-    component.searchInput = 'needle';
+    component.query = 'needle';
     fixture.detectChanges();
 
     component.onSearchClick();
@@ -41,7 +41,7 @@ describe('CourseSearchComponent', () => {
   });
 
   it('should log to console on search button click', () => {
-    component.searchInput = 'love';
+    component.query = 'love';
     fixture.detectChanges();
 
     const el: HTMLElement = fixture.nativeElement;
@@ -63,6 +63,6 @@ describe('CourseSearchComponent', () => {
     tick();
     fixture.detectChanges();
 
-    expect(component.searchInput).toBe('neeeedle');
+    expect(component.query).toBe('neeeedle');
   }));
 });
