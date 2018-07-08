@@ -9,7 +9,7 @@ import { SearchPipe } from '../course-search/search.pipe';
 
 import mouseEvent from '../../testing/mouse-event.stub';
 
-fdescribe('CourseListComponent', () => {
+describe('CourseListComponent', () => {
   let fixture: ComponentFixture<CourseListComponent>;
 
   const coursesServiceStub: Partial<CoursesService> = {
