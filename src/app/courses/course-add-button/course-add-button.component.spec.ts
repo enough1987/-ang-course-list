@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CourseAddButtonComponent } from './course-add-button.component';
+import { MaterialModule } from '../../material/material.module';
 
 describe('CourseAddButtonComponent', () => {
   let component: CourseAddButtonComponent;
@@ -8,7 +9,8 @@ describe('CourseAddButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CourseAddButtonComponent ]
+      declarations: [ CourseAddButtonComponent ],
+      imports: [MaterialModule],
     })
     .compileComponents();
   }));

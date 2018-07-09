@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SimpleChanges, DebugElement, Component } from '@angular/core';
+import { DebugElement, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { CourseListItemComponent } from './course-list-item.component';
@@ -87,7 +87,7 @@ describe('CourseListItemComponent', () => {
 
       const title = courseElement.querySelector('mat-card-title');
 
-      expect(title.textContent).toEqual(course.title.toUpperCase());
+      expect(title.textContent.trim()).toEqual(course.title.toUpperCase());
     });
 
     it('should display the passed course description', () => {
@@ -100,7 +100,7 @@ describe('CourseListItemComponent', () => {
 
       const title = courseEl.querySelector('mat-card-content');
 
-      expect(title.textContent).toEqual('on Life, the Universe, and Everything');
+      expect(title.textContent.trim()).toEqual('on Life, the Universe, and Everything');
     });
 
     it('should display the parsed course duration correctly', () => {
@@ -121,7 +121,7 @@ describe('CourseListItemComponent', () => {
       const courseDe: DebugElement = fixture.debugElement;
       const timeDe: DebugElement = courseDe.query(By.css('.course-list-item__details div:nth-of-type(2)'));
       const time: HTMLElement = timeDe.nativeElement;
-      expect(time.textContent).toEqual('06.29.2018');
+      expect(time.textContent).toEqual('29/06/2018');
     });
 
     it('should emit input course ID on Edit button click', () => {
@@ -202,7 +202,7 @@ describe('CourseListItemComponent', () => {
       const testHostElement: HTMLElement = fixture.nativeElement;
       const title = testHostElement.querySelector('mat-card-title');
 
-      expect(title.textContent).toEqual(course.title.toUpperCase());
+      expect(title.textContent.trim()).toEqual(course.title.toUpperCase());
     });
 
     it('should call host onEdit() method on Edit button click', () => {

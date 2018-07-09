@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CoursesListNoDataComponent } from './courses-list-no-data.component';
+import { MaterialModule } from '../../../material/material.module';
 
 describe('CoursesListNoDataComponent', () => {
   let component: CoursesListNoDataComponent;
@@ -8,7 +9,8 @@ describe('CoursesListNoDataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoursesListNoDataComponent ]
+      declarations: [CoursesListNoDataComponent],
+      imports: [MaterialModule],
     })
     .compileComponents();
   }));

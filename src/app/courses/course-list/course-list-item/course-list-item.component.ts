@@ -2,8 +2,6 @@ import { Component,
   Input,
   Output,
   EventEmitter,
-  SimpleChanges,
-  OnChanges,
   OnInit,
 } from '@angular/core';
 import { Course } from './course.model';

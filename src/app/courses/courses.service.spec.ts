@@ -37,7 +37,7 @@ describe('CoursesService', () => {
 
     it('should delete course by id', () => {
       service.deleteCourse(1);
-      expect(service.courses).toEqual([initCourses[1], initCourses[2]]);
+      expect(service.courses).toEqual([initCourses[1], initCourses[2], initCourses[3], initCourses[4]]);
     });
   });
 });

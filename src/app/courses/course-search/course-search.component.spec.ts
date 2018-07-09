@@ -10,8 +10,6 @@ describe('CourseSearchComponent', () => {
   let fixture: ComponentFixture<CourseSearchComponent>;
 
   beforeEach(async(() => {
-    spyOn(console, 'log');
-
     TestBed.configureTestingModule({
       declarations: [CourseSearchComponent],
       imports: [
@@ -35,9 +33,8 @@ describe('CourseSearchComponent', () => {
     component.query = 'needle';
     fixture.detectChanges();
 
+    component.search.subscribe(query => expect(query).toBe('needle'));
     component.onSearchClick();
-
-    expect(console.log).toHaveBeenCalledWith('Searching for needle');
   });
 
   it('should log to console on search button click', () => {
@@ -47,12 +44,13 @@ describe('CourseSearchComponent', () => {
     const el: HTMLElement = fixture.nativeElement;
     const button = el.querySelector('button');
 
+    component.search.subscribe(query => expect(query).toBe('love'));
     button.click();
-    expect(console.log).toHaveBeenCalledWith('Searching for love');
   });
 
   it('should update the search input when ngModel input changes', fakeAsync(() => {
     fixture.detectChanges();
+    tick();
 
     const element = fixture.debugElement.query(By.css('input')).nativeElement;
     element.value = 'neeeedle';
@@ -60,8 +58,8 @@ describe('CourseSearchComponent', () => {
     // https://angular.io/guide/testing#change-an-input-value-with-dispatchevent
     element.dispatchEvent(new Event('input'));
 
-    tick();
     fixture.detectChanges();
+    tick();
 
     expect(component.query).toBe('neeeedle');
   }));
