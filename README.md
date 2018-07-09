@@ -1,6 +1,6 @@
 # Angular Mentoring
 
-## Task 3. Unit testing
+## Task 4. Directives + Pipes
 - Custom HighlightFreshDirective to highlight fresh/upcoming courses
 - CourseListNoDataComponent displayed *ngIf course list is empty
 - Top-rated courses highlighted in CourseListItemComponent using *ngIf and object-based [ngClass]
@@ -71,7 +71,7 @@ npm run test:coverage
  - Task1. Webpack/Typescript/Angular Intro
  - Task2. Components
  - Task3. Unit testing
- - Tasl4. Directives + Pipes
+ - Task4. Directives + Pipes
 
 ## Run Development Server
 ```
