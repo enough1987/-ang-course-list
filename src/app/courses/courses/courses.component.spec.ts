@@ -4,15 +4,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CoursesComponent } from './courses.component';
 import { MaterialModule } from '../../material/material.module';
 
-import mouseEvent from '../../testing/mouse-event.stub';
-
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
   let fixture: ComponentFixture<CoursesComponent>;
 
   beforeEach(async(() => {
-    spyOn(console, 'log');
-
     TestBed.configureTestingModule({
       declarations: [CoursesComponent],
       imports: [MaterialModule],
@@ -29,9 +25,8 @@ describe('CoursesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should log to console on load click', () => {
-    component.onLoadClick(mouseEvent);
-
-    expect(console.log).toHaveBeenCalledWith('Loading more courses. MouseEvent: ', mouseEvent);
+  it('should set query on search', () => {
+    component.onSearch('QUERY');
+    expect(component.query).toBe('QUERY');
   });
 });

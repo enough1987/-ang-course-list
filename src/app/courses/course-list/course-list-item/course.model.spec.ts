@@ -8,6 +8,7 @@ describe('CourseModel', () => {
       'the Ultimate Course',
       123,
       'on Life, the Universe, and Everything',
+      true,
     );
 
     expect({ ...course }).toEqual({  // Expected object to be a kind of Object, but was Course({ ... })
@@ -16,6 +17,7 @@ describe('CourseModel', () => {
       title: 'the Ultimate Course',
       durationMin: 123,
       description: 'on Life, the Universe, and Everything',
+      topRated: true,
     });
   });
 
@@ -32,6 +34,7 @@ describe('CourseModel', () => {
       title: 'the Ultimate Course',
       durationMin: 0,
       description: '',
+      topRated: false,
     });
   });
 });

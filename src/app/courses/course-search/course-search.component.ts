@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 
 @Component({
   selector: 'app-course-search',
@@ -6,9 +10,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./course-search.component.sass']
 })
 export class CourseSearchComponent {
-  searchInput = '';
+  @Output() search = new EventEmitter<string>();
+
+  query = '';
+
+  onSearch() {
+    this.search.emit(this.query);
+  }
 
   onSearchClick() {
-    console.log(`Searching for ${this.searchInput}`);
+    this.onSearch();
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.onSearch();
   }
 }

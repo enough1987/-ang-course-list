@@ -2,8 +2,6 @@ import { Component,
   Input,
   Output,
   EventEmitter,
-  SimpleChanges,
-  OnChanges,
   OnInit,
 } from '@angular/core';
 import { Course } from './course.model';
@@ -13,35 +11,25 @@ import { Course } from './course.model';
   templateUrl: './course-list-item.component.html',
   styleUrls: ['./course-list-item.component.sass']
 })
-export class CourseListItemComponent implements
-  OnChanges,
-  OnInit {
+export class CourseListItemComponent implements OnInit {
 
   @Input() course: Course;
+
+  @Input() isCourseUpcoming: boolean;
+  @Input() isCourseFresh: boolean;
+
   @Output() edit = new EventEmitter<number>();
   @Output() delete = new EventEmitter<{ event: MouseEvent, id: number }>();
 
-  constructor() {
-    console.log('constructor');
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('ngOnChanges, SimpleChanges object: ', changes);
-  }
+  classes: any = {};
 
   ngOnInit() {
-    console.log('ngOnInit');
-  }
-
-  parseTime(): string {
-    const min = this.course.durationMin;
-    return `${Math.floor(min / 60)}h ${String((min % 60)).padStart(2, '0') }m`;
-  }
-
-  parseDate(): string {
-    const unixDate = this.course.creationDate;
-    const date = new Date(unixDate * 1000);
-    return `${date.getDate()}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+    this.classes.title = {
+      'mat-card-title_top-rated': this.course.topRated,
+      'mat-card-title_upcoming': this.isCourseUpcoming,
+      'mat-card-title_fresh': this.isCourseFresh,
+      'color_primary': !this.course.topRated && !this.isCourseUpcoming && !this.isCourseFresh,
+    };
   }
 
   onEditClick() {

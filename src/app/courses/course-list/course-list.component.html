@@ -1,6 +1,21 @@
 <app-course-list-item
   *ngFor="let course of courses"
   [course]="course"
+  [isCourseUpcoming]="coursesService.isCourseUpcoming(course)"
+  [isCourseFresh]="coursesService.isCourseFresh(course)"
   (delete)="onDelete($event)"
   (edit)="onEdit($event)"
+  appHighlight
   ></app-course-list-item>
+
+<app-courses-list-no-data *ngIf="!courses.length"></app-courses-list-no-data>
+
+<button
+  *ngIf="courses.length"
+  mat-raised-button
+  class="load"
+  color="primary"
+  (click)="onLoadClick($event)">
+    <mat-icon>expand_more</mat-icon>
+    Load More Courses
+</button>

@@ -6,7 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./courses.component.sass']
 })
 export class CoursesComponent {
-  onLoadClick(e: MouseEvent) {
-    console.log('Loading more courses. MouseEvent: ', e);
+  query = '';
+
+  onSearch(query) {
+    this.query = query;
   }
 }

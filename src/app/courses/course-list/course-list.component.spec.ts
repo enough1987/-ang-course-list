@@ -4,6 +4,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CourseListComponent } from './course-list.component';
 import { MaterialModule } from '../../material/material.module';
 import { CoursesService } from './../courses.service';
+import { OrderByPipe } from './order-by.pipe';
+import { SearchPipe } from '../course-search/search.pipe';
 
 import mouseEvent from '../../testing/mouse-event.stub';
 
@@ -30,7 +32,15 @@ describe('CourseListComponent', () => {
     deleteCourse: jasmine.createSpy('deleteCourse'),
   };
 
+  const orderByPipeStub = { transform: arr => arr };
+  const searchPipeStub = { transform: arr => arr };
+
   describe('Testing a component: providing a stub service', () => {
+    let component: CourseListComponent;
+    let service: CoursesService;
+    let orderByPipe;
+    let searchPipe;
+
     beforeEach(async(() => {
       spyOn(coursesServiceStub, 'getCourses');
       spyOn(console, 'log');
@@ -38,7 +48,11 @@ describe('CourseListComponent', () => {
       TestBed.configureTestingModule({
         declarations: [CourseListComponent],
         imports: [MaterialModule],  // material is used in the template
-        providers: [{ provide: CoursesService, useValue: coursesServiceStub }],
+        providers: [
+          { provide: CoursesService, useValue: coursesServiceStub },
+          { provide: OrderByPipe, useValue: orderByPipeStub },
+          { provide: SearchPipe, useValue: searchPipeStub },
+        ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
       .compileComponents();
@@ -46,31 +60,24 @@ describe('CourseListComponent', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(CourseListComponent);
+
+      // https://angular.io/guide/testing#get-injected-services
+      service = fixture.debugElement.injector.get(CoursesService);
+      orderByPipe = fixture.debugElement.injector.get(OrderByPipe);
+      searchPipe = fixture.debugElement.injector.get(SearchPipe);
+
+      component = new CourseListComponent(service, orderByPipe, searchPipe);
     });
 
     it('should instantiate successfully', () => {
-      // https://angular.io/guide/testing#get-injected-services
-      const coursesService = fixture.debugElement.injector.get(CoursesService);
-
-      const component = new CourseListComponent(coursesService);
-
       expect(component).toBeDefined();
     });
 
     it('should call coursesService.getCourses() method on init', () => {
-      // https://angular.io/guide/testing#testbedget
-      const coursesService = TestBed.get(CoursesService);
-
-      const component = new CourseListComponent(coursesService);
-
-      expect(coursesService.getCourses).toHaveBeenCalled();
+      expect(service.getCourses).toHaveBeenCalled();
     });
 
     it('should log to console on edit', () => {
-      // https://angular.io/guide/testing#testbedget
-      const coursesService = TestBed.get(CoursesService);
-
-      const component = new CourseListComponent(coursesService);
       component.onEdit(42);
 
       expect(console.log).toHaveBeenCalledWith('Editing course #42');
@@ -91,7 +98,9 @@ describe('CourseListComponent', () => {
         imports: [MaterialModule],  // material is used in the template
         providers: [
           CourseListComponent,
-          { provide: CoursesService, useValue: coursesServiceStub }
+          { provide: CoursesService, useValue: coursesServiceStub },
+          { provide: OrderByPipe, useValue: orderByPipeStub },
+          { provide: SearchPipe, useValue: searchPipeStub },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
@@ -109,6 +118,51 @@ describe('CourseListComponent', () => {
 
     it('should call coursesService.getCourses() method on init', () => {
       expect(service.getCourses).toHaveBeenCalled();
+    });
+
+    it('should reload courses if search query changed', () => {
+      const simpleChanges = {
+        query: {
+          currentValue: 'QUERY',
+          previousValue: '',
+          firstChange: false,
+          isFirstChange: () => false,
+        }
+      };
+
+      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      component.ngOnChanges(simpleChanges);
+      expect(service.getCourses).toHaveBeenCalledTimes(2);
+    });
+
+    it('should not reload courses on the first change', () => {
+      const simpleChanges = {
+        query: {
+          currentValue: 'QUERY',
+          previousValue: '',
+          firstChange: true,
+          isFirstChange: () => true,
+        }
+      };
+
+      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      component.ngOnChanges(simpleChanges);
+      expect(service.getCourses).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not reload courses if query did not change', () => {
+      const simpleChanges = {
+        query: {
+          currentValue: 'QUERY',
+          previousValue: 'QUERY',
+          firstChange: false,
+          isFirstChange: () => false,
+        }
+      };
+
+      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      component.ngOnChanges(simpleChanges);
+      expect(service.getCourses).toHaveBeenCalledTimes(1);
     });
 
     it('should log to console on delete', () => {
@@ -130,6 +184,12 @@ describe('CourseListComponent', () => {
       });
 
       expect(service.deleteCourse).toHaveBeenCalledWith(84);
+    });
+
+    it('should log to console on load click', () => {
+      component.onLoadClick(mouseEvent);
+
+      expect(console.log).toHaveBeenCalledWith('Loading more courses. MouseEvent: ', mouseEvent);
     });
   });
 });

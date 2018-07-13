@@ -1,0 +1,37 @@
+import { SearchPipe } from './search.pipe';
+import { Course } from '../course-list/course-list-item/course.model';
+
+describe('SearchPipe', () => {
+  const haystack: Course[] = [
+    { id: 1, creationDate: 111, title: 'abc' },
+    { id: 2, creationDate: 222, title: 'bcd' },
+    { id: 3, creationDate: 333, title: 'cde' },
+  ];
+
+  it('create an instance', () => {
+    const pipe = new SearchPipe();
+    expect(pipe).toBeTruthy();
+  });
+
+  it('should return the full courses collection by default', () => {
+    const pipe = new SearchPipe();
+    expect(pipe.transform(haystack)).toEqual(haystack);
+  });
+
+  it('should return several results if applicable', () => {
+    const pipe = new SearchPipe();
+
+    expect(pipe.transform(haystack, 'b')).toEqual([
+      { id: 1, creationDate: 111, title: 'abc' },
+      { id: 2, creationDate: 222, title: 'bcd' },
+    ]);
+  });
+
+  it('should return a single match', () => {
+    const pipe = new SearchPipe();
+
+    expect(pipe.transform(haystack, 'e')).toEqual([
+      { id: 3, creationDate: 333, title: 'cde' },
+    ]);
+  });
+});
