@@ -41,17 +41,39 @@ export const initCourses = [
 @Injectable()
 export class CoursesService {
   courses: Course[];
+  nextId: number;
 
   constructor() {
     this.courses = [...initCourses];
+    this.nextId = initCourses.length + 1;
   }
 
   getCourses(): Course[] {
     return this.courses;
   }
 
+  getCourse(id): Course {
+    return this.courses.find(c => c.id === id);
+  }
+
+  createCourse(title, creationDate?, durationMin?, description?) {
+    this.courses.push(
+      new Course(
+        this.nextId++,
+        creationDate || Date.now(),   // future supported
+        title,
+        durationMin,
+        description,
+      )
+    );
+  }
+
+  updateCourse(course: Course) {
+    this.courses = this.courses.map(c => c.id === course.id ? course : c);
+  }
+
   deleteCourse(id) {
-    this.courses = [...this.courses.filter(c => c.id !== id)];
+    this.courses = this.courses.filter(c => c.id !== id);
   }
 
   isCourseUpcoming(course) {
