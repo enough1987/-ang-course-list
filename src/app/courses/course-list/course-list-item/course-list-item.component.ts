@@ -14,20 +14,21 @@ import { Course } from './course.model';
 export class CourseListItemComponent implements OnInit {
 
   @Input() course: Course;
+
+  @Input() isCourseUpcoming: boolean;
+  @Input() isCourseFresh: boolean;
+
   @Output() edit = new EventEmitter<number>();
   @Output() delete = new EventEmitter<{ event: MouseEvent, id: number }>();
 
   classes: any = {};
 
   ngOnInit() {
-    this.classes.card = {
-      'mat-elevation-z': true,
-      'mat-card_top-rated': this.course.topRated,
-    };
-
     this.classes.title = {
       'mat-card-title_top-rated': this.course.topRated,
-      'color_primary': !this.course.topRated,
+      'mat-card-title_upcoming': this.isCourseUpcoming,
+      'mat-card-title_fresh': this.isCourseFresh,
+      'color_primary': !this.course.topRated && !this.isCourseUpcoming && !this.isCourseFresh,
     };
   }
 

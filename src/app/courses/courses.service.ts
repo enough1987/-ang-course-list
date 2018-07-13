@@ -53,4 +53,13 @@ export class CoursesService {
   deleteCourse(id) {
     this.courses = [...this.courses.filter(c => c.id !== id)];
   }
+
+  isCourseUpcoming(course) {
+    return course.creationDate > Date.now();
+  }
+
+  isCourseFresh(course) {
+    return course.creationDate < Date.now() && course.creationDate >= Date.now() - 14 * dayms;
+  }
+
 }

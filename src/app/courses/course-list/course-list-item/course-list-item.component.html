@@ -1,4 +1,4 @@
-<mat-card [ngClass]="classes.card">
+<mat-card class="mat-elevation-z">
   <div class="course-list-item__data">
     <div class="course-list-item__header">
       <mat-card-title [ngClass]="classes.title">
@@ -10,6 +10,20 @@
           star_border
         </mat-icon>
         <sup *ngIf="course.topRated">top-rated</sup>
+        <mat-icon
+          *ngIf="isCourseUpcoming"
+          class="title"
+        >
+          alarm
+        </mat-icon>
+        <sup *ngIf="isCourseUpcoming">upcoming</sup>
+        <mat-icon
+          *ngIf="isCourseFresh"
+          class="title"
+        >
+          alarm_on
+        </mat-icon>
+        <sup *ngIf="isCourseFresh">fresh</sup>
       </mat-card-title>
       <div class="course-list-item__details">
         <div>{{course.durationMin | duration}}</div>

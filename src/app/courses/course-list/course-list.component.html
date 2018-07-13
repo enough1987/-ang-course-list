@@ -1,9 +1,11 @@
 <app-course-list-item
   *ngFor="let course of courses"
   [course]="course"
+  [isCourseUpcoming]="coursesService.isCourseUpcoming(course)"
+  [isCourseFresh]="coursesService.isCourseFresh(course)"
   (delete)="onDelete($event)"
   (edit)="onEdit($event)"
-  appHighlightFresh
+  appHighlight
   ></app-course-list-item>
 
 <app-courses-list-no-data *ngIf="!courses.length"></app-courses-list-no-data>

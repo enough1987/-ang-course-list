@@ -1,9 +1,9 @@
 # Angular Mentoring
 
 ## Task 4. Directives + Pipes
-- Custom HighlightFreshDirective to highlight fresh/upcoming courses
+- Custom HighlightDirective to highlight courses card borders for top-rated, fresh, upcoming courses
+- Course titles styled in CourseListItemComponent using *ngIf and object-based [ngClass]
 - CourseListNoDataComponent displayed *ngIf course list is empty
-- Top-rated courses highlighted in CourseListItemComponent using *ngIf and object-based [ngClass]
 - Built-in UpperCasePipe used in CourseListItemComponent template
 - Built-in DatePipe used in CourseListItemComponent template
 - Custom DurationPipe formatting the course duration output in CourseListItemComponent template
@@ -13,7 +13,7 @@
 
 Coverage
 ```
-Chrome 67.0.3396 (Windows 10.0.0): Executed 88 of 88 SUCCESS (5.379 secs / 5.317 secs)
+Chrome 67.0.3396 (Windows 10.0.0): Executed 84 of 84 SUCCESS (4.543 secs / 4.471 secs)
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
 File                                              |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
@@ -41,7 +41,7 @@ All files                                         |      100 |      100 |      1
   course-list-item.component.ts                   |      100 |      100 |      100 |      100 |                   |
   course.model.ts                                 |      100 |      100 |      100 |      100 |                   |
   duration.pipe.ts                                |      100 |      100 |      100 |      100 |                   |
-  highlight-fresh.directive.ts                    |      100 |      100 |      100 |      100 |                   |
+  highlight.directive.ts                          |      100 |      100 |      100 |      100 |                   |
  src/app/courses/course-list/courses-list-no-data |      100 |      100 |      100 |      100 |                   |
   courses-list-no-data.component.ts               |      100 |      100 |      100 |      100 |                   |
  src/app/courses/course-search                    |      100 |      100 |      100 |      100 |                   |

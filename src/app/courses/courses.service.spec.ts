@@ -39,5 +39,21 @@ describe('CoursesService', () => {
       service.deleteCourse(1);
       expect(service.courses).toEqual([initCourses[1], initCourses[2], initCourses[3], initCourses[4]]);
     });
+
+    it('should identify a course as upcoming', () => {
+      expect(service.isCourseUpcoming(initCourses[0])).toBe(true);
+    });
+
+    it('should identify a course as fresh', () => {
+      expect(service.isCourseFresh(initCourses[1])).toBe(true);
+    });
+
+    it('should identify a course as not upcoming', () => {
+      expect(service.isCourseUpcoming(initCourses[1])).toBe(false);
+    });
+
+    it('should identify a course as not fresh', () => {
+      expect(service.isCourseFresh(initCourses[0])).toBe(false);
+    });
   });
 });

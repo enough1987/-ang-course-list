@@ -10,7 +10,7 @@ import { CoursesService } from './courses.service';
 import { DurationPipe } from './course-list/course-list-item/duration.pipe';
 import { OrderByPipe } from './course-list/order-by.pipe';
 import { SearchPipe } from './course-search/search.pipe';
-import { HighlightFreshDirective } from './course-list/course-list-item/highlight-fresh.directive';
+import { HighlightDirective } from './course-list/course-list-item/highlight.directive';
 import { CoursesListNoDataComponent } from './course-list/courses-list-no-data/courses-list-no-data.component';
 import { CourseAddButtonComponent } from './course-add-button/course-add-button.component';
 
@@ -28,7 +28,7 @@ import { CourseAddButtonComponent } from './course-add-button/course-add-button.
     DurationPipe,
     OrderByPipe,
     SearchPipe,
-    HighlightFreshDirective,
+    HighlightDirective,
     CoursesListNoDataComponent,
     CourseAddButtonComponent,
   ],
