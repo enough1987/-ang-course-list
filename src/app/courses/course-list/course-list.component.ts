@@ -3,6 +3,7 @@ import { Course } from './course-list-item/course.model';
 import { CoursesService } from '../courses.service';
 import { OrderByPipe } from './order-by.pipe';
 import { SearchPipe } from '../course-search/search.pipe';
+import { DialogService } from '../../material/dialog/dialog.service';
 
 @Component({
   selector: 'app-course-list',
@@ -13,10 +14,10 @@ export class CourseListComponent implements OnChanges, OnInit {
   @Input() query: string;
 
   courses: Course[];
-  confirm = false;
 
   constructor(
     private coursesService: CoursesService,
+    private dialogService: DialogService,
     private orderByPipe: OrderByPipe,
     private searchPipe: SearchPipe,
   ) {}
@@ -49,12 +50,15 @@ export class CourseListComponent implements OnChanges, OnInit {
 
   // https://blog.mariusschulz.com/2015/11/13/typing-destructured-object-parameters-in-typescript
   onDelete({ event, id }: { event: MouseEvent, id: number }) {
-    this.confirm = true;
-
-    console.log(`Deleting course #${id}. Original MouseEvent:`, event);
-
-    this.coursesService.deleteCourse(id);
-    this.loadCourses();
+    this.dialogService
+      .confirm('Do you really want to delete this course?')
+      .subscribe(confirmed => {
+        if (confirmed) {
+          this.coursesService.deleteCourse(id);
+          this.loadCourses();
+          console.log(this);
+        }
+      });
   }
 
   onLoadClick(e: MouseEvent) {
