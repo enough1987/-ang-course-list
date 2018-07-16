@@ -56,20 +56,28 @@ export class CoursesService {
     return this.courses.find(c => c.id === id);
   }
 
-  createCourse(title, creationDate?, durationMin?, description?) {
-    this.courses.push(
-      new Course(
-        this.nextId++,
-        creationDate || Date.now(),   // future supported
-        title,
-        durationMin,
-        description,
-      )
+  createCourse(partial: Partial<Course>) {
+    const { creationDate, title, durationMin, description } = partial; // can't create a top-rated course right away
+    const course = new Course(
+      this.nextId++,
+      creationDate || Date.now(),   // future supported
+      title,
+      durationMin,
+      description,
     );
+
+    this.courses.push(course);
   }
 
-  updateCourse(course: Course) {
-    this.courses = this.courses.map(c => c.id === course.id ? course : c);
+  updateCourse(partial: Partial<Course>) {
+    this.courses = this.courses.map(course => {
+      if (course.id === partial.id) {   // supports graphql-like partial update
+        const partialApplied = { ...course, ...partial };
+        const { id, creationDate, title, durationMin, description, topRated } = partialApplied;
+        return new Course(id, creationDate, title, durationMin, description, topRated);
+      }
+      return course;
+    });
   }
 
   deleteCourse(id) {

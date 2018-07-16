@@ -11,8 +11,11 @@ import {
   MatTooltipModule,
   MatFormFieldModule,
   MatInputModule,
+  MatDialogModule,
+  MatDialog,
 } from '@angular/material';
-
+import { ConfirmComponent } from './confirm/confirm.component';
+import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -27,6 +30,7 @@ import {
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -40,6 +44,14 @@ import {
     MatTooltipModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
+    ConfirmComponent,
+    ConfirmDialogComponent,
   ],
+  declarations: [
+    ConfirmComponent,
+    ConfirmDialogComponent,
+  ],
+  providers: [MatDialog],
 })
 export class MaterialModule { }

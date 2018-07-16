@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { CourseListComponent } from './course-list.component';
 import { MaterialModule } from '../../material/material.module';
-import { CoursesService } from './../courses.service';
+import { CoursesService } from '../courses.service';
 import { OrderByPipe } from './order-by.pipe';
 import { SearchPipe } from '../course-search/search.pipe';
 
@@ -74,6 +74,7 @@ describe('CourseListComponent', () => {
     });
 
     it('should call coursesService.getCourses() method on init', () => {
+      component.ngOnInit();
       expect(service.getCourses).toHaveBeenCalled();
     });
 
@@ -117,6 +118,8 @@ describe('CourseListComponent', () => {
     });
 
     it('should call coursesService.getCourses() method on init', () => {
+      expect(service.getCourses).not.toHaveBeenCalled();
+      component.ngOnInit();
       expect(service.getCourses).toHaveBeenCalled();
     });
 
@@ -130,9 +133,9 @@ describe('CourseListComponent', () => {
         }
       };
 
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
       component.ngOnChanges(simpleChanges);
-      expect(service.getCourses).toHaveBeenCalledTimes(2);
+      expect(service.getCourses).toHaveBeenCalled();
     });
 
     it('should not reload courses on the first change', () => {
@@ -145,9 +148,9 @@ describe('CourseListComponent', () => {
         }
       };
 
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
       component.ngOnChanges(simpleChanges);
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
     });
 
     it('should not reload courses if query did not change', () => {
@@ -160,9 +163,9 @@ describe('CourseListComponent', () => {
         }
       };
 
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
       component.ngOnChanges(simpleChanges);
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
     });
 
     it('should log to console on delete', () => {

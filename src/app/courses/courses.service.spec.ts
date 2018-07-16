@@ -35,9 +35,60 @@ describe('CoursesService', () => {
       expect(service.getCourses()).toEqual(initCourses);
     });
 
+    it('should get course by id', () => {
+      expect(service.getCourse(2)).toEqual(initCourses[1]);
+    });
+
+    it('should update course', () => {
+      service.updateCourse({  // graphql-like partial update
+        id: 1,
+        title: 'TITLE',
+      });
+      expect({...service.getCourse(1)}).toEqual({ ...initCourses[0], title: 'TITLE' });
+    });
+
     it('should delete course by id', () => {
       service.deleteCourse(1);
       expect(service.courses).toEqual([initCourses[1], initCourses[2], initCourses[3], initCourses[4]]);
+    });
+
+    it('should create a course with a specific creation date', () => {
+      service.createCourse({
+        creationDate: 1234567890111,
+        title: 'NEW TITLE',
+        durationMin: 120,
+        description: 'NEW DESCRIPTION',
+      });
+      expect({ ...service.courses[5] }).toEqual({
+        id: 6,
+        creationDate: 1234567890111,
+        title: 'NEW TITLE',
+        durationMin: 120,
+        description: 'NEW DESCRIPTION',
+        topRated: false,
+      });
+    });
+
+    it('should create a course with a current creation date', () => {
+      const originalDateNow = Date.now;
+
+      Date.now = () => 1234567890123;
+
+      service.createCourse({
+        title: 'NEW TITLE',
+        durationMin: 120,
+        description: 'NEW DESCRIPTION',
+      });
+      expect({ ...service.courses[5] }).toEqual({
+        id: 6,
+        creationDate: 1234567890123,
+        title: 'NEW TITLE',
+        durationMin: 120,
+        description: 'NEW DESCRIPTION',
+        topRated: false,
+      });
+
+      Date.now = originalDateNow;
     });
 
     it('should identify a course as upcoming', () => {
