@@ -14,8 +14,8 @@ import {
   MatDialogModule,
   MatDialog,
 } from '@angular/material';
-import { ConfirmComponent } from './confirm/confirm.component';
-import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
+import { DialogService } from './dialog/dialog.service';
 
 @NgModule({
   imports: [
@@ -45,13 +45,10 @@ import { ConfirmDialogComponent } from './confirm/confirm-dialog/confirm-dialog.
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    ConfirmComponent,
     ConfirmDialogComponent,
   ],
-  declarations: [
-    ConfirmComponent,
-    ConfirmDialogComponent,
-  ],
-  providers: [MatDialog],
+  declarations: [ConfirmDialogComponent],
+  entryComponents: [ConfirmDialogComponent],
+  providers: [DialogService],
 })
 export class MaterialModule { }

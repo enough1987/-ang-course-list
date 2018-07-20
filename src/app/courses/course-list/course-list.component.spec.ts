@@ -168,18 +168,6 @@ describe('CourseListComponent', () => {
       expect(service.getCourses).not.toHaveBeenCalled();
     });
 
-    it('should log to console on delete', () => {
-      component.onDelete({
-        event: mouseEvent,
-        id: 84,
-      });
-
-      expect(console.log).toHaveBeenCalledWith(
-        jasmine.stringMatching('Deleting course #84. Original MouseEvent:'),
-        mouseEvent
-      );
-    });
-
     it('should call coursesService.deleteCourse() method on delete button click', () => {
       component.onDelete({
         event: mouseEvent,
