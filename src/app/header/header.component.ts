@@ -8,9 +8,15 @@ import { User } from '../auth/user/user.model';
   styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent {
+  isAuthenticated: boolean;
   user: User;
 
   constructor(private authService: AuthService) {
-    this.user = authService.getUser();
+    // this.authService.login();
+    this.authService.logout();
+
+    this.isAuthenticated = authService.isAuthenticated();
+    console.log('isAuthenticated', this.isAuthenticated);
+    this.user = authService.getUserInfo();
   }
 }

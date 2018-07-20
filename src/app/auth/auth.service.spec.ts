@@ -1,12 +1,26 @@
+import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { User } from './user/user.model';
+import { LocalStorageService } from '../core/services';
 
 describe('AuthService', () => {
-  // Testing a service without TestBed + inject
-  // https://angular.io/guide/testing#service-tests
+  // https://angular.io/guide/testing#angular-testbed
   let service: AuthService;
+  let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
+
   beforeEach(() => {
-    service = new AuthService();
+    const spy = jasmine.createSpyObj('ValueService', ['getValue']);
+
+    TestBed.configureTestingModule({
+      // Provide both the service-to-test and its (spy) dependency
+      providers: [
+        AuthService,
+        { provide: LocalStorageService, useValue: spy }
+      ]
+    });
+
+    service = TestBed.get(AuthService);
+    localStorageServiceSpy = TestBed.get(LocalStorageService);
   });
 
   it('should be created', () => {
@@ -18,6 +32,6 @@ describe('AuthService', () => {
   });
 
   it('should return dummy user', () => {
-    expect(service.getUser()).toEqual(new User(123, 'John', 'Doe'));
+    expect(service.getUserInfo()).toEqual(new User(123, 'John', 'Doe'));
   });
 });

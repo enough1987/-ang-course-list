@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from './material/material.module';
 import { CoursesModule } from './courses/courses.module';
 import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { LogoComponent } from './logo/logo.component';
@@ -23,6 +25,8 @@ import { BreadcrumbsComponent } from './header/breadcrumbs/breadcrumbs.component
   imports: [
     BrowserModule,
     MaterialModule,
+    CoreModule,
+    SharedModule,
     CoursesModule,
     AuthModule,
   ],
