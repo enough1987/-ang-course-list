@@ -7,12 +7,17 @@
       mat-icon-button
       matTooltip="Log Off"
       matTooltipPosition="below"
+      (click)="logout()"
     >
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </div>
   <div *ngIf="!isAuthenticated" class="user">
-    <button  mat-button class="user__login">
+    <button
+      mat-button
+      class="user__login"
+      (click)="login()"
+    >
       <mat-icon>account_circle</mat-icon>
       Login
     </button>
