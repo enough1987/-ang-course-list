@@ -12,4 +12,8 @@ describe('WindowRefService', () => {
   it('should be created', inject([WindowRefService], (service: WindowRefService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should provide interface to native window', inject([WindowRefService], (service: WindowRefService) => {
+    expect(service.nativeWindow).toEqual(window);
+  }));
 });

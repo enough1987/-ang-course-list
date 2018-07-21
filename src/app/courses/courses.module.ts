@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { MaterialModule } from '../material/material.module';
 import { CoursesComponent } from './courses/courses.component';
 import { CourseListComponent } from './course-list/course-list.component';
@@ -18,7 +19,7 @@ import { CourseAddButtonComponent } from './course-add-button/course-add-button.
   imports: [
     CommonModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
   ],
   declarations: [
     CoursesComponent,

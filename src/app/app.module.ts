@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from './material/material.module';
 import { CoursesModule } from './courses/courses.module';
@@ -12,6 +13,7 @@ import { LogoComponent } from './logo/logo.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { BreadcrumbsComponent } from './header/breadcrumbs/breadcrumbs.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -20,10 +22,12 @@ import { BreadcrumbsComponent } from './header/breadcrumbs/breadcrumbs.component
     LogoComponent,
     HeaderComponent,
     FooterComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     MaterialModule,
     CoreModule,
     SharedModule,

@@ -1,35 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../auth/user/user.model';
+import { UserPublicInfo } from '../auth/user/user.model';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.sass'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean;
-  user: User;
+  user: UserPublicInfo;
 
-  constructor(private authService: AuthService) {}
+  private sub: Subscription;
+
+  constructor(public authService: AuthService) {}
 
   ngOnInit() {
-    this.getAuth();
+    this.sub = new Subscription();
+    this.sub.add(this.authService.isAuthenticated.subscribe(next => this.isAuthenticated = next));
+    this.sub.add(this.authService.userInfo.subscribe(next => {
+      console.log('next userInfo', next)
+      this.user = next;
+    }));
   }
 
-  getAuth() {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    this.user = this.authService.getUserInfo();
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   login() {
     this.authService.login();
-    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   logout() {
     this.authService.logout();
-    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
 }

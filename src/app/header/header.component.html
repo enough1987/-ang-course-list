@@ -2,7 +2,7 @@
   <app-logo></app-logo>
   <div *ngIf="isAuthenticated" class="user">
     <mat-icon>account_circle</mat-icon>
-    <span class="user__name">{{user.firstName}} {{user.lastName}}</span>
+    <span *ngIf="user" class="user__name">{{user.firstName}} {{user.lastName}}</span>
     <button
       mat-icon-button
       matTooltip="Log Off"
@@ -12,17 +12,5 @@
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </div>
-  <div *ngIf="!isAuthenticated" class="user">
-    <button
-      mat-button
-      class="user__login"
-      (click)="login()"
-    >
-      <mat-icon>account_circle</mat-icon>
-      Login
-    </button>
-  </div>
-
 </mat-toolbar>
-<app-breadcrumbs></app-breadcrumbs>
-
+<app-breadcrumbs *ngIf="isAuthenticated"></app-breadcrumbs>
