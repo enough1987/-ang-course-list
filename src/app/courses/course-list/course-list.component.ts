@@ -48,15 +48,13 @@ export class CourseListComponent implements OnChanges, OnInit {
     console.log(`Editing course #${id}`);
   }
 
-  // https://blog.mariusschulz.com/2015/11/13/typing-destructured-object-parameters-in-typescript
-  onDelete({ event, id }: { event: MouseEvent, id: number }) {
+  onDelete(id: number) {
     this.dialogService
       .confirm('Do you really want to delete this course?')
       .subscribe(confirmed => {
         if (confirmed) {
           this.coursesService.deleteCourse(id);
           this.loadCourses();
-          console.log(this);
         }
       });
   }

@@ -3,11 +3,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { HeaderComponent } from './header.component';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../auth/user/user.model';
+import { User, UserPublicInfo } from '../auth/user/user.model';
 
 const authServiceStub = {
   getUser() {
-    return new User(42, 'John', 'Doe');
+    return new UserPublicInfo('jhon@doe.com', 'Jhon', 'Doe');
   }
 };
 

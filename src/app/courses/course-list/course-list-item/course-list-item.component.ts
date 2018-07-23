@@ -19,7 +19,7 @@ export class CourseListItemComponent implements OnInit {
   @Input() isCourseFresh: boolean;
 
   @Output() edit = new EventEmitter<number>();
-  @Output() delete = new EventEmitter<{ event: MouseEvent, id: number }>();
+  @Output() delete = new EventEmitter<number>();
 
   classes: any = {};
 
@@ -36,8 +36,8 @@ export class CourseListItemComponent implements OnInit {
     this.edit.emit(this.course.id);
   }
 
-  onDeleteClick(event: MouseEvent) {
-    this.delete.emit({ event, id: this.course.id });
+  onDeleteClick() {
+    this.delete.emit(this.course.id);
   }
 
 }
