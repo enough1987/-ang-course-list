@@ -8,6 +8,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class AddCourseComponent implements OnInit {
   @Output() setRoute = new EventEmitter<string>();
 
+  title: string;
+  description: string;
+
   constructor() { }
 
   ngOnInit() {

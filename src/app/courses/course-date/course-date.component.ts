@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./course-date.component.sass']
 })
 export class CourseDateComponent implements OnInit {
+  date: string;
 
   constructor() { }
 

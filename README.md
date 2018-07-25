@@ -4,6 +4,8 @@
  - AOT enabled. Build with AOT and serve the build: `npm run prod`
  - CourseListItem is using the OnPush change detection strategy
  - AddCourseComponent and a dummy quasi-routing to make it visible
+ - Separate CourseDateComponent using MatDatepicker with MatNativeDate for now
+ - Separate CourseDurationComponent using the existing DurationPipe
 
 ## Branches
  - Task1. Webpack/Typescript/Angular Intro
