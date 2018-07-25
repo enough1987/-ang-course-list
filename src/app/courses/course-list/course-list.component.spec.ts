@@ -1,9 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { of } from 'rxjs';
+
 import { CourseListComponent } from './course-list.component';
 import { MaterialModule } from '../../material/material.module';
-import { CoursesService } from './../courses.service';
+import { CoursesService } from '../courses.service';
+import { DialogService } from '../../material/dialog/dialog.service';
 import { OrderByPipe } from './order-by.pipe';
 import { SearchPipe } from '../course-search/search.pipe';
 
@@ -32,12 +35,17 @@ describe('CourseListComponent', () => {
     deleteCourse: jasmine.createSpy('deleteCourse'),
   };
 
+  const dialogServiceStub: Partial<DialogService> = {
+    confirm: jasmine.createSpy('confirm').and.returnValue(of(true)),
+  };
+
   const orderByPipeStub = { transform: arr => arr };
   const searchPipeStub = { transform: arr => arr };
 
   describe('Testing a component: providing a stub service', () => {
     let component: CourseListComponent;
     let service: CoursesService;
+    let dialogService: DialogService;
     let orderByPipe;
     let searchPipe;
 
@@ -50,6 +58,7 @@ describe('CourseListComponent', () => {
         imports: [MaterialModule],  // material is used in the template
         providers: [
           { provide: CoursesService, useValue: coursesServiceStub },
+          { provide: DialogService, useValue: dialogServiceStub },
           { provide: OrderByPipe, useValue: orderByPipeStub },
           { provide: SearchPipe, useValue: searchPipeStub },
         ],
@@ -63,10 +72,11 @@ describe('CourseListComponent', () => {
 
       // https://angular.io/guide/testing#get-injected-services
       service = fixture.debugElement.injector.get(CoursesService);
+      dialogService = fixture.debugElement.injector.get(DialogService);
       orderByPipe = fixture.debugElement.injector.get(OrderByPipe);
       searchPipe = fixture.debugElement.injector.get(SearchPipe);
 
-      component = new CourseListComponent(service, orderByPipe, searchPipe);
+      component = new CourseListComponent(service, dialogService, orderByPipe, searchPipe);
     });
 
     it('should instantiate successfully', () => {
@@ -74,6 +84,7 @@ describe('CourseListComponent', () => {
     });
 
     it('should call coursesService.getCourses() method on init', () => {
+      component.ngOnInit();
       expect(service.getCourses).toHaveBeenCalled();
     });
 
@@ -88,10 +99,15 @@ describe('CourseListComponent', () => {
   describe('Testing a component: providing component and stub service', () => {
     let component: CourseListComponent;
     let service: CoursesService;
+    let dialogServiceSpy: jasmine.SpyObj<DialogService>;
 
     beforeEach(async(() => {
       spyOn(coursesServiceStub, 'getCourses');
       spyOn(console, 'log');
+
+      const spy = jasmine.createSpyObj('DialogService', {
+        confirm: of(true),
+      });
 
       TestBed.configureTestingModule({
         declarations: [CourseListComponent],
@@ -99,6 +115,7 @@ describe('CourseListComponent', () => {
         providers: [
           CourseListComponent,
           { provide: CoursesService, useValue: coursesServiceStub },
+          { provide: DialogService, useValue: spy },
           { provide: OrderByPipe, useValue: orderByPipeStub },
           { provide: SearchPipe, useValue: searchPipeStub },
         ],
@@ -110,6 +127,7 @@ describe('CourseListComponent', () => {
     beforeEach(() => {
       component = TestBed.get(CourseListComponent);
       service = TestBed.get(CoursesService);
+      dialogServiceSpy = TestBed.get(DialogService);
     });
 
     afterEach(() => {
@@ -117,6 +135,8 @@ describe('CourseListComponent', () => {
     });
 
     it('should call coursesService.getCourses() method on init', () => {
+      expect(service.getCourses).not.toHaveBeenCalled();
+      component.ngOnInit();
       expect(service.getCourses).toHaveBeenCalled();
     });
 
@@ -130,9 +150,9 @@ describe('CourseListComponent', () => {
         }
       };
 
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
       component.ngOnChanges(simpleChanges);
-      expect(service.getCourses).toHaveBeenCalledTimes(2);
+      expect(service.getCourses).toHaveBeenCalled();
     });
 
     it('should not reload courses on the first change', () => {
@@ -145,9 +165,9 @@ describe('CourseListComponent', () => {
         }
       };
 
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
       component.ngOnChanges(simpleChanges);
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
     });
 
     it('should not reload courses if query did not change', () => {
@@ -160,28 +180,15 @@ describe('CourseListComponent', () => {
         }
       };
 
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
+      expect(service.getCourses).not.toHaveBeenCalled();
       component.ngOnChanges(simpleChanges);
-      expect(service.getCourses).toHaveBeenCalledTimes(1);
-    });
-
-    it('should log to console on delete', () => {
-      component.onDelete({
-        event: mouseEvent,
-        id: 84,
-      });
-
-      expect(console.log).toHaveBeenCalledWith(
-        jasmine.stringMatching('Deleting course #84. Original MouseEvent:'),
-        mouseEvent
-      );
+      expect(service.getCourses).not.toHaveBeenCalled();
     });
 
     it('should call coursesService.deleteCourse() method on delete button click', () => {
-      component.onDelete({
-        event: mouseEvent,
-        id: 84,
-      });
+      dialogServiceSpy.confirm.and.returnValue(of(true));
+
+      component.onDelete(84);
 
       expect(service.deleteCourse).toHaveBeenCalledWith(84);
     });
@@ -190,6 +197,14 @@ describe('CourseListComponent', () => {
       component.onLoadClick(mouseEvent);
 
       expect(console.log).toHaveBeenCalledWith('Loading more courses. MouseEvent: ', mouseEvent);
+    });
+
+    it('should not call coursesService.deleteCourse() method if not confirmed', () => {
+      dialogServiceSpy.confirm.and.returnValue(of(false));
+
+      component.onDelete(84);
+
+      expect(service.deleteCourse).not.toHaveBeenCalled();
     });
   });
 });

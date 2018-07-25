@@ -1,16 +1,16 @@
 <mat-toolbar color="primary">
   <app-logo></app-logo>
-  <div class="user">
+  <div *ngIf="isAuthenticated" class="user">
     <mat-icon>account_circle</mat-icon>
-    <span class="user__name">{{user.firstName}} {{user.lastName}}</span>
+    <span *ngIf="user" class="user__name">{{user.firstName}} {{user.lastName}}</span>
     <button
       mat-icon-button
       matTooltip="Log Off"
       matTooltipPosition="below"
+      (click)="logout()"
     >
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </div>
 </mat-toolbar>
-<app-breadcrumbs></app-breadcrumbs>
-
+<app-breadcrumbs *ngIf="isAuthenticated"></app-breadcrumbs>

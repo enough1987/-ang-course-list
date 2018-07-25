@@ -1,24 +1,28 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Course } from './course-list-item/course.model';
 import { CoursesService } from '../courses.service';
 import { OrderByPipe } from './order-by.pipe';
 import { SearchPipe } from '../course-search/search.pipe';
+import { DialogService } from '../../material/dialog/dialog.service';
 
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
   styleUrls: ['./course-list.component.sass']
 })
-export class CourseListComponent implements OnChanges {
+export class CourseListComponent implements OnChanges, OnInit {
   @Input() query: string;
 
   courses: Course[];
 
   constructor(
     private coursesService: CoursesService,
+    private dialogService: DialogService,
     private orderByPipe: OrderByPipe,
     private searchPipe: SearchPipe,
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.loadCourses();
   }
 
@@ -44,12 +48,15 @@ export class CourseListComponent implements OnChanges {
     console.log(`Editing course #${id}`);
   }
 
-  // https://blog.mariusschulz.com/2015/11/13/typing-destructured-object-parameters-in-typescript
-  onDelete({ event, id }: { event: MouseEvent, id: number }) {
-    console.log(`Deleting course #${id}. Original MouseEvent:`, event);
-
-    this.coursesService.deleteCourse(id);
-    this.loadCourses();
+  onDelete(id: number) {
+    this.dialogService
+      .confirm('Do you really want to delete this course?')
+      .subscribe(confirmed => {
+        if (confirmed) {
+          this.coursesService.deleteCourse(id);
+          this.loadCourses();
+        }
+      });
   }
 
   onLoadClick(e: MouseEvent) {

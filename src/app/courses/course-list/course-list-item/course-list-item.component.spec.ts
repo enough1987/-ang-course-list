@@ -32,20 +32,12 @@ describe('CourseListItemComponent', () => {
       component.onEditClick();
     });
 
-    it('should emit mouse event on Delete click', () => {
-      const component = new CourseListItemComponent();
-      component.course = course;
-
-      component.delete.subscribe(({ event }) => expect(event).toBe(mouseEvent));
-      component.onDeleteClick(mouseEvent);
-    });
-
     it('should emit input course ID on Delete click', () => {
       const component = new CourseListItemComponent();
       component.course = course;
 
-      component.delete.subscribe(({ id }) => expect(id).toBe(course.id));
-      component.onDeleteClick(mouseEvent);
+      component.delete.subscribe((id) => expect(id).toBe(course.id));
+      component.onDeleteClick();
     });
   });
 
@@ -135,17 +127,6 @@ describe('CourseListItemComponent', () => {
       buttonDe.triggerEventHandler('click', null);
     });
 
-    it('should emit mouse event on Delete button click', () => {
-      component.course = course;
-      fixture.detectChanges();
-
-      const courseDe: DebugElement = fixture.debugElement;
-      const buttonDe: DebugElement = courseDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
-
-      component.delete.subscribe(({ event }) => expect(event).toEqual(mouseEvent));
-      buttonDe.triggerEventHandler('click', mouseEvent);
-    });
-
     it('should emit input course ID on Delete button click', () => {
       component.course = course;
       fixture.detectChanges();
@@ -153,7 +134,7 @@ describe('CourseListItemComponent', () => {
       const courseDe: DebugElement = fixture.debugElement;
       const buttonDe: DebugElement = courseDe.query(By.css('[mat-raised-button]:nth-of-type(2)'));
 
-      component.delete.subscribe(({ id }) => expect(id).toBe(course.id));
+      component.delete.subscribe(id => expect(id).toBe(course.id));
       buttonDe.triggerEventHandler('click', null);
     });
   });
@@ -172,7 +153,7 @@ describe('CourseListItemComponent', () => {
     class TestHostComponent {
       course: Course = course;
       onEdit(id: number) { console.log(`onEdit ${id}`); }
-      onDelete({ event, id }: { event: MouseEvent, id: number }) { console.log(`onDelete ${id}`); }
+      onDelete(id: number) { console.log(`onDelete ${id}`); }
     }
 
     let testHost: TestHostComponent;
@@ -233,7 +214,7 @@ describe('CourseListItemComponent', () => {
 
       buttonDe.triggerEventHandler('click', mouseEvent);
 
-      expect(testHost.onDelete).toHaveBeenCalledWith({ event: mouseEvent, id: 42 });
+      expect(testHost.onDelete).toHaveBeenCalledWith(42);
     });
 
     it('should log to console on Edit button click', () => {

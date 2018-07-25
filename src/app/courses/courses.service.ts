@@ -41,17 +41,47 @@ export const initCourses = [
 @Injectable()
 export class CoursesService {
   courses: Course[];
+  nextId: number;
 
   constructor() {
     this.courses = [...initCourses];
+    this.nextId = initCourses.length + 1;
   }
 
   getCourses(): Course[] {
     return this.courses;
   }
 
+  getCourse(id): Course {
+    return this.courses.find(c => c.id === id);
+  }
+
+  createCourse(partial: Partial<Course>) {
+    const { creationDate, title, durationMin, description } = partial; // can't create a top-rated course right away
+    const course = new Course(
+      this.nextId++,
+      creationDate || Date.now(),   // future supported
+      title,
+      durationMin,
+      description,
+    );
+
+    this.courses.push(course);
+  }
+
+  updateCourse(partial: Partial<Course>) {
+    this.courses = this.courses.map(course => {
+      if (course.id === partial.id) {   // supports graphql-like partial update
+        const partialApplied = { ...course, ...partial };
+        const { id, creationDate, title, durationMin, description, topRated } = partialApplied;
+        return new Course(id, creationDate, title, durationMin, description, topRated);
+      }
+      return course;
+    });
+  }
+
   deleteCourse(id) {
-    this.courses = [...this.courses.filter(c => c.id !== id)];
+    this.courses = this.courses.filter(c => c.id !== id);
   }
 
   isCourseUpcoming(course) {
