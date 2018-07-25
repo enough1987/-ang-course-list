@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-courses',
@@ -6,9 +6,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./courses.component.sass']
 })
 export class CoursesComponent {
+  @Output() setRoute = new EventEmitter<string>();
+
   query = '';
 
   onSearch(query) {
     this.query = query;
+  }
+
+  onAddCourse() {
+    this.setRoute.emit('addCourse');
   }
 }

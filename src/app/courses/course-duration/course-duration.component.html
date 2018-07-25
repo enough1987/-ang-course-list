@@ -1,0 +1,12 @@
+<div>
+  <mat-form-field>
+    <input
+      matInput
+      type="number"
+      min="0"
+      placeholder="Duration (minutes)"
+      [(ngModel)]="durationMin"
+    />
+  </mat-form-field>
+  <span class="duration">{{durationMin | duration}}</span>
+</div>

@@ -1,6 +1,6 @@
 <section class="search">
   <app-course-search (search)="onSearch($event)"></app-course-search>
-  <app-course-add-button></app-course-add-button>
+  <app-course-add-button (click)="onAddCourse($event)"></app-course-add-button>
 </section>
 
 <app-course-list [query]="query"></app-course-list>
