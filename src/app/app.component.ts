@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean;
+  route = 'courses';
 
   private sub: Subscription;
 
@@ -21,5 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  setRoute(route) {
+    this.route = route;
   }
 }

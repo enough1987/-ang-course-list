@@ -1,9 +1,9 @@
 # Angular Mentoring
 
-## Task 5. Change detection
+## Task 6. Change detection
  - AOT enabled. Build with AOT and serve the build: `npm run prod`
  - CourseListItem is using the OnPush change detection strategy
- - 
+ - AddCourseComponent and a dummy quasi-routing to make it visible
 
 ## Branches
  - Task1. Webpack/Typescript/Angular Intro
