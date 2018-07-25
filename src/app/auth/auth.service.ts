@@ -33,9 +33,9 @@ export class AuthService {
 
   isUserAuthenticated(): boolean {
     const user = this.localStorageService.getItem('user');
-    if (user && user.name) {
+    if (user && user.id) {
       const session = this.localStorageService.getItem('session');
-      return !!(session && session[user.name]);
+      return !!(session && session.userId === user.id);
     }
   }
 

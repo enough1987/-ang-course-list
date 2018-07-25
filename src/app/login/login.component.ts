@@ -7,9 +7,13 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent {
+  public email: string;
+  public password: string;
+
   constructor(private authService: AuthService) {}
 
-  onLoginClick() {
+  onSubmit(e: Event) {
+    e.preventDefault();
     this.authService.login();
   }
 }

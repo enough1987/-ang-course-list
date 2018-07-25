@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
-import { User } from './user/user.model';
+import { User, UserPublicInfo } from './user/user.model';
 import { LocalStorageService } from '../core/services';
 
 describe('AuthService', () => {
@@ -10,9 +10,9 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('LocalStorageService', {
-      getItem: () => new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe'),
-      setItem: () => {},
-      removeItem: () => {},
+      getItem: new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe'),
+      setItem: null,
+      removeItem: null,
     });
 
     TestBed.configureTestingModule({
@@ -35,8 +35,7 @@ describe('AuthService', () => {
   });
 
   it('should retrieve user info', () => {
-    service.getUserInfo();
-    expect(service.getUserInfo()).toEqual(new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe'));
+    expect(service.getUserInfo()).toEqual(new UserPublicInfo('jhon@doe.com', 'Jhon', 'Doe'));
   });
 
   it('should get user info from localStorage', () => {
@@ -46,8 +45,7 @@ describe('AuthService', () => {
 
   it('should return null if user is not stored in localStorage', () => {
     localStorageServiceSpy.getItem.and.returnValue(null);
-    service.getUserInfo();
-    expect(service.getUserInfo()).toEqual(new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe'));
+    expect(service.getUserInfo()).toBeNull();
   });
 
   it('should return undefined on session check if user data is not found', () => {
@@ -57,7 +55,7 @@ describe('AuthService', () => {
 
   it('should set localStorage user and session on login', () => {
     service.login();
-    expect(localStorageServiceSpy.getItem).toHaveBeenCalledTimes(2);
+    expect(localStorageServiceSpy.setItem).toHaveBeenCalledTimes(2);
   });
 
   it('should remove localStorage user and session on login', () => {

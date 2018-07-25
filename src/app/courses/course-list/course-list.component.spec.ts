@@ -106,7 +106,7 @@ describe('CourseListComponent', () => {
       spyOn(console, 'log');
 
       const spy = jasmine.createSpyObj('DialogService', {
-        confirm: () => {},
+        confirm: of(true),
       });
 
       TestBed.configureTestingModule({

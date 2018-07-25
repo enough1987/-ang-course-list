@@ -13,7 +13,6 @@ export class DialogService {
   public confirm(message: string): Observable<boolean> {
 
     let dialogRef: MatDialogRef<ConfirmDialogComponent>;
-
     dialogRef = this.dialog.open(ConfirmDialogComponent);
     dialogRef.componentInstance.message = message;
 
