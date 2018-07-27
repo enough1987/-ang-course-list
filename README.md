@@ -1,11 +1,6 @@
 # Angular Mentoring
 
-## Task 6. Change detection
- - AOT enabled. Build with AOT and serve the build: `npm run prod`
- - CourseListItem is using the OnPush change detection strategy
- - AddCourseComponent and a dummy quasi-routing to make it visible
- - Separate CourseDateComponent using MatDatepicker with MatNativeDate for now
- - Separate CourseDurationComponent using the existing DurationPipe
+## Task 7. Routing
 
 ## Branches
  - Task1. Webpack/Typescript/Angular Intro
@@ -14,6 +9,7 @@
  - Task4. Directives + Pipes
  - Task5. Modules & Services
  - Task6. Change detection
+ - Task7. Routing
 
 ## Run Development Server
 ```
