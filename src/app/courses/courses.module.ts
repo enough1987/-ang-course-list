@@ -43,7 +43,6 @@ import { CourseDurationComponent } from './course-duration/course-duration.compo
     CoursesService,
     OrderByPipe,
     SearchPipe,
-    // DurationPipe,
   ],
   exports: [
     CoursesComponent,

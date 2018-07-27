@@ -1,12 +1,8 @@
 <div class="app__container">
   <app-header></app-header>
 
-  <main *ngIf="isAuthenticated" class="app__main">
-    <app-courses *ngIf="route === 'courses'" (setRoute)="setRoute($event)"></app-courses>
-    <app-add-course *ngIf="route === 'addCourse'" (setRoute)="setRoute($event)"></app-add-course>
-  </main>
-  <main *ngIf="!isAuthenticated" class="app__main app__main_center">
-    <app-login></app-login>
+  <main class="app__main" [ngClass]="routeSpecificClass">
+    <router-outlet></router-outlet>
   </main>
 
   <app-footer></app-footer>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { User, UserPublicInfo } from './user/user.model';
 import { Session } from './session/session.model';
 import { LocalStorageService } from '../core/services/local-storage.service';
@@ -10,7 +11,10 @@ export class AuthService {
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(this.isUserAuthenticated());
   public userInfo: BehaviorSubject<UserPublicInfo> = new BehaviorSubject(this.getUserInfo());
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    private router: Router,
+  ) {}
 
   login() {
     const user = new User(123, 'john@doe.com', 'password', 'John', 'Doe');
@@ -21,6 +25,8 @@ export class AuthService {
 
     this.isAuthenticated.next(true);
     this.userInfo.next(user);
+
+    this.router.navigateByUrl('/courses');
   }
 
   logout() {
@@ -29,6 +35,8 @@ export class AuthService {
 
     this.isAuthenticated.next(false);
     this.userInfo.next(null);
+
+    this.router.navigateByUrl('/login');
   }
 
   isUserAuthenticated(): boolean {

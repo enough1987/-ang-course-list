@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-course',
@@ -6,12 +7,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./add-course.component.sass']
 })
 export class AddCourseComponent implements OnInit {
-  @Output() setRoute = new EventEmitter<string>();
-
   title: string;
   description: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -20,7 +19,7 @@ export class AddCourseComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.setRoute.emit('courses');
+    this.router.navigateByUrl('/courses');
   }
 
 }

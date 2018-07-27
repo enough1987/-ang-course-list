@@ -1,4 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-courses',
@@ -10,11 +12,13 @@ export class CoursesComponent {
 
   query = '';
 
+  constructor(private router: Router) {}
+
   onSearch(query) {
     this.query = query;
   }
 
   onAddCourse() {
-    this.setRoute.emit('addCourse');
+    this.router.navigateByUrl('/courses/add');
   }
 }
