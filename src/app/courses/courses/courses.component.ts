@@ -19,6 +19,6 @@ export class CoursesComponent {
   }
 
   onAddCourse() {
-    this.router.navigateByUrl('/courses/add');
+    this.router.navigateByUrl('/courses/new');
   }
 }

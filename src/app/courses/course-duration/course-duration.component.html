@@ -6,6 +6,7 @@
       min="0"
       placeholder="Duration [minutes]"
       [(ngModel)]="durationMin"
+      (change)="onChange()"
     />
   </mat-form-field>
   <span class="duration">{{durationMin | duration}}</span>

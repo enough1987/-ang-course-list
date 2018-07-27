@@ -1,7 +1,12 @@
 <mat-toolbar color="accent">
   <mat-icon class="breadcrumbs__icon" color="primary">home</mat-icon>
   <span *ngFor="let crumb of breadCrumbs; let last = last">
-    <button mat-button>{{crumb}}</button>
+    <span *ngIf="crumb.path; else elseBlock">
+      <button mat-button (click)="go(crumb.path)">{{crumb.text}}</button>
+    </span>
+    <ng-template #elseBlock>
+      <span class="mat-button inactive">{{crumb.text}}</span>
+    </ng-template>
     <mat-icon *ngIf="!last" class="breadcrumbs__icon" color="primary">keyboard_arrow_right</mat-icon>
   </span>
 </mat-toolbar>

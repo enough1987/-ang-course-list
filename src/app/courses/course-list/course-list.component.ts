@@ -1,4 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Course } from './course-list-item/course.model';
 import { CoursesService } from '../courses.service';
 import { OrderByPipe } from './order-by.pipe';
@@ -20,6 +22,7 @@ export class CourseListComponent implements OnChanges, OnInit {
     private dialogService: DialogService,
     private orderByPipe: OrderByPipe,
     private searchPipe: SearchPipe,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -45,7 +48,7 @@ export class CourseListComponent implements OnChanges, OnInit {
   }
 
   onEdit(id: number) {
-    console.log(`Editing course #${id}`);
+    this.router.navigateByUrl(`/courses/${id}`);
   }
 
   onDelete(id: number) {

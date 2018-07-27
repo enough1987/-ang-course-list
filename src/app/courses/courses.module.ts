@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
 import { CoursesComponent } from './courses/courses.component';
@@ -15,6 +16,7 @@ import { HighlightDirective } from './course-list/course-list-item/highlight.dir
 import { CoursesListNoDataComponent } from './course-list/courses-list-no-data/courses-list-no-data.component';
 import { CourseAddButtonComponent } from './course-add-button/course-add-button.component';
 import { AddCourseComponent } from './add-course/add-course.component';
+import { EditCourseComponent } from './edit-course/edit-course.component';
 import { CourseDateComponent } from './course-date/course-date.component';
 import { CourseDurationComponent } from './course-duration/course-duration.component';
 
@@ -23,6 +25,7 @@ import { CourseDurationComponent } from './course-duration/course-duration.compo
     CommonModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     CoursesComponent,
@@ -36,6 +39,7 @@ import { CourseDurationComponent } from './course-duration/course-duration.compo
     CoursesListNoDataComponent,
     CourseAddButtonComponent,
     AddCourseComponent,
+    EditCourseComponent,
     CourseDateComponent,
     CourseDurationComponent,
   ],
@@ -47,6 +51,7 @@ import { CourseDurationComponent } from './course-duration/course-duration.compo
   exports: [
     CoursesComponent,
     AddCourseComponent,
+    EditCourseComponent,
   ],
 })
 export class CoursesModule {}

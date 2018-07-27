@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-course-date',
@@ -6,11 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./course-date.component.sass']
 })
 export class CourseDateComponent implements OnInit {
-  date: string;
+  @Input() creationDate: number;
+  @Output() dateChange = new EventEmitter<number>();
+
+  date: FormControl;
+  startDate: Date;
 
   constructor() { }
 
   ngOnInit() {
+    console.log(this.creationDate);
+    this.startDate = new Date(this.creationDate);
+    this.date = new FormControl(new Date(this.creationDate));
+
+  }
+
+  onDateChange() {
+    // console.log(this.date.value.getTime());
+    this.dateChange.emit(this.date.value.getTime());
   }
 
 }

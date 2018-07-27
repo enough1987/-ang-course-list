@@ -4,7 +4,7 @@
       <input
         matInput
         placeholder="Title"
-        [(ngModel)]="title"
+        [(ngModel)]="course.title"
         name="title"
       />
     </mat-form-field>
@@ -14,13 +14,19 @@
       <textarea
         matInput
         placeholder="Description"
-        [(ngModel)]="description"
+        [(ngModel)]="course.description"
         name="description"
       ></textarea>
     </mat-form-field>
   </div>
-  <app-course-date></app-course-date>
-  <app-course-duration></app-course-duration>
+  <app-course-date
+    [creationDate]="course.creationDate"
+    (dateChange)="onDateChange($event)"
+  ></app-course-date>
+  <app-course-duration
+    [durationMin]="course.durationMin"
+    (durationChange)="onDurationChange($event)"
+  ></app-course-duration>
   <button
     mat-raised-button
     color="primary"
