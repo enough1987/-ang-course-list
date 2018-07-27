@@ -14,6 +14,9 @@ import { SearchPipe } from './course-search/search.pipe';
 import { HighlightDirective } from './course-list/course-list-item/highlight.directive';
 import { CoursesListNoDataComponent } from './course-list/courses-list-no-data/courses-list-no-data.component';
 import { CourseAddButtonComponent } from './course-add-button/course-add-button.component';
+import { AddCourseComponent } from './add-course/add-course.component';
+import { CourseDateComponent } from './course-date/course-date.component';
+import { CourseDurationComponent } from './course-duration/course-duration.component';
 
 @NgModule({
   imports: [
@@ -32,12 +35,19 @@ import { CourseAddButtonComponent } from './course-add-button/course-add-button.
     HighlightDirective,
     CoursesListNoDataComponent,
     CourseAddButtonComponent,
+    AddCourseComponent,
+    CourseDateComponent,
+    CourseDurationComponent,
   ],
   providers: [
     CoursesService,
     OrderByPipe,
     SearchPipe,
+    // DurationPipe,
   ],
-  exports: [CoursesComponent],
+  exports: [
+    CoursesComponent,
+    AddCourseComponent,
+  ],
 })
 export class CoursesModule {}

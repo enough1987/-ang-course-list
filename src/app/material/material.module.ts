@@ -12,7 +12,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatDialogModule,
-  MatDialog,
+  MatDatepickerModule,
+  MatNativeDateModule,
 } from '@angular/material';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
 import { DialogService } from './dialog/dialog.service';
@@ -31,6 +32,8 @@ import { DialogService } from './dialog/dialog.service';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -45,6 +48,8 @@ import { DialogService } from './dialog/dialog.service';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     ConfirmDialogComponent,
   ],
   declarations: [ConfirmDialogComponent],
