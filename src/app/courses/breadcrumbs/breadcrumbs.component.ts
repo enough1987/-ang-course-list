@@ -55,7 +55,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     const crumbs: breadCrumbsType =
       urlArr.length === 1
         ? [{ text: 'Courses' }]
-        : [{ text: 'Courses', path: '/course' }];
+        : [{ text: 'Courses', path: '/courses' }];
 
     if (urlArr.length === 1) {
       return crumbs;

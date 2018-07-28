@@ -26,11 +26,8 @@ export class EditCourseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      console.log(params);
       this.course = this.coursesService.getCourse(+params.id);
     });
-
-    console.log('was', this.course.creationDate);
   }
 
   ngOnDestroy() {
@@ -43,10 +40,11 @@ export class EditCourseComponent implements OnInit, OnDestroy {
 
   onDateChange(dateUnixMsecs: number) {  // Unix epoch, msecs
     this.course.creationDate = dateUnixMsecs;
-    console.log('now', this.course.creationDate);
   }
 
   onSaveClick() {
+    this.coursesService.updateCourse(this.course);
+    this.router.navigateByUrl('/courses');
   }
 
   onCancelClick() {

@@ -1,3 +1,4 @@
+<app-breadcrumbs></app-breadcrumbs>
 <div class="add-course">
   <div>
     <mat-form-field>
@@ -6,6 +7,7 @@
         placeholder="Title"
         [(ngModel)]="course.title"
         name="title"
+        required
       />
     </mat-form-field>
   </div>
@@ -16,6 +18,7 @@
         placeholder="Description"
         [(ngModel)]="course.description"
         name="description"
+        required
       ></textarea>
     </mat-form-field>
   </div>
@@ -30,6 +33,7 @@
   <button
     mat-raised-button
     color="primary"
+    (click)="onSaveClick()"
   >
     Save
   </button>
@@ -42,4 +46,3 @@
     Cancel
   </button>
 </div>
-{{ course | json }}

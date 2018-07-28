@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from './material/material.module';
-import { CoursesModule } from './courses/courses.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -13,8 +13,8 @@ import { AppComponent } from './app.component';
 import { LogoComponent } from './logo/logo.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { BreadcrumbsComponent } from './header/breadcrumbs/breadcrumbs.component';
 import { LoginComponent } from './login/login.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 import { Router } from '@angular/router';
 
@@ -24,16 +24,16 @@ import { Router } from '@angular/router';
     LogoComponent,
     HeaderComponent,
     FooterComponent,
-    BreadcrumbsComponent,
-    LoginComponent
+    LoginComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     MaterialModule,
     CoreModule,
     SharedModule,
-    CoursesModule,
     AuthModule,
     AppRoutingModule,
   ],

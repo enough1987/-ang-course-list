@@ -19,6 +19,9 @@ import { AddCourseComponent } from './add-course/add-course.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { CourseDateComponent } from './course-date/course-date.component';
 import { CourseDurationComponent } from './course-duration/course-duration.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+
+import { CoursesRoutingModule, coursesRouterComponents } from './courses.routing.module';
 
 @NgModule({
   imports: [
@@ -26,9 +29,10 @@ import { CourseDurationComponent } from './course-duration/course-duration.compo
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    CoursesRoutingModule,
   ],
   declarations: [
-    CoursesComponent,
+    // CoursesComponent,  // ?
     CourseListComponent,
     CourseSearchComponent,
     CourseListItemComponent,
@@ -38,10 +42,12 @@ import { CourseDurationComponent } from './course-duration/course-duration.compo
     HighlightDirective,
     CoursesListNoDataComponent,
     CourseAddButtonComponent,
-    AddCourseComponent,
-    EditCourseComponent,
+    // AddCourseComponent, // ?
+    // EditCourseComponent, // ?
     CourseDateComponent,
     CourseDurationComponent,
+    BreadcrumbsComponent,
+    coursesRouterComponents
   ],
   providers: [
     CoursesService,
@@ -49,9 +55,9 @@ import { CourseDurationComponent } from './course-duration/course-duration.compo
     SearchPipe,
   ],
   exports: [
-    CoursesComponent,
-    AddCourseComponent,
-    EditCourseComponent,
+    // CoursesComponent,  // no need to export anymore?
+    // AddCourseComponent,  // no need to export anymore?
+    // EditCourseComponent,  // no need to export anymore?
   ],
 })
 export class CoursesModule {}

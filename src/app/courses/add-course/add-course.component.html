@@ -1,11 +1,13 @@
+<app-breadcrumbs></app-breadcrumbs>
 <div class="add-course">
   <div>
     <mat-form-field>
       <input
         matInput
         placeholder="Title"
-        [(ngModel)]="title"
+        [(ngModel)]="course.title"
         name="title"
+        required
       />
     </mat-form-field>
   </div>
@@ -14,16 +16,26 @@
       <textarea
         matInput
         placeholder="Description"
-        [(ngModel)]="description"
+        [(ngModel)]="course.description"
         name="description"
+        required
       ></textarea>
     </mat-form-field>
   </div>
-  <app-course-date></app-course-date>
-  <app-course-duration></app-course-duration>
+  <app-course-date
+    [creationDate]="course.creationDate"
+    (dateChange)="onDateChange($event)"
+  ></app-course-date>
+  <app-course-duration
+    [durationMin]="course.durationMin"
+    (durationChange)="onDurationChange($event)"
+  ></app-course-duration>
   <button
+    type="button"
     mat-raised-button
     color="primary"
+    (click)="onSaveClick()"
+    [disabled]="isSubmitting"
   >
     Save
   </button>
@@ -36,4 +48,3 @@
     Cancel
   </button>
 </div>
-{{ course | json }}

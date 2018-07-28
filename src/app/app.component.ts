@@ -2,7 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
 
+import { registerLocaleData } from '@angular/common';
+import localeUk from '@angular/common/locales/uk';
+
 import { Subscription } from 'rxjs';
+
+registerLocaleData(localeUk);
 
 @Component({
   selector: 'app-root',
@@ -34,11 +39,12 @@ export class AppComponent implements OnInit, OnDestroy {
     if (routerEvent instanceof NavigationEnd) {
       const routeClassMap = {
         '/login': 'app__main_center',
+        '/not-found': 'app__main_center',
       };
 
-      console.log('url', routerEvent.url, 'setting class to', routeClassMap[routerEvent.url]);
+      console.log('url', routerEvent.url, 'setting class to', routeClassMap[routerEvent.urlAfterRedirects]);
 
-      this.routeSpecificClass = routeClassMap[routerEvent.url];
+      this.routeSpecificClass = routeClassMap[routerEvent.urlAfterRedirects];
     }
   }
 }
