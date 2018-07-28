@@ -57,7 +57,6 @@ export class CoursesService {
   }
 
   createCourse(partial: Partial<Course>) {
-    console.log('partial', partial);
     const { creationDate, title, durationMin, description } = partial; // can't create a top-rated course right away
     const course = new Course(
       this.nextId++,
@@ -68,7 +67,6 @@ export class CoursesService {
     );
 
     this.courses.push(course);
-    console.log('courses???', this.courses);
   }
 
   updateCourse(partial: Partial<Course>) {

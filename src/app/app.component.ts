@@ -42,8 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
         '/not-found': 'app__main_center',
       };
 
-      console.log('url', routerEvent.url, 'setting class to', routeClassMap[routerEvent.urlAfterRedirects]);
-
       this.routeSpecificClass = routeClassMap[routerEvent.urlAfterRedirects];
     }
   }
