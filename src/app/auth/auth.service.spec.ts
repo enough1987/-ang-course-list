@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { User, UserPublicInfo } from './user/user.model';
 import { LocalStorageService } from '../core/services';
+
+import { RouterStub } from '../testing/router-stubs';
 
 describe('AuthService', () => {
   // https://angular.io/guide/testing#angular-testbed
   let service: AuthService;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
+  let router: Router;
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('LocalStorageService', {
@@ -18,12 +22,14 @@ describe('AuthService', () => {
     TestBed.configureTestingModule({
       providers: [
         AuthService,
-        { provide: LocalStorageService, useValue: spy }
-      ]
+        { provide: LocalStorageService, useValue: spy },
+        { provide: Router, useClass: RouterStub },
+      ],
     });
 
     service = TestBed.get(AuthService);
     localStorageServiceSpy = TestBed.get(LocalStorageService);
+    router = TestBed.get(Router);
   });
 
   it('should be created', () => {
@@ -61,6 +67,12 @@ describe('AuthService', () => {
   it('should remove localStorage user and session on login', () => {
     service.logout();
     expect(localStorageServiceSpy.removeItem).toHaveBeenCalledTimes(2);
+  });
+
+  it('should to courses on login', () => {
+    spyOn(router, 'navigateByUrl');
+    service.login();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
   });
 
 });

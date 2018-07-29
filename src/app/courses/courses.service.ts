@@ -53,7 +53,8 @@ export class CoursesService {
   }
 
   getCourse(id): Course {
-    return { ...this.courses.find(c => c.id === id) }; // keep it pure
+    const { creationDate, title, durationMin, description, topRated } = this.courses.find(c => c.id === id);
+    return new Course(id, creationDate, title, durationMin, description, topRated);  // keep it pure but typed
   }
 
   createCourse(partial: Partial<Course>) {

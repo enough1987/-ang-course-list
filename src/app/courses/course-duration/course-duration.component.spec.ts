@@ -37,8 +37,8 @@ describe('CourseDurationComponent', () => {
 
   it('should emit on change', () => {
     component.durationMin = 123;
-    spyOn(component, 'durationChange');
+    spyOn(component.durationChange, 'emit');
     component.onChange();
-    expect(component.durationChange).toHaveBeenCalledWith(123);
+    expect(component.durationChange.emit).toHaveBeenCalledWith(123);
   });
 });

@@ -26,6 +26,8 @@ describe('CourseModel', () => {
       42,
       1530287255,
       'the Ultimate Course',
+      0,
+      'description'
     );
 
     expect({ ...course }).toEqual({
@@ -33,7 +35,7 @@ describe('CourseModel', () => {
       creationDate: 1530287255,
       title: 'the Ultimate Course',
       durationMin: 0,
-      description: '',
+      description: 'description',
       topRated: false,
     });
   });

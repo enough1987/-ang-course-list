@@ -94,9 +94,10 @@ describe('CourseListComponent', () => {
     });
 
     it('should log to console on edit', () => {
+      spyOn(router, 'navigateByUrl');
       component.onEdit(42);
 
-      expect(console.log).toHaveBeenCalledWith('Editing course #42');
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/courses/42');
     });
   });
 

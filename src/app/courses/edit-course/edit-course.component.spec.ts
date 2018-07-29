@@ -68,6 +68,12 @@ describe('EditCourseComponent', () => {
     expect(component.sub.unsubscribe).toHaveBeenCalled();
   });
 
+  it('should retrieve the course data on init', () => {
+    spyOn(service, 'getCourse').and.callThrough();
+    component.ngOnInit();
+    expect(component.course).toEqual(new Course(42, 1530287255000, 'title', 100, 'description'));
+  });
+
   it('should receive course duration', () => {
     component.course = service.getCourse(42);
     component.onDurationChange(123);

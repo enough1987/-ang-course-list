@@ -14,7 +14,7 @@ export class Course extends NewCourse implements CourseInterface {
   public id: number;
   public topRated?: boolean;
 
-  constructor(id, creationDate, title, durationMin?, description?, topRated?) {
+  constructor(id, creationDate, title, durationMin, description, topRated?) {
     super(creationDate, title, durationMin, description);
     this.id = id;
     this.topRated = topRated || false;

@@ -15,7 +15,7 @@ type breadCrumbsType = { text: string, path?: string }[];
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
   breadCrumbs: breadCrumbsType;
 
-  private sub: Subscription;
+  public sub: Subscription;
 
   constructor(
     private coursesService: CoursesService,
@@ -67,6 +67,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
       const id = +urlArr[1];
       return [...crumbs, { text: this.coursesService.getCourse(id).title }];
     }
+    return crumbs;
   }
 
   go(path) {
