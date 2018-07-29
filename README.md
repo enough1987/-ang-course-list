@@ -16,6 +16,7 @@
 - On cancel EditCourseComponent redirects to /courses, without the changes being applied
 - BreadcrumbsComponent watches the router events, building the breadcrumbs accordingly
 - AppComponents watches the router events applying router-specific top-level styles
+- Router stubs used for testing
 
 Coverage
 ```
