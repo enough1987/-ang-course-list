@@ -1,33 +1,76 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { AddCourseComponent } from './add-course.component';
 import { MaterialModule } from '../../material/material.module';
-import { FormsModule } from '@angular/forms';
+import { CoursesService } from '../courses.service';
 
-describe('AddCourseComponent', () => {
+import { RouterStub, ActivatedRouteStub } from '../../testing/router-stubs';
+
+describe('EditCourseComponent', () => {
+  const coursesServiceStub: Partial<CoursesService> = {
+    createCourse() {},
+  };
+
   let component: AddCourseComponent;
-  let fixture: ComponentFixture<AddCourseComponent>;
+  let service: CoursesService;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddCourseComponent],
       imports: [
-        MaterialModule,   // material is used in the template
-        FormsModule,      // ngModel is used in the template
+        FormsModule,
+        MaterialModule,
       ],
-      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        AddCourseComponent,
+        { provide: CoursesService, useValue: coursesServiceStub },
+        { provide: Router, useClass: RouterStub },
+        { provide: ActivatedRoute, useClass: ActivatedRouteStub },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddCourseComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = TestBed.get(AddCourseComponent);
+    service = TestBed.get(CoursesService);
+    router = TestBed.get(Router);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should instantiate successfully', () => {
+    expect(component).toBeDefined();
+  });
+
+  it('should receive course duration', () => {
+    component.onDurationChange(123);
+    expect(component.course.durationMin).toBe(123);
+  });
+
+  it('should receive course creation date', () => {
+    component.onDateChange(1234567890);
+    expect(component.course.creationDate).toBe(1234567890);
+  });
+
+  it('should create course on save', () => {
+    spyOn(service, 'createCourse');
+    component.onSaveClick();
+    expect(service.createCourse).toHaveBeenCalled();
+  });
+
+  it('should navigate away on save', () => {
+    spyOn(router, 'navigateByUrl');
+    component.onSaveClick();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
+  });
+
+  it('should navigate away on cancel', () => {
+    spyOn(router, 'navigateByUrl');
+    component.onCancelClick();
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
   });
 });

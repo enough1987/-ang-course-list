@@ -16,13 +16,13 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   title: string;
   description: string;
 
-  private sub: Subscription;
+  public sub: Subscription;
 
   constructor(
     private coursesService: CoursesService,
     private router: Router,
     private route: ActivatedRoute,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {

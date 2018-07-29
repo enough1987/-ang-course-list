@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CourseDurationComponent } from './course-duration.component';
 import { MaterialModule } from '../../material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { DurationPipe } from '../course-list/course-list-item/duration.pipe';
 
@@ -16,8 +17,9 @@ describe('CourseDurationComponent', () => {
         DurationPipe,
       ],
       imports: [
-        MaterialModule,   // material is used in the template
-        FormsModule,      // ngModel is used in the template
+        MaterialModule,           // material is used in the template
+        BrowserAnimationsModule,  // required by material
+        FormsModule,              // ngModel is used in the template
       ],
     })
     .compileComponents();
@@ -31,5 +33,12 @@ describe('CourseDurationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit on change', () => {
+    component.durationMin = 123;
+    spyOn(component, 'durationChange');
+    component.onChange();
+    expect(component.durationChange).toHaveBeenCalledWith(123);
   });
 });

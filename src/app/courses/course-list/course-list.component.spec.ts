@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
@@ -11,6 +12,7 @@ import { OrderByPipe } from './order-by.pipe';
 import { SearchPipe } from '../course-search/search.pipe';
 
 import mouseEvent from '../../testing/mouse-event.stub';
+import { RouterStub } from '../../testing/router-stubs';
 
 describe('CourseListComponent', () => {
   let fixture: ComponentFixture<CourseListComponent>;
@@ -48,6 +50,7 @@ describe('CourseListComponent', () => {
     let dialogService: DialogService;
     let orderByPipe;
     let searchPipe;
+    let router;
 
     beforeEach(async(() => {
       spyOn(coursesServiceStub, 'getCourses');
@@ -61,6 +64,7 @@ describe('CourseListComponent', () => {
           { provide: DialogService, useValue: dialogServiceStub },
           { provide: OrderByPipe, useValue: orderByPipeStub },
           { provide: SearchPipe, useValue: searchPipeStub },
+          { provide: Router, useClass: RouterStub },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
@@ -75,8 +79,9 @@ describe('CourseListComponent', () => {
       dialogService = fixture.debugElement.injector.get(DialogService);
       orderByPipe = fixture.debugElement.injector.get(OrderByPipe);
       searchPipe = fixture.debugElement.injector.get(SearchPipe);
+      router = fixture.debugElement.injector.get(Router);
 
-      component = new CourseListComponent(service, dialogService, orderByPipe, searchPipe);
+      component = new CourseListComponent(service, dialogService, orderByPipe, searchPipe, router);
     });
 
     it('should instantiate successfully', () => {
@@ -118,6 +123,7 @@ describe('CourseListComponent', () => {
           { provide: DialogService, useValue: spy },
           { provide: OrderByPipe, useValue: orderByPipeStub },
           { provide: SearchPipe, useValue: searchPipeStub },
+          { provide: Router, useClass: RouterStub },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })

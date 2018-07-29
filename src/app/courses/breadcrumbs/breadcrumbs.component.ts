@@ -3,7 +3,7 @@ import { Router, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { CoursesService } from '../../courses/courses.service';
+import { CoursesService } from '../courses.service';
 
 type breadCrumbsType = { text: string, path?: string }[];
 

@@ -50,8 +50,9 @@ describe('HeaderComponent', () => {
   });
 
   it('should subscribe on init', () => {
+    expect(component.sub).toBeFalsy();
     component.ngOnInit();
-
+    expect(component.sub).toBeTruthy();
   });
 
   it('should unsubscribe on destroy', () => {
@@ -60,5 +61,7 @@ describe('HeaderComponent', () => {
     });
 
     component.ngOnDestroy();
+
+    expect(component.sub.unsubscribe).toHaveBeenCalled();
   });
 });
