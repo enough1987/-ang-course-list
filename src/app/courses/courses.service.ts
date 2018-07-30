@@ -67,7 +67,7 @@ export class CoursesService {
       description,
     );
 
-    this.courses.push(course);
+    this.courses = [...this.courses , course];
   }
 
   updateCourse(partial: Partial<Course>) {
@@ -85,11 +85,11 @@ export class CoursesService {
     this.courses = this.courses.filter(c => c.id !== id);
   }
 
-  isCourseUpcoming(course) {
+  isCourseUpcoming(course): boolean {
     return course.creationDate > Date.now();
   }
 
-  isCourseFresh(course) {
+  isCourseFresh(course): boolean {
     return course.creationDate < Date.now() && course.creationDate >= Date.now() - 14 * dayms;
   }
 
