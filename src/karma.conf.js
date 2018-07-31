@@ -23,9 +23,19 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+    browsers: ['HeadlessChrome'],
+    customLaunchers:{
+      HeadlessChrome:{
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
+    singleRun: false,
+    captureTimeout: 60000,
+    browserDisconnectTimeout : 10000,
+    browserDisconnectTolerance : 4,
+    browserNoActivityTimeout : 60000,
   });
 };
