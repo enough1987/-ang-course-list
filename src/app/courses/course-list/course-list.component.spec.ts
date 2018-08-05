@@ -13,6 +13,7 @@ import { SearchPipe } from '../course-search/search.pipe';
 
 import mouseEvent from '../../testing/mouse-event.stub';
 import { RouterStub } from '../../testing/router-stubs';
+import { appRoutingPaths } from '../../app.routing.paths';
 
 describe('CourseListComponent', () => {
   let fixture: ComponentFixture<CourseListComponent>;
@@ -97,7 +98,7 @@ describe('CourseListComponent', () => {
       spyOn(router, 'navigateByUrl');
       component.onEdit(42);
 
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/courses/42');
+      expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}/42`);
     });
   });
 

@@ -81,8 +81,8 @@ describe('OrderByPipe', () => {
   it('should sort by boolean descending', () => {
     expect(pipe.transform(courses, 'topRated', 'desc')).toEqual([
       { id: 3, creationDate: 333, title: 'A', durationMin: 300, description: 'AAA', topRated: true },
-      { id: 2, creationDate: 222, title: 'B', durationMin: 100, description: 'BBB', topRated: false },
       { id: 1, creationDate: 111, title: 'C', durationMin: 200, description: 'CCC', topRated: false },
+      { id: 2, creationDate: 222, title: 'B', durationMin: 100, description: 'BBB', topRated: false },
     ]);
   });
 

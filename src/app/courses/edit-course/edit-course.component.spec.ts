@@ -3,13 +3,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { Subscription } from 'rxjs';
+
 import { EditCourseComponent } from './edit-course.component';
 import { MaterialModule } from '../../material/material.module';
 import { CoursesService } from '../courses.service';
 import { Course } from '../course-list/course-list-item/course.model';
 
 import { RouterStub, ActivatedRouteStub } from '../../testing/router-stubs';
-import { Subscription } from 'rxjs';
+import { appRoutingPaths } from '../../app.routing.paths';
 
 describe('EditCourseComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
@@ -95,12 +97,12 @@ describe('EditCourseComponent', () => {
   it('should navigate away on save', () => {
     spyOn(router, 'navigateByUrl');
     component.onSaveClick();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
   });
 
   it('should navigate away on cancel', () => {
     spyOn(router, 'navigateByUrl');
     component.onCancelClick();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
   });
 });

@@ -7,6 +7,8 @@ import { CoursesService } from '../courses.service';
 import { Course } from '../course-list/course-list-item/course.model';
 
 import { RouterStub } from '../../testing/router-stubs';
+import { appRoutingPaths } from '../../app.routing.paths';
+import { coursesRoutingPaths } from '../courses.routing.paths';
 
 
 describe('BreadcrumbsComponent', () => {
@@ -44,7 +46,7 @@ describe('BreadcrumbsComponent', () => {
   });
 
   it('should init breadcrumbs based on the current router url on init', () => {
-    router.navigateByUrl('/courses');
+    router.navigateByUrl(`/${appRoutingPaths.courses}`);
     component.ngOnInit();
     expect(component.breadCrumbs).toEqual([{ text: 'Courses' }]);
   });
@@ -59,16 +61,16 @@ describe('BreadcrumbsComponent', () => {
   it('should react to future router events', () => {
     component.ngOnInit();
 
-    router.navigateByUrl('/courses');
+    router.navigateByUrl(`/${appRoutingPaths.courses}`);
     expect(component.breadCrumbs).toEqual([{ text: 'Courses' }]);
   });
 
   it('should reflect new course being added', () => {
     component.ngOnInit();
 
-    router.navigateByUrl('/courses/new');
+    router.navigateByUrl(`/${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
     expect(component.breadCrumbs).toEqual([
-      { text: 'Courses', path: '/courses' },
+      { text: 'Courses', path: `/${appRoutingPaths.courses}` },
       { text: 'New' },
     ]);
   });
@@ -76,9 +78,9 @@ describe('BreadcrumbsComponent', () => {
   it('should reflect an existing course being edited', () => {
     component.ngOnInit();
 
-    router.navigateByUrl('/courses/42');
+    router.navigateByUrl(`/${appRoutingPaths.courses}/42`);
     expect(component.breadCrumbs).toEqual([
-      { text: 'Courses', path: '/courses' },
+      { text: 'Courses', path: `/${appRoutingPaths.courses}` },
       { text: 'Title' },
     ]);
   });
@@ -86,21 +88,21 @@ describe('BreadcrumbsComponent', () => {
   it('should a linked courses breadcrumb in case of unknown second url segment', () => {
     component.ngOnInit();
 
-    router.navigateByUrl('/courses/not-new-or-numeric');
-    expect(component.breadCrumbs).toEqual([{ text: 'Courses', path: '/courses' }]);
+    router.navigateByUrl(`/${appRoutingPaths.courses}/not-new-or-numeric`);
+    expect(component.breadCrumbs).toEqual([{ text: 'Courses', path: `/${appRoutingPaths.courses}` }]);
   });
 
   it('should ignore router events other than navigation end', () => {
     spyOn(component, 'routeBreadCrumbsFactory');
-    const ns = new NavigationStart(1, '/courses');
+    const ns = new NavigationStart(1, `/${appRoutingPaths.courses}`);
     component.updateBreadCrumbs(ns);
     expect(component.routeBreadCrumbsFactory).not.toHaveBeenCalled();
   });
 
   it('should navigate on click', () => {
     spyOn(router, 'navigateByUrl');
-    component.go('/courses/new');
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses/new');
+    component.go(`/${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
   });
 
   it('should unsubscribe on destroy', () => {

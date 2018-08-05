@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
 
 import { RouterStub } from '../testing/router-stubs';
+import { appRoutingPaths } from '../app.routing.paths';
 
 describe('AuthGuard', () => {
   class AuthServiceStub {
@@ -47,7 +48,7 @@ describe('AuthGuard', () => {
     guard.isAuthenticated = false;
     spyOn(router, 'navigateByUrl');
     guard.canLoad();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/login');
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.login}`);
   });
 
 });

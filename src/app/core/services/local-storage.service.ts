@@ -9,19 +9,19 @@ export class LocalStorageService {
     this.storage = this.windowRefService.nativeWindow.localStorage;
   }
 
-  getItem(keyName): any {
+  getItem(keyName: string): any {
     return JSON.parse(this.storage.getItem(keyName));
   }
 
-  setItem(keyName, keyValue): void {
+  setItem(keyName: string, keyValue: any) {
     this.storage.setItem(keyName, JSON.stringify(keyValue));
   }
 
-  removeItem(keyName): void {
+  removeItem(keyName: string) {
     this.storage.removeItem(keyName);
   }
 
-  clear(): void {
+  clear() {
     this.storage.clear();
   }
 }

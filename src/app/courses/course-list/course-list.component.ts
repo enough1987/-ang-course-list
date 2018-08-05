@@ -6,6 +6,7 @@ import { CoursesService } from '../courses.service';
 import { OrderByPipe } from './order-by.pipe';
 import { SearchPipe } from '../course-search/search.pipe';
 import { DialogService } from '../../material/dialog/dialog.service';
+import { appRoutingPaths } from '../../app.routing.paths';
 
 @Component({
   selector: 'app-course-list',
@@ -48,7 +49,7 @@ export class CourseListComponent implements OnChanges, OnInit {
   }
 
   onEdit(id: number) {
-    this.router.navigateByUrl(`/courses/${id}`);
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}/${id}`);
   }
 
   onDelete(id: number) {

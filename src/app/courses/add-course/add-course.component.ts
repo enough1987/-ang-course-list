@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { NewCourse } from '../course-list/course-list-item/course.model';
 import { CoursesService } from '../courses.service';
+import { appRoutingPaths } from '../../app.routing.paths';
 
 @Component({
   selector: 'app-add-course',
@@ -20,7 +21,7 @@ export class AddCourseComponent {
     this.course = new NewCourse(Date.now(), '', 0, '');
   }
 
-  onDurationChange(durationMin) {
+  onDurationChange(durationMin: number) {
     this.course.durationMin = durationMin;
   }
 
@@ -31,11 +32,11 @@ export class AddCourseComponent {
   onSaveClick() {
     this.isSubmitting = true;
     this.coursesService.createCourse(this.course);
-    this.router.navigateByUrl('/courses');
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
   }
 
   onCancelClick() {
-    this.router.navigateByUrl('/courses');
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
   }
 
 }

@@ -1,6 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
+import { appRoutingPaths } from './app.routing.paths';
 
 import { of, Observable } from 'rxjs';
 
@@ -73,12 +74,12 @@ describe('AppComponent', () => {
   it('should react to future router events', () => {
     component.ngOnInit();
 
-    router.navigateByUrl('/login');
+    router.navigateByUrl(`/${appRoutingPaths.login}`);
     expect(component.routeSpecificClass).toBe('app__main_center');
   });
 
   it('should ignore router events other than navigation end', () => {
-    const ns = new NavigationStart(1, '/courses');
+    const ns = new NavigationStart(1, `/${appRoutingPaths.courses}`);
     component.setRouteSpecificClasses(ns);
     expect(component.routeSpecificClass).toBeUndefined();
   });

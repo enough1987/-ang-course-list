@@ -5,6 +5,7 @@ import { User, UserPublicInfo } from './user/user.model';
 import { LocalStorageService } from '../core/services';
 
 import { RouterStub } from '../testing/router-stubs';
+import { appRoutingPaths } from '../app.routing.paths';
 
 describe('AuthService', () => {
   // https://angular.io/guide/testing#angular-testbed
@@ -72,7 +73,7 @@ describe('AuthService', () => {
   it('should to courses on login', () => {
     spyOn(router, 'navigateByUrl');
     service.login();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
   });
 
 });

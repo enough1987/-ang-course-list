@@ -8,6 +8,7 @@ import { MaterialModule } from '../../material/material.module';
 import { CoursesService } from '../courses.service';
 
 import { RouterStub, ActivatedRouteStub } from '../../testing/router-stubs';
+import { appRoutingPaths } from '../../app.routing.paths';
 
 describe('EditCourseComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
@@ -65,12 +66,12 @@ describe('EditCourseComponent', () => {
   it('should navigate away on save', () => {
     spyOn(router, 'navigateByUrl');
     component.onSaveClick();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
   });
 
   it('should navigate away on cancel', () => {
     spyOn(router, 'navigateByUrl');
     component.onCancelClick();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses');
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
   });
 });

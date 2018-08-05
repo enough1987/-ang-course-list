@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { BehaviorSubject } from 'rxjs';
+
 import { User, UserPublicInfo } from './user/user.model';
 import { Session } from './session/session.model';
 import { LocalStorageService } from '../core/services/local-storage.service';
-
-import { BehaviorSubject } from 'rxjs';
+import { appRoutingPaths } from '../app.routing.paths';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +28,7 @@ export class AuthService {
     this.isAuthenticated.next(true);
     this.userInfo.next(user);
 
-    this.router.navigateByUrl('/courses');
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
   }
 
   logout() {
@@ -36,7 +38,7 @@ export class AuthService {
     this.isAuthenticated.next(false);
     this.userInfo.next(null);
 
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl(`/${appRoutingPaths.login}`);
   }
 
   isUserAuthenticated(): boolean {

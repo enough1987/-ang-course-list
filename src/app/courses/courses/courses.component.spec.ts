@@ -4,7 +4,11 @@ import { Router } from '@angular/router';
 
 import { CoursesComponent } from './courses.component';
 import { MaterialModule } from '../../material/material.module';
+
 import { RouterStub } from '../../testing/router-stubs';
+import { appRoutingPaths } from '../../app.routing.paths';
+import { coursesRoutingPaths } from '../courses.routing.paths';
+
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
@@ -38,7 +42,7 @@ describe('CoursesComponent', () => {
   it('should navigate to add course', () => {
     spyOn(router, 'navigateByUrl');
     component.onAddCourse();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/courses/new');
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
   });
 
 });

@@ -10,7 +10,7 @@ describe('CourseSearchComponent', () => {
   let component: CourseSearchComponent;
   let fixture: ComponentFixture<CourseSearchComponent>;
 
-  const event: Partial<Event> = {
+  const event: any = {
     preventDefault: () => {},
   };
 

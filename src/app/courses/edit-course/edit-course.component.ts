@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { Course } from '../course-list/course-list-item/course.model';
 import { CoursesService } from '../courses.service';
 
+import { appRoutingPaths } from '../../app.routing.paths';
+
 @Component({
   selector: 'app-edit-course',
   templateUrl: './edit-course.component.html',
@@ -34,7 +36,7 @@ export class EditCourseComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  onDurationChange(durationMin) {
+  onDurationChange(durationMin: number) {
     this.course.durationMin = durationMin;
   }
 
@@ -44,11 +46,11 @@ export class EditCourseComponent implements OnInit, OnDestroy {
 
   onSaveClick() {
     this.coursesService.updateCourse(this.course);
-    this.router.navigateByUrl('/courses');
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
   }
 
   onCancelClick() {
-    this.router.navigateByUrl('/courses');
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
   }
 
 }

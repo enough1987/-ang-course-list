@@ -5,14 +5,14 @@ import { CoursesComponent } from './courses/courses.component';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 
+import { coursesRoutingPaths as paths } from './courses.routing.paths';
+
 const routes: Routes = [
   {
     path: '',
-    // component: CoursesComponent,
     children: [
-      { path: 'new', component: AddCourseComponent },
+      { path: paths.new, component: AddCourseComponent },
       { path: ':id', component: EditCourseComponent },
-      { path: 'XYZ', component: CoursesComponent },
       { path: '', component: CoursesComponent },
     ],
   }

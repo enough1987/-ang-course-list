@@ -52,7 +52,7 @@ export class CoursesService {
     return this.courses;
   }
 
-  getCourse(id): Course {
+  getCourse(id: number): Course {
     const { creationDate, title, durationMin, description, topRated } = this.courses.find(c => c.id === id);
     return new Course(id, creationDate, title, durationMin, description, topRated);  // keep it pure but typed
   }
@@ -81,15 +81,15 @@ export class CoursesService {
     });
   }
 
-  deleteCourse(id) {
+  deleteCourse(id: number) {
     this.courses = this.courses.filter(c => c.id !== id);
   }
 
-  isCourseUpcoming(course): boolean {
+  isCourseUpcoming(course: Course): boolean {
     return course.creationDate > Date.now();
   }
 
-  isCourseFresh(course): boolean {
+  isCourseFresh(course: Course): boolean {
     return course.creationDate < Date.now() && course.creationDate >= Date.now() - 14 * dayms;
   }
 

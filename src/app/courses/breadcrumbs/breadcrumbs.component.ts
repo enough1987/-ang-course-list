@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRouteSnapshot, RouterEvent } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
 import { CoursesService } from '../courses.service';
+import { appRoutingPaths } from '../../app.routing.paths';
+import { coursesRoutingPaths } from '../courses.routing.paths';
 
 type breadCrumbsType = { text: string, path?: string }[];
 
@@ -24,24 +26,24 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initBreadCrumbs(this.router.url);
-    this.sub = this.router.events.subscribe(event => this.updateBreadCrumbs(event));
+    this.sub = this.router.events.subscribe((event: RouterEvent) => this.updateBreadCrumbs(event));
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  initBreadCrumbs(url) {
+  initBreadCrumbs(url: string) {
     this.breadCrumbs = this.routeBreadCrumbsFactory(url)();
   }
 
-  updateBreadCrumbs(routerEvent) {
+  updateBreadCrumbs(routerEvent: RouterEvent) {
     if (routerEvent instanceof NavigationEnd) {
       this.breadCrumbs = this.routeBreadCrumbsFactory(routerEvent.urlAfterRedirects)();
     }
   }
 
-  routeBreadCrumbsFactory(url = '') {
+  routeBreadCrumbsFactory(url: string = ''): () => breadCrumbsType {
     const urlArr = url.split('/').slice(1);
     switch (urlArr[0]) {
       case 'courses':
@@ -51,16 +53,14 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCoursesBreadCrumbs(urlArr) {
-    const crumbs: breadCrumbsType =
-      urlArr.length === 1
-        ? [{ text: 'Courses' }]
-        : [{ text: 'Courses', path: '/courses' }];
-
+  getCoursesBreadCrumbs(urlArr: string[]): breadCrumbsType {
     if (urlArr.length === 1) {
-      return crumbs;
+      return [{ text: 'Courses' }];
     }
-    if (urlArr[1] === 'new') {
+
+    const crumbs = [{ text: 'Courses', path: `/${appRoutingPaths.courses}` }];
+
+    if (urlArr[1] === coursesRoutingPaths.new) {
       return [...crumbs, { text: 'New' }];
     }
     if (urlArr[1].match(/^[0-9]*$/)) {
@@ -70,7 +70,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     return crumbs;
   }
 
-  go(path) {
+  go(path: string) {
     this.router.navigateByUrl(path);
   }
 }
