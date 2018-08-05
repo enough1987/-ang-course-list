@@ -1,14 +1,19 @@
 import { async, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
+import { appRoutingPaths } from './app.routing.paths';
 
 import { of, Observable } from 'rxjs';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
 
+import { RouterStub } from './testing/router-stubs';
+
 describe('AppComponent', () => {
   let component;
-  let authService;
+  let authService: AuthService;
+  let router: Router;
 
   class AuthServiceStub {
     public isAuthenticated: Observable<boolean> = of(true);
@@ -20,7 +25,8 @@ describe('AppComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         AppComponent,
-        { provide: AuthService, useClass: AuthServiceStub }
+        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: Router, useClass: RouterStub },
       ],
     })
     .compileComponents();
@@ -29,6 +35,7 @@ describe('AppComponent', () => {
   beforeEach(() => {
     component = TestBed.get(AppComponent);
     authService = TestBed.get(AuthService);
+    router = TestBed.get(Router);
   });
 
   it('should create the app', () => {
@@ -48,6 +55,33 @@ describe('AppComponent', () => {
 
     component.ngOnDestroy();
     expect(component.sub.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('should subscribe to authentication status on init', () => {
+    spyOn(authService.isAuthenticated, 'subscribe');
+    expect(authService.isAuthenticated.subscribe).not.toHaveBeenCalled();
+    component.ngOnInit();
+    expect(authService.isAuthenticated.subscribe).toHaveBeenCalledWith(jasmine.any(Function));
+  });
+
+  it('should subscribe to future router events on init', () => {
+    spyOn(router.events, 'subscribe');
+    expect(router.events.subscribe).not.toHaveBeenCalled();
+    component.ngOnInit();
+    expect(router.events.subscribe).toHaveBeenCalledWith(jasmine.any(Function));
+  });
+
+  it('should react to future router events', () => {
+    component.ngOnInit();
+
+    router.navigateByUrl(`/${appRoutingPaths.login}`);
+    expect(component.routeSpecificClass).toBe('app__main_center');
+  });
+
+  it('should ignore router events other than navigation end', () => {
+    const ns = new NavigationStart(1, `/${appRoutingPaths.courses}`);
+    component.setRouteSpecificClasses(ns);
+    expect(component.routeSpecificClass).toBeUndefined();
   });
 
 });

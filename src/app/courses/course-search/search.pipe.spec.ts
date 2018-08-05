@@ -3,9 +3,9 @@ import { Course } from '../course-list/course-list-item/course.model';
 
 describe('SearchPipe', () => {
   const haystack: Course[] = [
-    { id: 1, creationDate: 111, title: 'abc' },
-    { id: 2, creationDate: 222, title: 'bcd' },
-    { id: 3, creationDate: 333, title: 'cde' },
+    { id: 1, creationDate: 111, title: 'abc', durationMin: 120, description: '' },
+    { id: 2, creationDate: 222, title: 'bcd', durationMin: 120, description: '' },
+    { id: 3, creationDate: 333, title: 'cde', durationMin: 120, description: '' },
   ];
 
   it('create an instance', () => {
@@ -22,8 +22,8 @@ describe('SearchPipe', () => {
     const pipe = new SearchPipe();
 
     expect(pipe.transform(haystack, 'b')).toEqual([
-      { id: 1, creationDate: 111, title: 'abc' },
-      { id: 2, creationDate: 222, title: 'bcd' },
+      haystack[0],
+      haystack[1],
     ]);
   });
 
@@ -31,7 +31,7 @@ describe('SearchPipe', () => {
     const pipe = new SearchPipe();
 
     expect(pipe.transform(haystack, 'e')).toEqual([
-      { id: 3, creationDate: 333, title: 'cde' },
+      haystack[2],
     ]);
   });
 });

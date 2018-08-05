@@ -22,7 +22,7 @@ export class CourseSearchComponent {
     this.onSearch();
   }
 
-  onSubmit(e) {
+  onSubmit(e: Event) {
     e.preventDefault();
     this.onSearch();
   }

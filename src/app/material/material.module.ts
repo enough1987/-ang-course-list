@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatIconModule,
   MatButtonModule,
@@ -13,14 +12,13 @@ import {
   MatInputModule,
   MatDialogModule,
   MatDatepickerModule,
-  MatNativeDateModule,
 } from '@angular/material';
+import { MomentDateModule } from '@angular/material-moment-adapter';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
 import { DialogService } from './dialog/dialog.service';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     MatIconModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -33,10 +31,9 @@ import { DialogService } from './dialog/dialog.service';
     MatInputModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MomentDateModule,
   ],
   exports: [
-    BrowserAnimationsModule,
     MatIconModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -49,7 +46,7 @@ import { DialogService } from './dialog/dialog.service';
     MatInputModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MomentDateModule,
     ConfirmDialogComponent,
   ],
   declarations: [ConfirmDialogComponent],

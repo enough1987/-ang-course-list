@@ -1,7 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './auth/auth.service';
+import { Router, NavigationEnd, RouterEvent } from '@angular/router';
+
+import { registerLocaleData } from '@angular/common';
+import localeUk from '@angular/common/locales/uk';
 
 import { Subscription } from 'rxjs';
+
+import { appRoutingPaths } from './app.routing.paths';
+
+registerLocaleData(localeUk);
 
 @Component({
   selector: 'app-root',
@@ -10,21 +18,33 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean;
-  route = 'courses';
+  routeSpecificClass: string;
 
   private sub: Subscription;
 
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    public router: Router,
+  ) {}
 
   ngOnInit() {
-    this.sub = this.authService.isAuthenticated.subscribe(next => this.isAuthenticated = next);
+    this.sub = new Subscription();
+    this.sub.add(this.authService.isAuthenticated.subscribe(next => this.isAuthenticated = next));
+    this.sub.add(this.router.events.subscribe((event: RouterEvent) => this.setRouteSpecificClasses(event)));
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  setRoute(route) {
-    this.route = route;
+  setRouteSpecificClasses(routerEvent: RouterEvent) {
+    if (routerEvent instanceof NavigationEnd) {
+      const routeClassMap = {
+        [`/${appRoutingPaths.login}`]: 'app__main_center',
+        [`/${appRoutingPaths.notFound}`]: 'app__main_center',
+      };
+
+      this.routeSpecificClass = routeClassMap[routerEvent.urlAfterRedirects];
+    }
   }
 }

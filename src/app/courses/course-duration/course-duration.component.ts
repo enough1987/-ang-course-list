@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-course-duration',
@@ -6,8 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./course-duration.component.sass']
 })
 export class CourseDurationComponent {
-  durationMin: number;
+  @Input() durationMin: number;
+  @Output() durationChange = new EventEmitter<number>();
 
-  constructor() { }
+  onChange() {
+    this.durationChange.emit(this.durationMin);
+  }
 
 }

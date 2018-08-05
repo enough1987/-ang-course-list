@@ -1,26 +1,42 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { NewCourse } from '../course-list/course-list-item/course.model';
+import { CoursesService } from '../courses.service';
+import { appRoutingPaths } from '../../app.routing.paths';
 
 @Component({
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.sass']
 })
-export class AddCourseComponent implements OnInit {
-  @Output() setRoute = new EventEmitter<string>();
+export class AddCourseComponent {
+  course: NewCourse;
+  isSubmitting = false;
 
-  title: string;
-  description: string;
+  constructor(
+    private coursesService: CoursesService,
+    private router: Router,
+  ) {
+    this.course = new NewCourse(Date.now(), '', 0, '');
+  }
 
-  constructor() { }
+  onDurationChange(durationMin: number) {
+    this.course.durationMin = durationMin;
+  }
 
-  ngOnInit() {
+  onDateChange(dateUnixMsecs: number) {  // Unix epoch, msecs
+    this.course.creationDate = dateUnixMsecs;
   }
 
   onSaveClick() {
+    this.isSubmitting = true;
+    this.coursesService.createCourse(this.course);
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
   }
 
   onCancelClick() {
-    this.setRoute.emit('courses');
+    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
   }
 
 }

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CourseSearchComponent } from './course-search.component';
 import { MaterialModule } from '../../material/material.module';
@@ -9,7 +10,7 @@ describe('CourseSearchComponent', () => {
   let component: CourseSearchComponent;
   let fixture: ComponentFixture<CourseSearchComponent>;
 
-  const event: Partial<Event> = {
+  const event: any = {
     preventDefault: () => {},
   };
 
@@ -17,8 +18,9 @@ describe('CourseSearchComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CourseSearchComponent],
       imports: [
-        MaterialModule,   // material is used in the template
-        FormsModule,      // ngModel is used in the template
+        MaterialModule,           // material is used in the template
+        BrowserAnimationsModule,   // required by material
+        FormsModule,              // ngModel is used in the template
       ],
     })
     .compileComponents();

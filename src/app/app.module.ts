@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { MaterialModule } from './material/material.module';
-import { CoursesModule } from './courses/courses.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -12,9 +13,8 @@ import { AppComponent } from './app.component';
 import { LogoComponent } from './logo/logo.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { BreadcrumbsComponent } from './header/breadcrumbs/breadcrumbs.component';
-import { LoginComponent } from './login/login.component';
 
+import { AppRoutingModule, appRoutingComponents } from './app.routing.module';
 
 @NgModule({
   declarations: [
@@ -22,19 +22,25 @@ import { LoginComponent } from './login/login.component';
     LogoComponent,
     HeaderComponent,
     FooterComponent,
-    BreadcrumbsComponent,
-    LoginComponent
+    appRoutingComponents,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     MaterialModule,
     CoreModule,
     SharedModule,
-    CoursesModule,
     AuthModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    router: Router,
+  ) {
+    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+  }
+}

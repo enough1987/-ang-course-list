@@ -3,10 +3,11 @@
     <input
       matInput
       [matDatepicker]="picker"
-      placeholder="Date [MM/DD/YYYY]"
-      [(ngModel)]="date"
+      placeholder="Date [DD/MM/YYYY]"
+      [formControl]="date"
+      (dateChange)="onDateChange()"
     />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
   </mat-form-field>
 </div>
