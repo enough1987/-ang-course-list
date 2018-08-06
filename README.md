@@ -20,7 +20,7 @@
 
 Coverage
 ```
-Chrome 67.0.3396 (Windows 7.0.0): Executed 157 of 157 SUCCESS (16.32 secs / 16.153 secs)
+HeadlessChrome 68.0.3440 (Windows 10.0.0): Executed 159 of 159 SUCCESS (12.48 secs / 12.379 secs)
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
 File                                              |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
@@ -30,6 +30,7 @@ All files                                         |      100 |      100 |      1
   test.ts                                         |      100 |      100 |      100 |      100 |                   |
  src/app                                          |      100 |      100 |      100 |      100 |                   |
   app.component.ts                                |      100 |      100 |      100 |      100 |                   |
+  app.routing.paths.ts                            |      100 |      100 |      100 |      100 |                   |
  src/app/auth                                     |      100 |      100 |      100 |      100 |                   |
   auth.guard.ts                                   |      100 |      100 |      100 |      100 |                   |
   auth.module.ts                                  |      100 |      100 |      100 |      100 |                   |
@@ -47,6 +48,7 @@ All files                                         |      100 |      100 |      1
  src/app/courses                                  |      100 |      100 |      100 |      100 |                   |
   courses.module.ts                               |      100 |      100 |      100 |      100 |                   |
   courses.routing.module.ts                       |      100 |      100 |      100 |      100 |                   |
+  courses.routing.paths.ts                        |      100 |      100 |      100 |      100 |                   |
   courses.service.ts                              |      100 |      100 |      100 |      100 |                   |
  src/app/courses/add-course                       |      100 |      100 |      100 |      100 |                   |
   add-course.component.ts                         |      100 |      100 |      100 |      100 |                   |
