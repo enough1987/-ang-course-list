@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
 
   login() {
-    const user = new User(123, 'john@doe.com', 'password', 'John', 'Doe');
+    const user = new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe');
     const session = new Session(user.id, '123456qwerty');
 
     this.localStorageService.setItem('user', user);
