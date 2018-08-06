@@ -1,22 +1,7 @@
 # Angular Mentoring
 
-## Task 7. Routing
-- Routing implemented
-- CoursesModule is now a feature module with its own route children
-- CoursesModule is lazy-loaded, protected by AuthGuard
-- AuthGuard subscribes to AuthService to watch the isAuthenticated status
-- NotFoundComponent for unknown routes
-- CoursesComponent is a default
-- LoginComponent redirects to /courses upon successfull login
-- Log off button erases the user data and session token, redirects to /login
-- Add course button navigates to /courses/new, serving AddCourseComponent
-- Edit course button navigates to /courses/:id, serving EditCourseComponent
-- EditCourseComponent fetches course data from CoursesService by id
-- On save EditCourseComponent calls CoursesService method to save the changes, redirects to /courses
-- On cancel EditCourseComponent redirects to /courses, without the changes being applied
-- BreadcrumbsComponent watches the router events, building the breadcrumbs accordingly
-- AppComponents watches the router events applying router-specific top-level styles
-- Router stubs used for testing
+## Task 8. HTTP
+- 
 
 Coverage
 ```
@@ -110,6 +95,7 @@ npm run test:coverage
  - Task5. Modules & Services
  - Task6. Change detection
  - Task7. Routing
+ - Task8. HTTP
 
 ## Run Development Server
 ```
