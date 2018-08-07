@@ -10,7 +10,6 @@ import { UserPublicInfo } from '../auth/user/user.model';
 class AuthServiceStub {
   public isAuthenticated: Observable<boolean> = of(true);
   public userInfo: Observable<UserPublicInfo> = of(new UserPublicInfo('jhon@doe.com', 'Jhon', 'Doe'));
-  login = jasmine.createSpy('login', () => {});
   logout = jasmine.createSpy('logout', () => {});
 }
 
@@ -37,11 +36,6 @@ describe('HeaderComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call login service method', () => {
-    component.login();
-    expect(service.login).toHaveBeenCalled();
   });
 
   it('should call logout service method', () => {

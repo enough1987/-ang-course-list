@@ -25,11 +25,16 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['HeadlessChrome'],
     customLaunchers:{
       HeadlessChrome:{
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        flags: [
+          '--headless',
+          '--disable-gpu',
+          '--no-sandbox',
+          '--remote-debugging-port=9222',
+        ]
       }
     },
     singleRun: false,

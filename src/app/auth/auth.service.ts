@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, retry, tap } from 'rxjs/operators';
 
 import { User, UserPublicInfo } from './user/user.model';
 import { Session } from './session/session.model';
-import { LocalStorageService } from '../core/services/local-storage.service';
-import { appRoutingPaths } from '../app.routing.paths';
+
+import { ConfigService, LocalStorageService } from '../core/services';
 
 @Injectable()
 export class AuthService {
@@ -14,31 +16,55 @@ export class AuthService {
   public userInfo: BehaviorSubject<UserPublicInfo> = new BehaviorSubject(this.getUserInfo());
 
   constructor(
+    @Inject(ConfigService) private config,
     private localStorageService: LocalStorageService,
     private router: Router,
+    private http: HttpClient,
   ) {}
 
-  login() {
-    const user = new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe');
-    const session = new Session(user.id, '123456qwerty');
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.login}`, { email, password })
+      .pipe(
+        tap((res: any) => {
+          if (res.auth && res.token) {
+            this.localStorageService.setItem('token', res.token);
 
-    this.localStorageService.setItem('user', user);
-    this.localStorageService.setItem('session', session);
-
-    this.isAuthenticated.next(true);
-    this.userInfo.next(user);
-
-    this.router.navigateByUrl(appRoutingPaths.courses);
+            this.isAuthenticated.next(true);
+            // this.getUserInfo();
+          }
+        }),
+        retry(1),
+        catchError(err => throwError(err)),
+      );
   }
 
-  logout() {
-    this.localStorageService.removeItem('user');
-    this.localStorageService.removeItem('session');
+  // login() {
+  //   const user = new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe');
+  //   const session = new Session(user.id, '123456qwerty');
 
-    this.isAuthenticated.next(false);
-    this.userInfo.next(null);
+  //   this.localStorageService.setItem('user', user);
+  //   this.localStorageService.setItem('session', session);
 
-    this.router.navigateByUrl(appRoutingPaths.login);
+  //   this.isAuthenticated.next(true);
+  //   this.userInfo.next(user);
+
+  //   this.router.navigateByUrl(appRoutingPaths.courses);
+  // }
+
+  logout(): Observable<any> {
+    return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.logout}`)
+      .pipe(
+        tap((res: any) => {
+          if (res.success) {
+            this.localStorageService.removeItem('token');
+            this.isAuthenticated.next(false);
+          }
+        }),
+        retry(1),
+        catchError(err => throwError(err)),
+      );
+
+    // this.router.navigateByUrl(appRoutingPaths.login);
   }
 
   isUserAuthenticated(): boolean {

@@ -40,8 +40,8 @@
   "users": [
     {
       "id": 123,
-      "email": "jhon@doe.com",
-      "password": "1234567",
+      "email": "admin@admin.com",
+      "password": "admin",
       "firstName": "Jhon",
       "lastName": "Doe"
     }

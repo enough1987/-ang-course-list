@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { UserPublicInfo } from '../auth/user/user.model';
+import { appRoutingPaths  } from '../app.routing.paths';
 
 import { Subscription } from 'rxjs';
 
@@ -15,7 +17,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private sub: Subscription;
 
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    public router: Router,
+  ) {}
 
   ngOnInit() {
     this.sub = new Subscription();
@@ -27,12 +32,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  login() {
-    this.authService.login();
-  }
-
   logout() {
-    this.authService.logout();
+    this.sub.add(this.authService.logout().subscribe(res => {
+      if (res.success) {
+        this.router.navigateByUrl(appRoutingPaths.login);
+      }
+    }));
   }
 
 }
