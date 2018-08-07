@@ -12,7 +12,7 @@ module.exports = (server) => {
 			sort = query.sort,
 			queryStr = query.query,
 			courses = server.db.getState().courses;
-		
+
 			if (!!query.textFragment) {
 				courses = courses.filter((course) => course.name.concat(course.description).toUpperCase().indexOf(query.textFragment.toUpperCase()) >= 0);
 			}
@@ -21,9 +21,9 @@ module.exports = (server) => {
 			to = courses.length;
 		}
 		courses = courses.slice(from, to);
-		
+
 		res.json(courses);
 	});
-	
+
 	return router;
 };

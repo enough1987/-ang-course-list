@@ -5,6 +5,7 @@ export const config = {
   apiEndpoints: {
     login: 'login',
     logout: 'logout',
+    user: 'user',
     courses: 'courses',
   }
 };

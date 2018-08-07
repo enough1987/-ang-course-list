@@ -42,7 +42,7 @@
       "id": 123,
       "email": "admin@admin.com",
       "password": "admin",
-      "firstName": "Jhon",
+      "firstName": "John",
       "lastName": "Doe"
     }
   ],

@@ -5,17 +5,17 @@ describe('UserModel', () => {
     it('should instantiate successfully', () => {
       const user = new User(
         42,
-        'jhon@doe.com',
+        'john@doe.com',
         'password',
-        'Jhon',
+        'John',
         'Doe',
       );
 
       expect({ ...user }).toEqual({
         id: 42,
-        email: 'jhon@doe.com',
+        email: 'john@doe.com',
         password: 'password',
-        firstName: 'Jhon',
+        firstName: 'John',
         lastName: 'Doe',
       });
     });
@@ -23,14 +23,14 @@ describe('UserModel', () => {
     describe('UserPublicInfo model', () => {
       it('should instantiate successfully', () => {
         const user = new UserPublicInfo(
-          'jhon@doe.com',
-          'Jhon',
+          'john@doe.com',
+          'John',
           'Doe',
         );
 
         expect({ ...user }).toEqual({
-          email: 'jhon@doe.com',
-          firstName: 'Jhon',
+          email: 'john@doe.com',
+          firstName: 'John',
           lastName: 'Doe',
         });
       });

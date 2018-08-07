@@ -15,7 +15,7 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('LocalStorageService', {
-      getItem: new User(123, 'jhon@doe.com', 'password', 'Jhon', 'Doe'),
+      getItem: new User(123, 'john@doe.com', 'password', 'John', 'Doe'),
       setItem: null,
       removeItem: null,
     });
@@ -42,7 +42,7 @@ describe('AuthService', () => {
   });
 
   it('should retrieve user info', () => {
-    expect(service.getUserInfo()).toEqual(new UserPublicInfo('jhon@doe.com', 'Jhon', 'Doe'));
+    expect(service.getUserInfo()).toEqual(new UserPublicInfo('john@doe.com', 'John', 'Doe'));
   });
 
   it('should get user info from localStorage', () => {

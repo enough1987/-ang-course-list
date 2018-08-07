@@ -9,7 +9,7 @@ import { UserPublicInfo } from '../auth/user/user.model';
 
 class AuthServiceStub {
   public isAuthenticated: Observable<boolean> = of(true);
-  public userInfo: Observable<UserPublicInfo> = of(new UserPublicInfo('jhon@doe.com', 'Jhon', 'Doe'));
+  public userInfo: Observable<UserPublicInfo> = of(new UserPublicInfo('john@doe.com', 'John', 'Doe'));
   logout = jasmine.createSpy('logout', () => {});
 }
 
