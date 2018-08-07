@@ -42,7 +42,7 @@ describe('CoursesComponent', () => {
   it('should navigate to add course', () => {
     spyOn(router, 'navigateByUrl');
     component.onAddCourse();
-    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(`${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
   });
 
 });

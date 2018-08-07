@@ -28,7 +28,7 @@ export class AuthService {
     this.isAuthenticated.next(true);
     this.userInfo.next(user);
 
-    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
+    this.router.navigateByUrl(appRoutingPaths.courses);
   }
 
   logout() {
@@ -38,7 +38,7 @@ export class AuthService {
     this.isAuthenticated.next(false);
     this.userInfo.next(null);
 
-    this.router.navigateByUrl(`/${appRoutingPaths.login}`);
+    this.router.navigateByUrl(appRoutingPaths.login);
   }
 
   isUserAuthenticated(): boolean {

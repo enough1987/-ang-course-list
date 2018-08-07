@@ -97,12 +97,12 @@ describe('EditCourseComponent', () => {
   it('should navigate away on save', () => {
     spyOn(router, 'navigateByUrl');
     component.onSaveClick();
-    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(appRoutingPaths.courses);
   });
 
   it('should navigate away on cancel', () => {
     spyOn(router, 'navigateByUrl');
     component.onCancelClick();
-    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(appRoutingPaths.courses);
   });
 });

@@ -21,6 +21,6 @@ export class CoursesComponent {
   }
 
   onAddCourse() {
-    this.router.navigateByUrl(`/${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
+    this.router.navigateByUrl(`${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
   }
 }

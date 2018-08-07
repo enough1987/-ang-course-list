@@ -40,11 +40,11 @@ export class AppComponent implements OnInit, OnDestroy {
   setRouteSpecificClasses(routerEvent: RouterEvent) {
     if (routerEvent instanceof NavigationEnd) {
       const routeClassMap = {
-        [`/${appRoutingPaths.login}`]: 'app__main_center',
-        [`/${appRoutingPaths.notFound}`]: 'app__main_center',
+        [appRoutingPaths.login]: 'app__main_center',
+        [appRoutingPaths.notFound]: 'app__main_center',
       };
 
-      this.routeSpecificClass = routeClassMap[routerEvent.urlAfterRedirects];
+      this.routeSpecificClass = routeClassMap[routerEvent.urlAfterRedirects.slice(1)];
     }
   }
 }

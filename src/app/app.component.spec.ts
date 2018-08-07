@@ -74,12 +74,12 @@ describe('AppComponent', () => {
   it('should react to future router events', () => {
     component.ngOnInit();
 
-    router.navigateByUrl(`/${appRoutingPaths.login}`);
+    router.navigateByUrl(appRoutingPaths.login);
     expect(component.routeSpecificClass).toBe('app__main_center');
   });
 
   it('should ignore router events other than navigation end', () => {
-    const ns = new NavigationStart(1, `/${appRoutingPaths.courses}`);
+    const ns = new NavigationStart(1, appRoutingPaths.courses);
     component.setRouteSpecificClasses(ns);
     expect(component.routeSpecificClass).toBeUndefined();
   });

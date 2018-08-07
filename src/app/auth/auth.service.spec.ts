@@ -73,7 +73,7 @@ describe('AuthService', () => {
   it('should to courses on login', () => {
     spyOn(router, 'navigateByUrl');
     service.login();
-    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}`);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(appRoutingPaths.courses);
   });
 
 });

@@ -10,8 +10,8 @@ const routes: Routes = [
   { path: paths.courses, canLoad: [AuthGuard], loadChildren: './courses/courses.module#CoursesModule' },
   { path: paths.login, component: LoginComponent },
   { path: paths.notFound, component: NotFoundComponent },
-  { path: '', redirectTo: `/${paths.courses}`, pathMatch: 'full' },
-  { path: '**', redirectTo: `/${paths.notFound}` },
+  { path: '', redirectTo: paths.courses, pathMatch: 'full' },
+  { path: '**', redirectTo: paths.notFound },
 ];
 
 export const appRoutingComponents = [
