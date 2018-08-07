@@ -37,6 +37,6 @@ describe('NotFoundComponent', () => {
   it('should call router on go home', () => {
     spyOn(router, 'navigateByUrl');
     component.goHome();
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/');
+    expect(router.navigateByUrl).toHaveBeenCalledWith('');
   });
 });

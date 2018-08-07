@@ -44,7 +44,9 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   }
 
   routeBreadCrumbsFactory(url: string = ''): () => breadCrumbsType {
-    const urlArr = url.split('/').slice(1);
+    // router.url might not have a leading slash, navigationEvent.urlAfterRedirects always does
+    const urlArr = url[0] === '/' ? url.split('/').slice(1) : url.split('/');
+
     switch (urlArr[0]) {
       case 'courses':
         return () => this.getCoursesBreadCrumbs(urlArr);
@@ -58,7 +60,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
       return [{ text: 'Courses' }];
     }
 
-    const crumbs = [{ text: 'Courses', path: `/${appRoutingPaths.courses}` }];
+    const crumbs = [{ text: 'Courses', path: appRoutingPaths.courses }];
 
     if (urlArr[1] === coursesRoutingPaths.new) {
       return [...crumbs, { text: 'New' }];

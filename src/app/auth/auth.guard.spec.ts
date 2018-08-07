@@ -48,7 +48,7 @@ describe('AuthGuard', () => {
     guard.isAuthenticated = false;
     spyOn(router, 'navigateByUrl');
     guard.canLoad();
-    expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.login}`);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(appRoutingPaths.login);
   });
 
 });

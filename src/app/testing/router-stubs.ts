@@ -15,7 +15,8 @@ export class RouterStub {
   }
 
   triggerNavEvents(url) {
-    const ne = new NavigationEnd(0, url, url);
+    const absUrl = url[0] === '/' ? url : `/${url}`;
+    const ne = new NavigationEnd(0, absUrl, absUrl);
     this.subject.next(ne);
   }
 }

@@ -98,7 +98,7 @@ describe('CourseListComponent', () => {
       spyOn(router, 'navigateByUrl');
       component.onEdit(42);
 
-      expect(router.navigateByUrl).toHaveBeenCalledWith(`/${appRoutingPaths.courses}/42`);
+      expect(router.navigateByUrl).toHaveBeenCalledWith(`${appRoutingPaths.courses}/42`);
     });
   });
 

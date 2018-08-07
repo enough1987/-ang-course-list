@@ -49,7 +49,7 @@ export class CourseListComponent implements OnChanges, OnInit {
   }
 
   onEdit(id: number) {
-    this.router.navigateByUrl(`/${appRoutingPaths.courses}/${id}`);
+    this.router.navigateByUrl(`${appRoutingPaths.courses}/${id}`);
   }
 
   onDelete(id: number) {

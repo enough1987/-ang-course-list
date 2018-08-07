@@ -46,11 +46,11 @@ export class EditCourseComponent implements OnInit, OnDestroy {
 
   onSaveClick() {
     this.coursesService.updateCourse(this.course);
-    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
+    this.router.navigateByUrl(appRoutingPaths.courses);
   }
 
   onCancelClick() {
-    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
+    this.router.navigateByUrl(appRoutingPaths.courses);
   }
 
 }

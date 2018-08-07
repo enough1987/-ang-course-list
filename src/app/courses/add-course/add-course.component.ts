@@ -32,11 +32,11 @@ export class AddCourseComponent {
   onSaveClick() {
     this.isSubmitting = true;
     this.coursesService.createCourse(this.course);
-    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
+    this.router.navigateByUrl(appRoutingPaths.courses);
   }
 
   onCancelClick() {
-    this.router.navigateByUrl(`/${appRoutingPaths.courses}`);
+    this.router.navigateByUrl(appRoutingPaths.courses);
   }
 
 }
