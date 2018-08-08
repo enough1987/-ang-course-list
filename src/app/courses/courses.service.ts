@@ -20,15 +20,10 @@ export class CoursesService {
   ) {}
 
   getCourses(config: { query?: string, start?: number, count?: number }): Observable<any> {
-    console.log('config', config);
-    console.log('Object.keys(config)', Object.keys(config));
-
     const keys = Object.keys(config);
     const params = keys.length
       ? keys.reduce((agg, key) => config[key] !== null ? { ...agg, [key]: config[key] } : agg, {})
       : null;
-
-    console.log('params', params);
 
     return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}`, { params });
   }

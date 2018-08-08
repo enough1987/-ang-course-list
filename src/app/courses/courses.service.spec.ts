@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { CoursesService, initCourses } from './courses.service';
 
-describe('CoursesService', () => {
+xdescribe('CoursesService', () => {
   describe('Testing a service using TestBed + inject', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({

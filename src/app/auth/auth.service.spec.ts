@@ -7,7 +7,7 @@ import { LocalStorageService } from '../core/services';
 import { RouterStub } from '../testing/router-stubs';
 import { appRoutingPaths } from '../app.routing.paths';
 
-describe('AuthService', () => {
+xdescribe('AuthService', () => {
   // https://angular.io/guide/testing#angular-testbed
   let service: AuthService;
   let localStorageServiceSpy: jasmine.SpyObj<LocalStorageService>;
