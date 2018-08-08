@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Course } from './course-list-item/course.model';
@@ -7,6 +7,7 @@ import { OrderByPipe } from './order-by.pipe';
 import { SearchPipe } from '../course-search/search.pipe';
 import { DialogService } from '../../material/dialog/dialog.service';
 import { appRoutingPaths } from '../../app.routing.paths';
+import { ConfigService } from '../../core/services';
 
 @Component({
   selector: 'app-course-list',
@@ -16,13 +17,15 @@ import { appRoutingPaths } from '../../app.routing.paths';
 export class CourseListComponent implements OnChanges, OnInit {
   @Input() query: string;
 
-  courses: Course[];
+  courses: Course[] = [];
+  done = false;
 
   constructor(
+    @Inject(ConfigService) private config,
     private coursesService: CoursesService,
     private dialogService: DialogService,
     private orderByPipe: OrderByPipe,
-    private searchPipe: SearchPipe,
+    // private searchPipe: SearchPipe,
     private router: Router,
   ) {}
 
@@ -34,18 +37,24 @@ export class CourseListComponent implements OnChanges, OnInit {
     const { currentValue, previousValue, firstChange } = changes.query;
 
     if (!firstChange && currentValue !== previousValue) {
+      this.done = false;
       this.loadCourses();
     }
   }
 
   loadCourses() {
-    this.courses = this.searchPipe.transform(
-      this.orderByPipe.transform(
-        this.coursesService.getCourses()
-      ),
-      this.query,
-    );
+    const args: any = { start: 0, count: this.config.coursesPageLength };
+    if (this.query) { // do not set empty line param
+      args.query = this.query;
+    }
 
+    this.coursesService.getCourses(args).subscribe(courses => {
+      if (courses.length < this.config.coursesPageLength) {
+        this.done = true;
+      }
+
+      this.courses = this.orderByPipe.transform(courses);
+    });
   }
 
   onEdit(id: number) {
@@ -57,13 +66,22 @@ export class CourseListComponent implements OnChanges, OnInit {
       .confirm('Do you really want to delete this course?')
       .subscribe(confirmed => {
         if (confirmed) {
-          this.coursesService.deleteCourse(id);
-          this.loadCourses();
+          this.coursesService.deleteCourse(id).subscribe(() => this.loadCourses());
         }
       });
   }
 
-  onLoadClick(e: MouseEvent) {
-    console.log('Loading more courses. MouseEvent: ', e);
+  onLoadClick() {
+    const args: any = { start: this.courses.length, count: this.config.coursesPageLength };
+    if (this.query) { // do not set empty line param
+      args.query = this.query;
+    }
+
+    this.coursesService.getCourses(args).subscribe(courses => {
+      if (courses.length < this.config.coursesPageLength) {
+        this.done = true;
+      }
+      this.courses = this.orderByPipe.transform([...this.courses, ...courses]);
+    });
   }
 }

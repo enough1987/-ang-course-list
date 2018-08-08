@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRouteSnapshot, RouterEvent } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Subscriber } from 'rxjs';
 
 import { CoursesService } from '../courses.service';
 import { appRoutingPaths } from '../../app.routing.paths';
@@ -26,7 +26,8 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initBreadCrumbs(this.router.url);
-    this.sub = this.router.events.subscribe((event: RouterEvent) => this.updateBreadCrumbs(event));
+    this.sub = new Subscriber();
+    this.sub.add(this.router.events.subscribe((event: RouterEvent) => this.updateBreadCrumbs(event)));
   }
 
   ngOnDestroy() {
@@ -67,7 +68,9 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     }
     if (urlArr[1].match(/^[0-9]*$/)) {
       const id = +urlArr[1];
-      return [...crumbs, { text: this.coursesService.getCourse(id).title }];
+
+      this.coursesService.getCourse(id).subscribe(course =>
+        this.breadCrumbs = [...crumbs, { text: course.title }]);
     }
     return crumbs;
   }

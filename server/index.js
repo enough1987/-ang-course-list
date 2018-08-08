@@ -1,5 +1,6 @@
 const jsonServer = require('json-server');
 const path = require('path');
+const uuid = require('uuid');
 const init = require('./init');
 
 init();
@@ -23,7 +24,7 @@ server.post('/api/login', (req, res) => {   // /api/login should be accessible w
   if (!found) {
     return res.status(401).json({ auth: false, result: 'Unauthorized' });
   } else {
-    const token = '123456qwerty';
+    const token = uuid.v4();
     res.status(200).json({ auth: true, result: 'Authorized', token });
     router.db.setState({ ...state, sessions: [...state.sessions, { userId: found.id, token }] });
   }
@@ -61,21 +62,43 @@ server.get('/api/user', (req, res) => {
     const user = users.find(u => u.id === session.userId);
     console.log('user', user);
     if (user) {
-      return res.status(200).json({ user });
+      const { email, firstName, lastName } = user;  // only public info
+      return res.json({ email, firstName, lastName });
     }
   }
   return res.status(401).json({ auth: false, result: 'Unauthorized' });
 });
 
-server.get('/api/courses', (req, res) => {
-  const courses = router.db.getState().courses;
-  return res.status(200).json({ courses });
+server.get('/api/courses/:id?', (req, res) => {
+  const id = req.params.id;
+  const query = req.query.query;
+
+  const start = req.query.start;
+  const count = req.query.count;
+
+  const begin = start ? Number(start) : 0;
+  const end = count ? begin + Number(count) : undefined;
+
+  const courses =  router.db.getState().courses;
+
+  if (id) {
+    return res.json(courses.find(c => c.id === +id));
+  }
+
+  let result = courses;
+  if (query) {
+    result = result.filter(c => `${c.title} ${c.description}`.toUpperCase().includes(query.toUpperCase()));
+  }
+  res.json(result.slice(begin, end));
 });
 
 server.get('/api/users', (req, res) => res.status(403).json({ result: 'Forbidden' }));     // users and sessions are only used internally
 server.get('/api/sessions', (req, res) => res.status(403).json({ result: 'Forbidden' }));  // direct get access forbidden, even for authorized users
 
-server.use('/api', router);
+
+server.use('/api', router);  // everything else (courses POST, PUT, DELETE) is managed by json-server
+
+
 
 server.get('*', (req, res) => { // SPA default route
   res.sendFile(path.join(__dirname, '../dist/index.html'));

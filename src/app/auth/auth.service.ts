@@ -1,26 +1,23 @@
 import { Injectable, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 
-import { User, UserPublicInfo } from './user/user.model';
-import { Session } from './session/session.model';
+import { UserPublicInfo } from './user/user.model';
 
 import { ConfigService, LocalStorageService } from '../core/services';
 
 @Injectable()
 export class AuthService {
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  public userInfo: BehaviorSubject<UserPublicInfo> = new BehaviorSubject(new UserPublicInfo('', '', ''));
+  public userInfo: BehaviorSubject<UserPublicInfo> = new BehaviorSubject(null);
 
   constructor(
     @Inject(ConfigService) private config,
     private localStorageService: LocalStorageService,
     private http: HttpClient,
-  ) {
-  }
+  ) {}
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.login}`, { email, password })
@@ -30,7 +27,7 @@ export class AuthService {
             this.localStorageService.setItem('token', res.token);
 
             this.isAuthenticated.next(true);
-            this.getUserInfo().subscribe((resUser: any) => this.userInfo.next(resUser.user));
+            this.getUserInfo().subscribe();
           }
         }),
         retry(1),
@@ -52,21 +49,12 @@ export class AuthService {
       );
   }
 
-  // isUserAuthenticated(): boolean {
-  //   const user = this.localStorageService.getItem('user');
-  //   if (user && user.id) {
-  //     const session = this.localStorageService.getItem('session');
-  //     return !!(session && session.userId === user.id);
-  //   }
-  // }
-
   getUserInfo(): Observable<UserPublicInfo> {
     return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.user}`)
       .pipe(
         tap((res: any) => {
-          if (res.user) {
-            this.userInfo.next(res.user);
-          }
+          const { email, firstName, lastName } = res;
+          this.userInfo.next(new UserPublicInfo(email, firstName, lastName)  );
         }),
         retry(1),
         catchError(err => throwError(err)),

@@ -15,7 +15,9 @@
   mat-raised-button
   class="load"
   color="primary"
-  (click)="onLoadClick($event)">
-    <mat-icon>expand_more</mat-icon>
-    Load More Courses
+  (click)="onLoadClick($event)"
+  [disabled]="done"
+>
+  <mat-icon>expand_more</mat-icon>
+  Load More Courses
 </button>

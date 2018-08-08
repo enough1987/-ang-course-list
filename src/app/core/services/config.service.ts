@@ -7,7 +7,8 @@ export const config = {
     logout: 'logout',
     user: 'user',
     courses: 'courses',
-  }
+  },
+  coursesPageLength: 2,
 };
 
 export const ConfigService = new InjectionToken<object>('config');
