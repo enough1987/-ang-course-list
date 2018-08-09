@@ -69,8 +69,11 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     if (urlArr[1].match(/^[0-9]*$/)) {
       const id = +urlArr[1];
 
-      this.coursesService.getCourse(id).subscribe(course =>
-        this.breadCrumbs = [...crumbs, { text: course.title }]);
+      this.coursesService.getCourse(id).subscribe(course => {
+        console.log('GOT', course);
+        console.log('...', [...crumbs, { text: course.title }]);
+        this.breadCrumbs = [...crumbs, { text: course.title }];
+      });
     }
     return crumbs;
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
-import { UserPublicInfo } from '../auth/user/user.model';
+import { AuthService } from '../shared/services';
+import { UserPublicInfo } from '../shared/models';
 import { appRoutingPaths  } from '../app.routing.paths';
 
 import { Subscription } from 'rxjs';

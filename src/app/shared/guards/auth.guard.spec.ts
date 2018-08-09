@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services';
 
 import { Observable, of } from 'rxjs';
 
-import { RouterStub } from '../testing/router-stubs';
-import { appRoutingPaths } from '../app.routing.paths';
+import { RouterStub } from '../../testing/router-stubs';
+import { appRoutingPaths } from '../../app.routing.paths';
 
 describe('AuthGuard', () => {
   class AuthServiceStub {

@@ -57,10 +57,8 @@ server.get('/api/user', (req, res) => {
   const users = state.users;
 
   const session = sessions.find(s => s.token === token);
-  console.log('id', session.userId);
   if (session) {
     const user = users.find(u => u.id === session.userId);
-    console.log('user', user);
     if (user) {
       const { email, firstName, lastName } = user;  // only public info
       return res.json({ email, firstName, lastName });

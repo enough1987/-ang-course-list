@@ -1,21 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
 import { HeaderComponent } from './header.component';
-import { AuthService } from '../auth/auth.service';
-import { UserPublicInfo } from '../auth/user/user.model';
+import { AuthService } from '../shared/services';
+import { UserPublicInfo } from '../shared/models';
+import { RouterStub } from '../testing/router-stubs';
+import { appRoutingPaths } from '../app.routing.paths';
 
 class AuthServiceStub {
   public isAuthenticated: Observable<boolean> = of(true);
   public userInfo: Observable<UserPublicInfo> = of(new UserPublicInfo('john@doe.com', 'John', 'Doe'));
-  logout = jasmine.createSpy('logout', () => {});
+  logout = (): Observable<any> => of({ success: true });
 }
 
 describe('HeaderComponent', () => {
   let component;
   let service;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,6 +27,7 @@ describe('HeaderComponent', () => {
       providers: [
         HeaderComponent,
         { provide: AuthService, useClass: AuthServiceStub },
+        { provide: Router, useClass: RouterStub },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
@@ -32,6 +37,7 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     component = TestBed.get(HeaderComponent);
     service = TestBed.get(AuthService);
+    router = TestBed.get(Router);
   });
 
   it('should create', () => {
@@ -39,8 +45,17 @@ describe('HeaderComponent', () => {
   });
 
   it('should call logout service method', () => {
+    component.ngOnInit();
+    spyOn(service, 'logout').and.callThrough();
     component.logout();
     expect(service.logout).toHaveBeenCalled();
+  });
+
+  it('should navigate to logout on successful server logout', () => {
+    component.ngOnInit();
+    spyOn(router, 'navigateByUrl').and.callThrough();
+    component.logout();
+    expect(router.navigateByUrl).toHaveBeenCalledWith(appRoutingPaths.login);
   });
 
   it('should subscribe on init', () => {

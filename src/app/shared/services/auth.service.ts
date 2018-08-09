@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 
-import { UserPublicInfo } from './user/user.model';
+import { UserPublicInfo } from '../models/user.model';
 
-import { ConfigService, LocalStorageService } from '../core/services';
+import { ConfigService, LocalStorageService } from '../../core/services';
 
 @Injectable()
 export class AuthService {

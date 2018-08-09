@@ -6,7 +6,7 @@ import { appRoutingPaths } from './app.routing.paths';
 import { of, Observable } from 'rxjs';
 
 import { AppComponent } from './app.component';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './shared/services';
 
 import { RouterStub } from './testing/router-stubs';
 

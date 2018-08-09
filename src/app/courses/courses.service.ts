@@ -5,7 +5,6 @@ import { Observable, throwError } from 'rxjs';
 
 import { ConfigService } from '../core/services';
 import { Course } from './course-list/course-list-item/course.model';
-import { tap } from 'rxjs/operators';
 
 const dayms = 86400000;                       // milliseconds in a day
 
@@ -22,7 +21,7 @@ export class CoursesService {
   getCourses(config: { query?: string, start?: number, count?: number }): Observable<any> {
     const keys = Object.keys(config);
     const params = keys.length
-      ? keys.reduce((agg, key) => config[key] !== null ? { ...agg, [key]: config[key] } : agg, {})
+      ? keys.reduce((agg, key) => config[key] !== null ? { ...agg, [key]: `${config[key]}` } : agg, {})
       : null;
 
     return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}`, { params });

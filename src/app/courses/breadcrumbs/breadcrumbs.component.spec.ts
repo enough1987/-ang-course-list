@@ -1,5 +1,7 @@
-import { async, TestBed } from '@angular/core/testing';
+import { async, TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+
+import { Observable, of, BehaviorSubject } from 'rxjs';
 
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 import { MaterialModule } from '../../material/material.module';
@@ -11,14 +13,20 @@ import { appRoutingPaths } from '../../app.routing.paths';
 import { coursesRoutingPaths } from '../courses.routing.paths';
 
 
-describe('BreadcrumbsComponent', () => {
+fdescribe('BreadcrumbsComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
-    getCourse() {
-      return new Course(42, 1234567890, 'Title', 120, '');
-    },
+    // getCourse() {
+    //   console.log('getCourse');
+    //   console.log(new Course(42, 1234567890, 'Title', 120, ''));
+    //   return of(new Course(42, 1234567890, 'Title', 120, ''));
+    // }
+    // getCourse: () => new Observable(() => new Course(42, 1234567890, 'Title', 120, ''));
+    // getCourse: () => { console.log('WAT'); return of(null); }
   };
 
+  let fixture: ComponentFixture<BreadcrumbsComponent>;
   let component: BreadcrumbsComponent;
+
   let service: CoursesService;
   let router: Router;
 
@@ -36,7 +44,9 @@ describe('BreadcrumbsComponent', () => {
   }));
 
   beforeEach(() => {
-    component = TestBed.get(BreadcrumbsComponent);
+    fixture = TestBed.createComponent(BreadcrumbsComponent);
+    component = fixture.componentInstance;
+
     service = TestBed.get(CoursesService);
     router = TestBed.get(Router);
   });
@@ -75,15 +85,24 @@ describe('BreadcrumbsComponent', () => {
     ]);
   });
 
-  it('should reflect an existing course being edited', () => {
+  fit('should reflect an existing course being edited', fakeAsync(() => {
     component.ngOnInit();
 
     router.navigateByUrl(`${appRoutingPaths.courses}/42`);
+
+    console.log([...component.breadCrumbs]);
+    tick();
+    fixture.detectChanges();
+    console.log([...component.breadCrumbs]);
+    tick();
+    fixture.detectChanges();
+    console.log([...component.breadCrumbs]);
+
     expect(component.breadCrumbs).toEqual([
       { text: 'Courses', path: appRoutingPaths.courses },
       { text: 'Title' },
     ]);
-  });
+  }));
 
   it('should a linked courses breadcrumb in case of unknown second url segment', () => {
     component.ngOnInit();

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './shared/services';
 import { Router, NavigationEnd, RouterEvent } from '@angular/router';
 
 import { registerLocaleData } from '@angular/common';
