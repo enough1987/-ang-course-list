@@ -14,7 +14,6 @@
 Coverage
 ```
 HeadlessChrome 68.0.3440 (Windows 10.0.0): Executed 173 of 173 SUCCESS (14.594 secs / 14.429 secs)
-10 08 2018 19:18:48.670:DEBUG [reporter.coverage-istanbul]: Writing coverage reports: [ 'text', 'lcov' ]
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
 File                                              |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
