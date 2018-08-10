@@ -77,19 +77,19 @@ describe('EditCourseComponent', () => {
   });
 
   it('should receive course duration', () => {
-    component.course = service.getCourse(42);
+    component.ngOnInit();
     component.onDurationChange(123);
     expect(component.course.durationMin).toBe(123);
   });
 
   it('should receive course creation date', () => {
-    component.course = service.getCourse(42);
+    component.ngOnInit();
     component.onDateChange(1234567890);
     expect(component.course.creationDate).toBe(1234567890);
   });
 
   it('should update course on save', () => {
-    spyOn(service, 'updateCourse');
+    spyOn(service, 'updateCourse').and.callThrough();
     component.onSaveClick();
     expect(service.updateCourse).toHaveBeenCalled();
   });

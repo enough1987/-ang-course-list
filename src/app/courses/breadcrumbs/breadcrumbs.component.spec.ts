@@ -93,7 +93,7 @@ describe('BreadcrumbsComponent', () => {
     router.navigateByUrl('unknown-top-level-url-segment');
     component.ngOnInit();
     expect(component.breadCrumbs).toEqual([{ text: 'Bread' }, { text: 'Crumbs' }]);
-  })
+  });
 
   it('should navigate on click', () => {
     spyOn(router, 'navigateByUrl');

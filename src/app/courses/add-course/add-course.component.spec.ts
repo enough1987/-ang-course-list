@@ -12,9 +12,9 @@ import { CoursesService } from '../courses.service';
 import { RouterStub, ActivatedRouteStub } from '../../testing/router-stubs';
 import { appRoutingPaths } from '../../app.routing.paths';
 
-xdescribe('EditCourseComponent', () => {
+describe('AddCourseComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
-    createCourse: () => of(),
+    createCourse: () => of(null),
   };
 
   let component: AddCourseComponent;
@@ -60,7 +60,7 @@ xdescribe('EditCourseComponent', () => {
   });
 
   it('should create course on save', () => {
-    spyOn(service, 'createCourse');
+    spyOn(service, 'createCourse').and.callThrough();
     component.onSaveClick();
     expect(service.createCourse).toHaveBeenCalled();
   });

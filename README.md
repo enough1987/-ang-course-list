@@ -1,11 +1,20 @@
 # Angular Mentoring
 
 ## Task 8. HTTP
-- 
+- JSON Server based backend with seeded DB initialization
+- Protected API with authorization, internal user and sessions management
+- AuthService moved to SharedModule, integrated with the API
+- CoursesService integrated with the API. HTTP methods user: GET, POST, PUT, DELETE
+- Courses API supports pagination requests accepting start and count GET parameters
+- Load More Courses uses the pagination, disabled when reaching the end of the list
+- Server side search using the query GET parameter, emtry string is not sent to server
+- AddCourseComponent, EditCourseComponent and delete course button using the API
+- HTTP interceptor adding the token stored in LocalStorage as the Authorization header
 
 Coverage
 ```
-HeadlessChrome 68.0.3440 (Windows 10.0.0): Executed 159 of 159 SUCCESS (12.48 secs / 12.379 secs)
+HeadlessChrome 68.0.3440 (Windows 10.0.0): Executed 173 of 173 SUCCESS (14.594 secs / 14.429 secs)
+10 08 2018 19:18:48.670:DEBUG [reporter.coverage-istanbul]: Writing coverage reports: [ 'text', 'lcov' ]
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
 File                                              |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
@@ -16,17 +25,13 @@ All files                                         |      100 |      100 |      1
  src/app                                          |      100 |      100 |      100 |      100 |                   |
   app.component.ts                                |      100 |      100 |      100 |      100 |                   |
   app.routing.paths.ts                            |      100 |      100 |      100 |      100 |                   |
- src/app/auth                                     |      100 |      100 |      100 |      100 |                   |
-  auth.guard.ts                                   |      100 |      100 |      100 |      100 |                   |
-  auth.module.ts                                  |      100 |      100 |      100 |      100 |                   |
-  auth.service.ts                                 |      100 |      100 |      100 |      100 |                   |
- src/app/auth/session                             |      100 |      100 |      100 |      100 |                   |
-  session.model.ts                                |      100 |      100 |      100 |      100 |                   |
- src/app/auth/user                                |      100 |      100 |      100 |      100 |                   |
-  user.model.ts                                   |      100 |      100 |      100 |      100 |                   |
  src/app/core                                     |      100 |      100 |      100 |      100 |                   |
   core.module.ts                                  |      100 |      100 |      100 |      100 |                   |
+ src/app/core/interceptors                        |      100 |      100 |      100 |      100 |                   |
+  auth-interceptor.ts                             |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
  src/app/core/services                            |      100 |      100 |      100 |      100 |                   |
+  config.service.ts                               |      100 |      100 |      100 |      100 |                   |
   index.ts                                        |      100 |      100 |      100 |      100 |                   |
   local-storage.service.ts                        |      100 |      100 |      100 |      100 |                   |
   window-ref.service.ts                           |      100 |      100 |      100 |      100 |                   |
@@ -80,6 +85,15 @@ All files                                         |      100 |      100 |      1
   not-found.component.ts                          |      100 |      100 |      100 |      100 |                   |
  src/app/shared                                   |      100 |      100 |      100 |      100 |                   |
   shared.module.ts                                |      100 |      100 |      100 |      100 |                   |
+ src/app/shared/guards                            |      100 |      100 |      100 |      100 |                   |
+  auth.guard.ts                                   |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
+ src/app/shared/models                            |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
+  user.model.ts                                   |      100 |      100 |      100 |      100 |                   |
+ src/app/shared/services                          |      100 |      100 |      100 |      100 |                   |
+  auth.service.ts                                 |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
 ```
 Run Coverage
@@ -101,10 +115,10 @@ npm run test:coverage
 ```
 npm run dev
 ```
-Enjoy @ http://localhost:3000/
+Enjoy @ http://localhost:4200/
 
 ## Run Production Build
 ```
 npm run prod
 ```
-Enjoy @ http://localhost:4200/
+Enjoy @ http://localhost:3000/

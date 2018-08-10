@@ -15,7 +15,7 @@ describe('AuthService', () => {
   let httpTestingController: HttpTestingController;
 
   let service: AuthService;
-  let localStorage: jasmine.SpyObj<LocalStorageService>;
+  let localStorage: LocalStorageService;
   let config: any;
 
   const configStub = {
