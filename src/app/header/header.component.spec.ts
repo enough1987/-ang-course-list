@@ -58,6 +58,14 @@ describe('HeaderComponent', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith(appRoutingPaths.login);
   });
 
+  it('should no nothing on logout if server request returned an invalid response', () => {
+    component.ngOnInit();
+    spyOn(service, 'logout').and.returnValue(of({}));
+    spyOn(router, 'navigateByUrl');
+    component.logout();
+    expect(router.navigateByUrl).not.toHaveBeenCalledWith(appRoutingPaths.login);
+  });
+
   it('should subscribe on init', () => {
     expect(component.sub).toBeFalsy();
     component.ngOnInit();

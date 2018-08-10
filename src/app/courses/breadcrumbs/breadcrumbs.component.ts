@@ -1,7 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRouteSnapshot, RouterEvent } from '@angular/router';
-
-import { Subscription, Subscriber } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CoursesService } from '../courses.service';
 import { appRoutingPaths } from '../../app.routing.paths';
@@ -14,10 +12,8 @@ type breadCrumbsType = { text: string, path?: string }[];
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.sass']
 })
-export class BreadcrumbsComponent implements OnInit, OnDestroy {
+export class BreadcrumbsComponent implements OnInit {
   breadCrumbs: breadCrumbsType;
-
-  public sub: Subscription;
 
   constructor(
     private coursesService: CoursesService,
@@ -26,56 +22,38 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initBreadCrumbs(this.router.url);
-    this.sub = new Subscriber();
-    this.sub.add(this.router.events.subscribe((event: RouterEvent) => this.updateBreadCrumbs(event)));
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   initBreadCrumbs(url: string) {
-    this.breadCrumbs = this.routeBreadCrumbsFactory(url)();
-  }
-
-  updateBreadCrumbs(routerEvent: RouterEvent) {
-    if (routerEvent instanceof NavigationEnd) {
-      this.breadCrumbs = this.routeBreadCrumbsFactory(routerEvent.urlAfterRedirects)();
-    }
-  }
-
-  routeBreadCrumbsFactory(url: string = ''): () => breadCrumbsType {
-    // router.url might not have a leading slash, navigationEvent.urlAfterRedirects always does
+    // router.url might not have a leading slash
     const urlArr = url[0] === '/' ? url.split('/').slice(1) : url.split('/');
 
     switch (urlArr[0]) {
       case 'courses':
-        return () => this.getCoursesBreadCrumbs(urlArr);
+        this.initCoursesBreadCrumbs(urlArr);
+        break;
       default:
-        return () => [{ text: 'Bread' }, { text: 'Crumbs' }];
+        this.breadCrumbs = [{ text: 'Bread' }, { text: 'Crumbs' }];
     }
   }
 
-  getCoursesBreadCrumbs(urlArr: string[]): breadCrumbsType {
+  initCoursesBreadCrumbs(urlArr: string[]): void {
     if (urlArr.length === 1) {
-      return [{ text: 'Courses' }];
-    }
+      this.breadCrumbs = [{ text: 'Courses' }];
+    } else {
+      const crumbs = [{ text: 'Courses', path: appRoutingPaths.courses }];
 
-    const crumbs = [{ text: 'Courses', path: appRoutingPaths.courses }];
-
-    if (urlArr[1] === coursesRoutingPaths.new) {
-      return [...crumbs, { text: 'New' }];
+      if (urlArr[1] === coursesRoutingPaths.new) {
+        this.breadCrumbs = [...crumbs, { text: 'New' }];
+      } else if (urlArr[1].match(/^[0-9]*$/)) {
+        const id = +urlArr[1];
+        this.coursesService.getCourse(id).subscribe(course => {
+          this.breadCrumbs = [...crumbs, { text: course.title }];
+        });
+      } else {
+        this.breadCrumbs = crumbs;
+      }
     }
-    if (urlArr[1].match(/^[0-9]*$/)) {
-      const id = +urlArr[1];
-
-      this.coursesService.getCourse(id).subscribe(course => {
-        console.log('GOT', course);
-        console.log('...', [...crumbs, { text: course.title }]);
-        this.breadCrumbs = [...crumbs, { text: course.title }];
-      });
-    }
-    return crumbs;
   }
 
   go(path: string) {

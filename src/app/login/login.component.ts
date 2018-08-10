@@ -14,7 +14,7 @@ export class LoginComponent implements OnDestroy {
   public email: string;
   public password: string;
 
-  private sub: Subscription;
+  public sub: Subscription;
 
   constructor(
     private authService: AuthService,

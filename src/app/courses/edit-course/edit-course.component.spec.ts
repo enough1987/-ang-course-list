@@ -10,15 +10,15 @@ import { MaterialModule } from '../../material/material.module';
 import { CoursesService } from '../courses.service';
 import { Course } from '../course-list/course-list-item/course.model';
 
+import { of } from 'rxjs';
+
 import { RouterStub, ActivatedRouteStub } from '../../testing/router-stubs';
 import { appRoutingPaths } from '../../app.routing.paths';
 
 describe('EditCourseComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
-    getCourse(): Course {
-      return new Course(42, 1530287255000, 'title', 100, 'description');
-    },
-    updateCourse() {},
+    getCourse: () => of(new Course(42, 1530287255000, 'title', 100, 'description')),
+    updateCourse: () => of({ success: true }),
   };
 
   let component: EditCourseComponent;
