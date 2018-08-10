@@ -103,7 +103,7 @@ describe('CoursesService', () => {
     });
 
     it('should update course', () => {
-      const partial = {  // graphql-like partial update
+      const partial = {  // GraphQL-like partial update
         id: 1,
         title: 'TITLE',
       };
@@ -111,7 +111,7 @@ describe('CoursesService', () => {
       service.updateCourse(partial).subscribe(res => expect(res).toBe('OK'));
 
       const req = httpTestingController.expectOne(`${config.apiBaseUrl}/${config.apiEndpoints.courses}/${testCourses[0].id}`);
-      expect(req.request.method).toBe('PUT');
+      expect(req.request.method).toBe('PATCH');
       expect(req.request.body).toEqual(partial);
       req.flush('OK');
     });

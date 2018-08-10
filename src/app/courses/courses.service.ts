@@ -44,8 +44,8 @@ export class CoursesService {
     return this.http.post(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}`,  course);
   }
 
-  updateCourse(partial: Partial<Course>) {
-    return this.http.put(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}/${partial.id}`, partial);
+  updateCourse(partial: Partial<Course>) {  // GraphQL-like partial update, so using PATCH
+    return this.http.patch(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}/${partial.id}`, partial);
   }
 
   deleteCourse(id: number) {
