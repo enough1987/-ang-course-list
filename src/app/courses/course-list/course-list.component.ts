@@ -37,12 +37,12 @@ export class CourseListComponent implements OnChanges, OnInit {
     const { currentValue, previousValue, firstChange } = changes.query;
 
     if (!firstChange && currentValue !== previousValue) {
-      this.done = false;
       this.loadCourses();
     }
   }
 
   loadCourses() {
+    this.done = false;
     const args: any = { start: 0, count: this.config.coursesPageLength };
     if (this.query) { // do not set empty line param
       args.query = this.query;
