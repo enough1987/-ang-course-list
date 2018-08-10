@@ -10,15 +10,15 @@ import { MaterialModule } from '../../material/material.module';
 import { CoursesService } from '../courses.service';
 import { Course } from '../course-list/course-list-item/course.model';
 
+import { of } from 'rxjs';
+
 import { RouterStub, ActivatedRouteStub } from '../../testing/router-stubs';
 import { appRoutingPaths } from '../../app.routing.paths';
 
 describe('EditCourseComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
-    getCourse(): Course {
-      return new Course(42, 1530287255000, 'title', 100, 'description');
-    },
-    updateCourse() {},
+    getCourse: () => of(new Course(42, 1530287255000, 'title', 100, 'description')),
+    updateCourse: () => of({ success: true }),
   };
 
   let component: EditCourseComponent;
@@ -77,19 +77,19 @@ describe('EditCourseComponent', () => {
   });
 
   it('should receive course duration', () => {
-    component.course = service.getCourse(42);
+    component.ngOnInit();
     component.onDurationChange(123);
     expect(component.course.durationMin).toBe(123);
   });
 
   it('should receive course creation date', () => {
-    component.course = service.getCourse(42);
+    component.ngOnInit();
     component.onDateChange(1234567890);
     expect(component.course.creationDate).toBe(1234567890);
   });
 
   it('should update course on save', () => {
-    spyOn(service, 'updateCourse');
+    spyOn(service, 'updateCourse').and.callThrough();
     component.onSaveClick();
     expect(service.updateCourse).toHaveBeenCalled();
   });

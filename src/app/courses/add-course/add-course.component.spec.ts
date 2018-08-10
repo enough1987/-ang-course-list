@@ -3,6 +3,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { of } from 'rxjs';
+
 import { AddCourseComponent } from './add-course.component';
 import { MaterialModule } from '../../material/material.module';
 import { CoursesService } from '../courses.service';
@@ -10,9 +12,9 @@ import { CoursesService } from '../courses.service';
 import { RouterStub, ActivatedRouteStub } from '../../testing/router-stubs';
 import { appRoutingPaths } from '../../app.routing.paths';
 
-describe('EditCourseComponent', () => {
+describe('AddCourseComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
-    createCourse() {},
+    createCourse: () => of(null),
   };
 
   let component: AddCourseComponent;
@@ -58,7 +60,7 @@ describe('EditCourseComponent', () => {
   });
 
   it('should create course on save', () => {
-    spyOn(service, 'createCourse');
+    spyOn(service, 'createCourse').and.callThrough();
     component.onSaveClick();
     expect(service.createCourse).toHaveBeenCalled();
   });

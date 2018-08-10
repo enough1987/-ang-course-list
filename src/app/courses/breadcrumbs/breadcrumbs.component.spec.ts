@@ -1,5 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
+
+import { of } from 'rxjs';
 
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 import { MaterialModule } from '../../material/material.module';
@@ -13,9 +15,7 @@ import { coursesRoutingPaths } from '../courses.routing.paths';
 
 describe('BreadcrumbsComponent', () => {
   const coursesServiceStub: Partial<CoursesService> = {
-    getCourse() {
-      return new Course(42, 1234567890, 'Title', 120, '');
-    },
+    getCourse: () => of(new Course(42, 1234567890, 'Title', 120, '')),
   };
 
   let component: BreadcrumbsComponent;
@@ -51,24 +51,15 @@ describe('BreadcrumbsComponent', () => {
     expect(component.breadCrumbs).toEqual([{ text: 'Courses' }]);
   });
 
-  it('should subscribe to future router events on init', () => {
-    spyOn(router.events, 'subscribe');
-    expect(router.events.subscribe).not.toHaveBeenCalled();
+  it('should support URLs starting with slash', () => {
+    router.navigateByUrl(`/${appRoutingPaths.courses}`);
     component.ngOnInit();
-    expect(router.events.subscribe).toHaveBeenCalledWith(jasmine.any(Function));
-  });
-
-  it('should react to future router events', () => {
-    component.ngOnInit();
-
-    router.navigateByUrl(appRoutingPaths.courses);
     expect(component.breadCrumbs).toEqual([{ text: 'Courses' }]);
   });
 
   it('should reflect new course being added', () => {
-    component.ngOnInit();
-
     router.navigateByUrl(`${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
+    component.ngOnInit();
     expect(component.breadCrumbs).toEqual([
       { text: 'Courses', path: appRoutingPaths.courses },
       { text: 'New' },
@@ -76,41 +67,37 @@ describe('BreadcrumbsComponent', () => {
   });
 
   it('should reflect an existing course being edited', () => {
+    router.navigateByUrl(`${appRoutingPaths.courses}/42`);
     component.ngOnInit();
 
-    router.navigateByUrl(`${appRoutingPaths.courses}/42`);
     expect(component.breadCrumbs).toEqual([
       { text: 'Courses', path: appRoutingPaths.courses },
       { text: 'Title' },
     ]);
   });
 
-  it('should a linked courses breadcrumb in case of unknown second url segment', () => {
+  it('should get course details to display a title of an existing course being edited', () => {
+    spyOn(service, 'getCourse').and.callThrough();
+    router.navigateByUrl(`${appRoutingPaths.courses}/42`);
     component.ngOnInit();
+    expect(service.getCourse).toHaveBeenCalled();
+  });
 
+  it('should display a linked courses breadcrumb in case of unknown second url segment', () => {
     router.navigateByUrl(`${appRoutingPaths.courses}/not-new-or-numeric`);
+    component.ngOnInit();
     expect(component.breadCrumbs).toEqual([{ text: 'Courses', path: appRoutingPaths.courses }]);
   });
 
-  it('should ignore router events other than navigation end', () => {
-    spyOn(component, 'routeBreadCrumbsFactory');
-    const ns = new NavigationStart(1, `/${appRoutingPaths.courses}`);
-    component.updateBreadCrumbs(ns);
-    expect(component.routeBreadCrumbsFactory).not.toHaveBeenCalled();
+  it('should display default breadcrumbs for an unknown top level URL segment', () => {
+    router.navigateByUrl('unknown-top-level-url-segment');
+    component.ngOnInit();
+    expect(component.breadCrumbs).toEqual([{ text: 'Bread' }, { text: 'Crumbs' }]);
   });
 
   it('should navigate on click', () => {
     spyOn(router, 'navigateByUrl');
     component.go(`${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
     expect(router.navigateByUrl).toHaveBeenCalledWith(`${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);
-  });
-
-  it('should unsubscribe on destroy', () => {
-    component.ngOnInit();
-    spyOn(component.sub, 'unsubscribe');
-
-    component.ngOnDestroy();
-
-    expect(component.sub.unsubscribe).toHaveBeenCalled();
   });
 });

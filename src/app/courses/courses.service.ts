@@ -1,60 +1,34 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { Observable, throwError } from 'rxjs';
+
+import { ConfigService } from '../core/services';
 import { Course } from './course-list/course-list-item/course.model';
 
 const dayms = 86400000;                       // milliseconds in a day
-const freshDate = Date.now() - 7 * dayms;     // this one will always be fresh
-const upcomingDate = Date.now() + 7 * dayms;  // this one will always be upcoming
-
-export const initCourses = [
-  new Course(1, upcomingDate, 'React', 224,
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`),
-
-  new Course(2, freshDate, 'ES2015', 120,
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`),
-
-  new Course(3, 1514073600000, 'Angular', 178,
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-    true),
-
-  new Course(4, 1519776000000, 'TypeScript', 42,
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`),
-
-  new Course(5, 1503723000000, 'GraphQL', 202,
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`),
-];
 
 @Injectable()
 export class CoursesService {
-  courses: Course[];
+  courses: Course[] = [];
   nextId: number;
 
-  constructor() {
-    this.courses = [...initCourses];
-    this.nextId = initCourses.length + 1;
+  constructor(
+    @Inject(ConfigService) private config,
+    private http: HttpClient,
+  ) {}
+
+  getCourses(config: { query?: string, start?: number, count?: number }): Observable<any> {
+    const keys = Object.keys(config);
+    const params = keys.length
+      ? keys.reduce((agg, key) => config[key] !== null ? { ...agg, [key]: `${config[key]}` } : agg, {})
+      : null;
+
+    return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}`, { params });
   }
 
-  getCourses(): Course[] {
-    return this.courses;
-  }
-
-  getCourse(id: number): Course {
-    const { creationDate, title, durationMin, description, topRated } = this.courses.find(c => c.id === id);
-    return new Course(id, creationDate, title, durationMin, description, topRated);  // keep it pure but typed
+  getCourse(id: number): Observable<any> {
+    return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}/${id}`);
   }
 
   createCourse(partial: Partial<Course>) {
@@ -67,22 +41,15 @@ export class CoursesService {
       description,
     );
 
-    this.courses = [...this.courses , course];
+    return this.http.post(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}`,  course);
   }
 
   updateCourse(partial: Partial<Course>) {
-    this.courses = this.courses.map(course => {
-      if (course.id === partial.id) {   // supports graphql-like partial update
-        const partialApplied = { ...course, ...partial };
-        const { id, creationDate, title, durationMin, description, topRated } = partialApplied;
-        return new Course(id, creationDate, title, durationMin, description, topRated);
-      }
-      return course;
-    });
+    return this.http.put(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}/${partial.id}`, partial);
   }
 
   deleteCourse(id: number) {
-    this.courses = this.courses.filter(c => c.id !== id);
+    return this.http.delete(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}/${id}`);
   }
 
   isCourseUpcoming(course: Course): boolean {

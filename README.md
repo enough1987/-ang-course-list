@@ -1,26 +1,19 @@
 # Angular Mentoring
 
-## Task 7. Routing
-- Routing implemented
-- CoursesModule is now a feature module with its own route children
-- CoursesModule is lazy-loaded, protected by AuthGuard
-- AuthGuard subscribes to AuthService to watch the isAuthenticated status
-- NotFoundComponent for unknown routes
-- CoursesComponent is a default
-- LoginComponent redirects to /courses upon successfull login
-- Log off button erases the user data and session token, redirects to /login
-- Add course button navigates to /courses/new, serving AddCourseComponent
-- Edit course button navigates to /courses/:id, serving EditCourseComponent
-- EditCourseComponent fetches course data from CoursesService by id
-- On save EditCourseComponent calls CoursesService method to save the changes, redirects to /courses
-- On cancel EditCourseComponent redirects to /courses, without the changes being applied
-- BreadcrumbsComponent watches the router events, building the breadcrumbs accordingly
-- AppComponents watches the router events applying router-specific top-level styles
-- Router stubs used for testing
+## Task 8. HTTP
+- JSON Server based backend with seeded DB initialization
+- Protected API with authorization, internal user and sessions management
+- AuthService moved to SharedModule, integrated with the API
+- CoursesService integrated with the API. HTTP methods user: GET, POST, PUT, DELETE
+- Courses API supports pagination requests accepting start and count GET parameters
+- Load More Courses uses the pagination, disabled when reaching the end of the list
+- Server side search using the query GET parameter, emtry string is not sent to server
+- AddCourseComponent, EditCourseComponent and delete course button using the API
+- HTTP interceptor adding the token stored in LocalStorage as the Authorization header
 
 Coverage
 ```
-HeadlessChrome 68.0.3440 (Windows 10.0.0): Executed 159 of 159 SUCCESS (12.48 secs / 12.379 secs)
+HeadlessChrome 68.0.3440 (Windows 10.0.0): Executed 173 of 173 SUCCESS (14.594 secs / 14.429 secs)
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
 File                                              |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
@@ -31,17 +24,13 @@ All files                                         |      100 |      100 |      1
  src/app                                          |      100 |      100 |      100 |      100 |                   |
   app.component.ts                                |      100 |      100 |      100 |      100 |                   |
   app.routing.paths.ts                            |      100 |      100 |      100 |      100 |                   |
- src/app/auth                                     |      100 |      100 |      100 |      100 |                   |
-  auth.guard.ts                                   |      100 |      100 |      100 |      100 |                   |
-  auth.module.ts                                  |      100 |      100 |      100 |      100 |                   |
-  auth.service.ts                                 |      100 |      100 |      100 |      100 |                   |
- src/app/auth/session                             |      100 |      100 |      100 |      100 |                   |
-  session.model.ts                                |      100 |      100 |      100 |      100 |                   |
- src/app/auth/user                                |      100 |      100 |      100 |      100 |                   |
-  user.model.ts                                   |      100 |      100 |      100 |      100 |                   |
  src/app/core                                     |      100 |      100 |      100 |      100 |                   |
   core.module.ts                                  |      100 |      100 |      100 |      100 |                   |
+ src/app/core/interceptors                        |      100 |      100 |      100 |      100 |                   |
+  auth-interceptor.ts                             |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
  src/app/core/services                            |      100 |      100 |      100 |      100 |                   |
+  config.service.ts                               |      100 |      100 |      100 |      100 |                   |
   index.ts                                        |      100 |      100 |      100 |      100 |                   |
   local-storage.service.ts                        |      100 |      100 |      100 |      100 |                   |
   window-ref.service.ts                           |      100 |      100 |      100 |      100 |                   |
@@ -95,6 +84,15 @@ All files                                         |      100 |      100 |      1
   not-found.component.ts                          |      100 |      100 |      100 |      100 |                   |
  src/app/shared                                   |      100 |      100 |      100 |      100 |                   |
   shared.module.ts                                |      100 |      100 |      100 |      100 |                   |
+ src/app/shared/guards                            |      100 |      100 |      100 |      100 |                   |
+  auth.guard.ts                                   |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
+ src/app/shared/models                            |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
+  user.model.ts                                   |      100 |      100 |      100 |      100 |                   |
+ src/app/shared/services                          |      100 |      100 |      100 |      100 |                   |
+  auth.service.ts                                 |      100 |      100 |      100 |      100 |                   |
+  index.ts                                        |      100 |      100 |      100 |      100 |                   |
 --------------------------------------------------|----------|----------|----------|----------|-------------------|
 ```
 Run Coverage
@@ -110,15 +108,16 @@ npm run test:coverage
  - Task5. Modules & Services
  - Task6. Change detection
  - Task7. Routing
+ - Task8. HTTP
 
 ## Run Development Server
 ```
 npm run dev
 ```
-Enjoy @ http://localhost:3000/
+Enjoy @ http://localhost:4200/
 
 ## Run Production Build
 ```
 npm run prod
 ```
-Enjoy @ http://localhost:4200/
+Enjoy @ http://localhost:3000/

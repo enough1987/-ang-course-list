@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { Subscription, Subscriber } from 'rxjs';
 
 import { Course } from '../course-list/course-list-item/course.model';
 import { CoursesService } from '../courses.service';
@@ -27,9 +27,10 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.course = this.coursesService.getCourse(+params.id);
-    });
+    this.sub = new Subscriber();
+    this.sub.add(this.route.params.subscribe(params => {
+      this.sub.add(this.coursesService.getCourse(+params.id).subscribe(course => this.course = course));
+    }));
   }
 
   ngOnDestroy() {
@@ -45,8 +46,8 @@ export class EditCourseComponent implements OnInit, OnDestroy {
   }
 
   onSaveClick() {
-    this.coursesService.updateCourse(this.course);
-    this.router.navigateByUrl(appRoutingPaths.courses);
+    this.coursesService.updateCourse(this.course).subscribe(() => this.router.navigateByUrl(appRoutingPaths.courses));
+
   }
 
   onCancelClick() {

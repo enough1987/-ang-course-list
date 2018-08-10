@@ -31,8 +31,7 @@ export class AddCourseComponent {
 
   onSaveClick() {
     this.isSubmitting = true;
-    this.coursesService.createCourse(this.course);
-    this.router.navigateByUrl(appRoutingPaths.courses);
+    this.coursesService.createCourse(this.course).subscribe(() => this.router.navigateByUrl(appRoutingPaths.courses));
   }
 
   onCancelClick() {
