@@ -1,16 +1,34 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
+import { first } from 'rxjs/operators';
 
 import { ConfigService } from '../core/services';
 import { Course } from './course-list/course-list-item/course.model';
+import {switchMap} from 'rxjs/internal/operators';
+
 
 const dayms = 86400000;                       // milliseconds in a day
 
+class ArgsForGetCourses {
+  start: number;
+  count: number;
+  query?: string;
+}
+
 @Injectable()
 export class CoursesService {
-  courses: Course[] = [];
+
+  private coursesSink$: Subject<Course[]> = new BehaviorSubject([]);
+  courses$ = this.coursesSink$.asObservable();
+
+  private coursesLengthSink$: Subject<number> = new BehaviorSubject(0);
+  coursesLength$ = this.coursesLengthSink$.asObservable();
+
+  private searchSink$: Subject<string> = new BehaviorSubject('');
+  search$ = this.searchSink$.asObservable();
+
   nextId: number;
 
   constructor(
@@ -18,13 +36,37 @@ export class CoursesService {
     private http: HttpClient,
   ) {}
 
-  getCourses(config: { query?: string, start?: number, count?: number }): Observable<any> {
-    const keys = Object.keys(config);
-    const params = keys.length
-      ? keys.reduce((agg, key) => config[key] !== null ? { ...agg, [key]: `${config[key]}` } : agg, {})
-      : null;
 
-    return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}`, { params });
+  setSearch(query) {
+    this.searchSink$.next(query);
+    this.loadCourses(true);
+  }
+
+  loadCourses(newSearch: boolean) {
+
+    combineLatest(this.search$, this.courses$)
+      .pipe(
+        first(),
+        switchMap( ([query, courses]) => {
+
+          const start = 0;
+          const count = newSearch
+            ? this.config.coursesPageLength
+            : courses.length + this.config.coursesPageLength;
+
+          return this.http.get(`${this.config.apiBaseUrl}/${this.config.apiEndpoints.courses}`, {
+            params: {
+              start,
+              count,
+              query
+            }
+          });
+        })
+      )
+      .subscribe(data => {
+        this.coursesSink$.next(data.courses);
+        this.coursesLengthSink$.next(data.total);
+      });
   }
 
   getCourse(id: number): Observable<any> {

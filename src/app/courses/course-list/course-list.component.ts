@@ -1,13 +1,11 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { Course } from './course-list-item/course.model';
 import { CoursesService } from '../courses.service';
-import { OrderByPipe } from './order-by.pipe';
-import { SearchPipe } from '../course-search/search.pipe';
 import { DialogService } from '../../material/dialog/dialog.service';
 import { appRoutingPaths } from '../../app.routing.paths';
 import { ConfigService } from '../../core/services';
+import {Observable} from 'rxjs';
+import {Course} from './course-list-item/course.model';
 
 @Component({
   selector: 'app-course-list',
@@ -15,22 +13,19 @@ import { ConfigService } from '../../core/services';
   styleUrls: ['./course-list.component.sass']
 })
 export class CourseListComponent implements OnChanges, OnInit {
-  @Input() query: string;
 
-  courses: Course[] = [];
-  done = false;
+  coursesLength$: Observable<number> = this.coursesService.coursesLength$;
+  courses$: Observable<Course[]> = this.coursesService.courses$;
 
   constructor(
     @Inject(ConfigService) private config,
     private coursesService: CoursesService,
     private dialogService: DialogService,
-    private orderByPipe: OrderByPipe,
-    // private searchPipe: SearchPipe,
     private router: Router,
   ) {}
 
   ngOnInit() {
-    this.loadCourses();
+    this.loadCourses(true);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -39,22 +34,6 @@ export class CourseListComponent implements OnChanges, OnInit {
     if (!firstChange && currentValue !== previousValue) {
       this.loadCourses();
     }
-  }
-
-  loadCourses() {
-    this.done = false;
-    const args: any = { start: 0, count: this.config.coursesPageLength };
-    if (this.query) { // do not set empty line param
-      args.query = this.query;
-    }
-
-    this.coursesService.getCourses(args).subscribe(courses => {
-      if (courses.length < this.config.coursesPageLength) {
-        this.done = true;
-      }
-
-      this.courses = this.orderByPipe.transform(courses);
-    });
   }
 
   onEdit(id: number) {
@@ -71,17 +50,8 @@ export class CourseListComponent implements OnChanges, OnInit {
       });
   }
 
-  onLoadClick() {
-    const args: any = { start: this.courses.length, count: this.config.coursesPageLength };
-    if (this.query) { // do not set empty line param
-      args.query = this.query;
-    }
-
-    this.coursesService.getCourses(args).subscribe(courses => {
-      if (courses.length < this.config.coursesPageLength) {
-        this.done = true;
-      }
-      this.courses = this.orderByPipe.transform([...this.courses, ...courses]);
-    });
+  loadCourses(newCourses: boolean = false) {
+    this.coursesService.loadCourses(newCourses);
   }
+
 }

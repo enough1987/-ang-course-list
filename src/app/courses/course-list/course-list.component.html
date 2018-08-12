@@ -1,5 +1,5 @@
 <app-course-list-item
-  *ngFor="let course of courses"
+  *ngFor="let course of (courses$ | async) | orderBy"
   [course]="course"
   [isCourseUpcoming]="coursesService.isCourseUpcoming(course)"
   [isCourseFresh]="coursesService.isCourseFresh(course)"
@@ -8,15 +8,15 @@
   appHighlight
   ></app-course-list-item>
 
-<app-courses-list-no-data *ngIf="!courses.length"></app-courses-list-no-data>
+<app-courses-list-no-data *ngIf="!(coursesLength$ | async)"></app-courses-list-no-data>
 
 <button
-  *ngIf="courses.length"
+  *ngIf="(courses$ | async).length"
   mat-raised-button
   class="load"
   color="primary"
-  (click)="onLoadClick($event)"
-  [disabled]="done"
+  (click)="loadCourses()"
+  [disabled]="(coursesLength$ | async) <= (courses$ | async).length"
 >
   <mat-icon>expand_more</mat-icon>
   Load More Courses

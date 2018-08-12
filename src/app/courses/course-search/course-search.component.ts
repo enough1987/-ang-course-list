@@ -1,8 +1,7 @@
 import {
   Component,
-  Output,
-  EventEmitter,
 } from '@angular/core';
+import {CoursesService} from '../courses.service';
 
 @Component({
   selector: 'app-course-search',
@@ -10,12 +9,15 @@ import {
   styleUrls: ['./course-search.component.sass']
 })
 export class CourseSearchComponent {
-  @Output() search = new EventEmitter<string>();
 
   query = '';
 
+  constructor(
+    private coursesService: CoursesService,
+  ) {}
+
   onSearch() {
-    this.search.emit(this.query);
+    this.coursesService.setSearch(this.query);
   }
 
   onSearchClick() {
