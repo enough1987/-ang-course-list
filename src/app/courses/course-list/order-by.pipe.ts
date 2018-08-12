@@ -8,7 +8,7 @@ const numericSort = (a: Course, b: Course, key: string, order: string): number =
   return b[key] - a[key];
 };
 
-const stringSort = (a: Course, b: Course, key: string, order: string): 0 | 1 | -1 => {
+const stringSort = (a: Course, b: Course, key: string, order: string): number => {
   if (a[key] === b[key]) {
     return 0;
   }
@@ -18,7 +18,7 @@ const stringSort = (a: Course, b: Course, key: string, order: string): 0 | 1 | -
   return a[key] > b[key] ? -1 : 1;
 };
 
-const booleanSort = (a: Course, b: Course, key: string, order: string): 0 | 1 | -1 => {
+const booleanSort = (a: Course, b: Course, key: string, order: string): number => {
   if (a[key] === b[key]) {
     return 0;
   }

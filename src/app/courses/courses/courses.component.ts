@@ -12,13 +12,7 @@ import { coursesRoutingPaths } from '../courses.routing.paths';
 export class CoursesComponent {
   @Output() setRoute = new EventEmitter<string>();
 
-  query = '';
-
   constructor(private router: Router) {}
-
-  onSearch(query: string) {
-    this.query = query;
-  }
 
   onAddCourse() {
     this.router.navigateByUrl(`${appRoutingPaths.courses}/${coursesRoutingPaths.new}`);

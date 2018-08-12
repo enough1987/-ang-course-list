@@ -16,6 +16,7 @@ server.use(middlewares);
 
 server.post('/api/login', (req, res) => {   // /api/login should be accessible while before authorization
   if (!req.body.email || !req.body.password) {
+    console.log(' - ', )
     return res.status(401).json({ auth: false, result: 'Unauthorized' });
   }
   const state = router.db.getState();
@@ -67,7 +68,8 @@ server.get('/api/user', (req, res) => {
   return res.status(401).json({ auth: false, result: 'Unauthorized' });
 });
 
-server.get('/api/courses/:id?', (req, res) => {
+server.get('/api/courses', (req, res) => { // divide get all courses and get course
+  console.log(' TEST ', req);
   const id = req.params.id;
   const query = req.query.query;
 
@@ -79,15 +81,22 @@ server.get('/api/courses/:id?', (req, res) => {
 
   const courses =  router.db.getState().courses;
 
-  if (id) {
-    return res.json(courses.find(c => c.id === +id));
-  }
-
   let result = courses;
   if (query) {
     result = result.filter(c => `${c.title} ${c.description}`.toUpperCase().includes(query.toUpperCase()));
   }
-  res.json(result.slice(begin, end));
+  res.json({
+    courses: result.slice(begin, end),
+    total: result.length
+  });
+});
+
+server.get('/api/courses/:id', (req, res) => { // divide get all courses and get course
+  console.log(' TEST id ', req);
+
+  const courses =  router.db.getState().courses;
+
+  return res.json(courses.find(c => c.id === +id));
 });
 
 server.get('/api/users', (req, res) => res.status(403).json({ result: 'Forbidden' }));     // users and sessions are only used internally
@@ -103,5 +112,5 @@ server.get('*', (req, res) => { // SPA default route
 });
 
 server.listen(3000, () => {
-  console.log('listening on *:3000');
+  console.log('listening running on *:3000');
 })
